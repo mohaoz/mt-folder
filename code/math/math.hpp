@@ -1,0 +1,84 @@
+#pragma once
+
+#include <vector>
+#include <algorithm>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i32 = signed;
+using u32 = unsigned;
+using i64 = long long;
+using u64 = unsigned long long;
+using i128 = __int128;
+using u128 = unsigned __int128;
+
+// ANCHOR: Sieve
+inline void Sieve(int n, auto &&pri, auto &&mp) {
+    mp.resize(n + 1);
+    for (int i = 2; i <= n; i++) {
+        if (!mp[i])
+            pri.emplace_back(i);
+        for (int p : pri) {
+            if (i * p > n)
+                break;
+            mp[i * p] = p;
+            if (i % p == 0)
+                break;
+        }
+    }
+}
+// ANCHOR_END: Sieve
+
+// ANCHOR: Factor
+inline auto Factor(int n) {
+    std::vector<int> res;
+    for (int i = 2; i * i <= n; i++) {
+        while (n % i == 0) {
+            res.emplace_back(i);
+            n /= i;
+        }
+    }
+    if (n > 1)
+        res.emplace_back(n);
+    return res;
+}
+// ANCHOR_END: Factor
+
+// ANCHOR: Divisor
+inline auto Divisor(int n) {
+    std::vector<int> res;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            res.emplace_back(i);
+            if (i * i != n)
+                res.emplace_back(n / i);
+        }
+    }
+    std::sort(res.begin(), res.end());
+    return res;
+}
+// ANCHOR_END: Divisor
+
+// ANCHOR: ExGCD
+inline auto ExGCD(auto a, auto b, auto &x, auto &y) {
+    if (b == 0) {
+        x = 1, y = 0;
+        return a;
+    }
+    auto d = exgcd(b, a % b, y, x);
+    y -= a / b * x;
+    return d;
+}
+// ANCHOR_END: ExGCD
+
+// ANCHOR: PowMod
+inline int PowMod(i64 a, i64 b, int p) {
+    i64 res = 1;
+    while (b) {
+        if (b & 1) res = res * a % p;
+        b = b >> 1;
+        a = a * a % p;
+    }
+    return res;
+}
+// ANCHOR_END: PowMod

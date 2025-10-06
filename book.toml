@@ -1,0 +1,10 @@
+[book]
+authors = ["MoHAO233"]
+language = "en"
+src = "md"
+title = "Mohao's Template Folder"
+
+[build]
+
+[output.html]
+mathjax-support = true
