@@ -31,15 +31,18 @@ inline void Sieve(int n, auto &&pri, auto &&mp) {
 
 // ANCHOR: Factor
 inline auto Factor(int n) {
-    std::vector<int> res;
+    std::vector<std::pair<int, int>> res;
     for (int i = 2; i * i <= n; i++) {
+        int cur = 0;
         while (n % i == 0) {
-            res.emplace_back(i);
+            cur++;
             n /= i;
         }
+        if (cur != 0)
+            res.emplace_back(i, cur);
     }
     if (n > 1)
-        res.emplace_back(n);
+        res.emplace_back(n, 1);
     return res;
 }
 // ANCHOR_END: Factor
