@@ -16,7 +16,7 @@ template <class S, class F> struct LazySegTree {
     }
 
     void push(int p) {
-        if (tag[p] != F{})
+        if (tag[p] == F{})
             return;
         apply(2 * p, tag[p]);
         apply(2 * p + 1, tag[p]);
