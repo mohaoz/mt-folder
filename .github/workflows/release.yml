@@ -1,0 +1,42 @@
+name: Build and Release mdBook Artifact
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate Release Tag
+        id: generate_tag
+        run: echo "RELEASE_TAG=mdbook-$(date +%Y%m%d%H%M%S)-${{ github.sha }}" >> $GITHUB_OUTPUT
+
+      - name: Checkout mdbook source
+        uses: actions/checkout@v4
+
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: "latest"
+
+      - name: Build mdBook
+        run: mdbook build
+
+      - name: Archive Production Artifact
+        run: zip -r mdbook_output.zip book/
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.generate_tag.outputs.RELEASE_TAG }}
+          name: mdBook Auto Build ${{ steps.generate_tag.outputs.RELEASE_TAG }}
+          body: Auto-generated release based on commit ${{ github.sha }}.
+          draft: false
+          prerelease: false
+          files: mdbook_output.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
