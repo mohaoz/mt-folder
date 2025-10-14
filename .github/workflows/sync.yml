@@ -1,0 +1,38 @@
+name: Build and Sync mdBook to Hugo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout mdbook source
+        uses: actions/checkout@v4
+
+      - name: Install mdBook
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+
+      - name: Build mdBook
+        run: mdbook build
+
+      - name: Commit and Push to Hugo Static Directory
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+
+          publish_dir: ./book
+
+          external_repository: MoHAO233/blog-hugo
+
+          publish_branch: master
+
+          destination_dir: static/mt-folder
+
+          commit_message: "Sync: Auto build and update mdBook static files"
