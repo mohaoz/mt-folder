@@ -13,11 +13,14 @@ jobs:
       - name: Checkout mdbook source
         uses: actions/checkout@v4
 
-      - name: Install mdBook
+      - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           profile: minimal
+
+      - name: Install mdBook
+        run: cargo install mdbook
 
       - name: Build mdBook
         run: mdbook build
