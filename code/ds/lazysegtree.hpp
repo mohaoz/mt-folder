@@ -8,19 +8,9 @@ template <class S, class F> struct LazySegTree {
     std::vector<S> tree;
     std::vector<F> tag;
 
-    void pull(int p) { tree[p] = tree[2 * p] + tree[2 * p + 1]; }
-
     void apply(int p, F f) {
         tree[p] *= f;
         tag[p] += f;
-    }
-
-    void push(int p) {
-        if (tag[p] == F{})
-            return;
-        apply(2 * p, tag[p]);
-        apply(2 * p + 1, tag[p]);
-        tag[p] = {};
     }
 
     void build(auto &&v, int p, int l, int r) {
@@ -34,9 +24,17 @@ template <class S, class F> struct LazySegTree {
         pull(p);
     }
 
+    void pull(int p) { tree[p] = tree[2 * p] + tree[2 * p + 1]; }
+
+    void push(int p) {
+        apply(2 * p, tag[p]);
+        apply(2 * p + 1, tag[p]);
+        tag[p] = F{};
+    }
+
     S query(int ql, int qr, int p, int l, int r) {
-        if (ql > r or qr < l)
-            return {};
+        if (r < ql or qr < l)
+            return S{};
         if (ql <= l and r <= qr)
             return tree[p];
         push(p);
@@ -45,7 +43,7 @@ template <class S, class F> struct LazySegTree {
     }
 
     void update(int ul, int ur, F f, int p, int l, int r) {
-        if (ul > r or ur < l)
+        if (r < ul or ur < l)
             return;
         if (ul <= l and r <= ur) {
             apply(p, f);
@@ -58,16 +56,12 @@ template <class S, class F> struct LazySegTree {
         pull(p);
     }
 
-    LazySegTree() : n(0) {}
-    LazySegTree(int _n) : n(_n), tree(4 * n, {}), tag(4 * n, {}) {}
-    LazySegTree(auto &&v) : n(v.size()) {
-        tree.resize(4 * n);
-        tag.resize(4 * n, {});
+    LazySegTree(int n) : n(n), tree(4 * n), tag(4 * n) {}
+    LazySegTree(auto &&v) : n(v.size()), tree(4 * n), tag(4 * n) {
         build(v, 1, 0, n - 1);
     }
 
     S Query(int l, int r) { return query(l, r, 1, 0, n - 1); }
-
     void Update(int l, int r, F f) { update(l, r, f, 1, 0, n - 1); }
 };
 // ANCHOR_END: LazySegTree

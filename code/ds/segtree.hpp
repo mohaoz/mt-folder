@@ -7,8 +7,6 @@ template <class S> struct SegTree {
     int n;
     std::vector<S> tree;
 
-    void pull(int p) { tree[p] = tree[2 * p] + tree[2 * p + 1]; }
-
     void build(auto &&v, int p, int l, int r) {
         if (l == r) {
             tree[p] = S(v[l]);
@@ -20,8 +18,10 @@ template <class S> struct SegTree {
         pull(p);
     }
 
+    void pull(int p) { tree[p] = tree[2 * p] + tree[2 * p + 1]; }
+
     S query(int ql, int qr, int p, int l, int r) {
-        if (ql > r or qr < l)
+        if (r < ql or qr < l)
             return {};
         if (ql <= l and r <= qr)
             return tree[p];
@@ -42,15 +42,12 @@ template <class S> struct SegTree {
         pull(p);
     }
 
-    SegTree() : n(0) {}
-    SegTree(int _n) : n(_n), tree(4 * n, {}) {}
-    SegTree(auto &&v) : n(v.size()) {
-        tree.resize(4 * n);
+    SegTree(int n) : n(n), tree(4 * n) {}
+    SegTree(auto &&v) : n(v.size()), tree(4 * n) {
         build(v, 1, 0, n - 1);
     }
 
     S Query(int l, int r) { return query(l, r, 1, 0, n - 1); }
-
     void Update(int p, const S &v) { update(p, v, 1, 0, n - 1); }
 };
 // ANCHOR_END: SegTree
