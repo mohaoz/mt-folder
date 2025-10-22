@@ -22,3 +22,4 @@
 - [线段树 (SegTree)](ds/segtree.md)
 - [懒标记线段树](ds/lazysegtree.md)
 - [取模类 (ModInt)](ds/modint.md)
+- [异或 Trie](ds/xortrie.md)
