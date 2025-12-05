@@ -3,51 +3,49 @@
 #include <vector>
 
 // ANCHOR: SegTree
-template <class S> struct SegTree {
-    int n;
-    std::vector<S> tree;
+template<class S>
+struct SegTree {
 
-    void build(auto &&v, int p, int l, int r) {
-        if (l == r) {
-            tree[p] = S(v[l]);
-            return;
+    int n, h;
+    std::vector<S> tr;
+
+     SegTree(int m, auto &&arr) {
+        n = std::bit_ceil((size_t)m);
+        h = std::countr_zero((size_t)n);
+        tr.resize(2 * n);
+        for (int i = 0; i < n; i++)
+            tr[n + i] = arr[i];
+        for (int i = n - 1; i >= 1; i--)
+            pull(i);
+    }
+
+    void pull(int k) {
+        tr[k] = tr[k << 1] + tr[k << 1 | 1];
+    }
+
+    void Set(int p, S x) {
+        p += n;
+        tr[p] = x;
+        for (int i = 1; i <= h; i++)
+            pull(p >> i);
+    }
+
+    S Get(int p) {
+        return tr[p + n];
+    }
+
+    S Query(int l, int r) {
+        l += n, r += n;
+        S res{};
+        while (l < r) {
+            if (l & 1)
+                res = res + tr[l++];
+            if (r & 1)
+                res = res + tr[--r];
+            l >>= 1;
+            r >>= 1;
         }
-        int mid = l + (r - l) / 2;
-        build(v, 2 * p, l, mid);
-        build(v, 2 * p + 1, mid + 1, r);
-        pull(p);
+        return res;
     }
-
-    void pull(int p) { tree[p] = tree[2 * p] + tree[2 * p + 1]; }
-
-    S query(int ql, int qr, int p, int l, int r) {
-        if (r < ql or qr < l)
-            return {};
-        if (ql <= l and r <= qr)
-            return tree[p];
-        int mid = l + (r - l) / 2;
-        return query(ql, qr, 2 * p, l, mid) + query(ql, qr, 2 * p + 1, mid + 1, r);
-    }
-
-    void update(int pos, const S &val, int p, int l, int r) {
-        if (l == r) {
-            tree[p] = val;
-            return;
-        }
-        int mid = l + (r - l) / 2;
-        if (pos <= mid)
-            update(pos, val, 2 * p, l, mid);
-        else
-            update(pos, val, 2 * p + 1, mid + 1, r);
-        pull(p);
-    }
-
-    SegTree(int n) : n(n), tree(4 * n) {}
-    SegTree(auto &&v) : n(v.size()), tree(4 * n) {
-        build(v, 1, 0, n - 1);
-    }
-
-    S Query(int l, int r) { return query(l, r, 1, 0, n - 1); }
-    void Update(int p, const S &v) { update(p, v, 1, 0, n - 1); }
 };
 // ANCHOR_END: SegTree

@@ -1,67 +1,101 @@
 #pragma once
 
 #include <vector>
+#include <bit>
 
 // ANCHOR: LazySegTree
-template <class S, class F> struct LazySegTree {
-    int n;
-    std::vector<S> tree;
-    std::vector<F> tag;
+template<class S, class F>
+struct LazySegTree {
 
-    void apply(int p, F f) {
-        tree[p] *= f;
-        tag[p] += f;
+    int n, h;
+    std::vector<S> tr;
+    std::vector<F> lz;
+
+     LazySegTree(int m, auto &&arr) {
+        n = std::bit_ceil((size_t)m);
+        h = std::countr_zero((size_t)n);
+        tr.resize(2 * n);
+        lz.resize(n);
+        for (int i = 0; i < n; i++)
+            tr[n + i] = arr[i];
+        for (int i = n - 1; i >= 1; i--)
+            pull(i);
     }
 
-    void build(auto &&v, int p, int l, int r) {
-        if (l == r) {
-            tree[p] = S(v[l]);
-            return;
+    void apply(int k, const F &f) {
+        tr[k] *= f;
+        if (k < n)
+            lz[k] += f;
+    }
+
+    void pull(int k) {
+        tr[k] = tr[k << 1] + tr[k << 1 | 1];
+    }
+
+    void push(int k) {
+        apply(k << 1, lz[k]);
+        apply(k << 1 | 1, lz[k]);
+        lz[k] = {};
+    }
+
+    void Set(int p, S x) {
+        p += n;
+        for (int i = h; i >= 1; i--) push(p >> i);
+        tr[p] = x;
+        for (int i = 1; i <= h; i++) pull(p >> i);
+    }
+
+    S Get(int p) {
+        p += n;
+        for (int i = h; i >= 1; i--) push(p >> i);
+        return tr[p];
+    }
+
+    void Update(int l, int r, const F &f) {
+        l += n, r += n;
+        for (int i = h; i >= 1; i--) {
+            if (((l >> i) << i) != l)
+                push(l >> i);
+            if (((r >> i) << i) != r)
+                push((r - 1) >> i);
         }
-        int mid = l + (r - l) / 2;
-        build(v, 2 * p, l, mid);
-        build(v, 2 * p + 1, mid + 1, r);
-        pull(p);
-    }
-
-    void pull(int p) { tree[p] = tree[2 * p] + tree[2 * p + 1]; }
-
-    void push(int p) {
-        apply(2 * p, tag[p]);
-        apply(2 * p + 1, tag[p]);
-        tag[p] = F{};
-    }
-
-    S query(int ql, int qr, int p, int l, int r) {
-        if (r < ql or qr < l)
-            return S{};
-        if (ql <= l and r <= qr)
-            return tree[p];
-        push(p);
-        int mid = l + (r - l) / 2;
-        return query(ql, qr, 2 * p, l, mid) + query(ql, qr, 2 * p + 1, mid + 1, r);
-    }
-
-    void update(int ul, int ur, F f, int p, int l, int r) {
-        if (r < ul or ur < l)
-            return;
-        if (ul <= l and r <= ur) {
-            apply(p, f);
-            return;
+        {
+            int l_ = l, r_ = r;
+            while (l < r) {
+                if (l & 1) apply(l++, f);
+                if (r & 1) apply(--r, f);
+                l >>= 1;
+                r >>= 1;
+            }
+            l = l_;
+            r = r_;
         }
-        push(p);
-        int mid = l + (r - l) / 2;
-        update(ul, ur, f, 2 * p, l, mid);
-        update(ul, ur, f, 2 * p + 1, mid + 1, r);
-        pull(p);
+        for (int i = 1; i <= h; i++) {
+            if (((l >> i) << i) != l)
+                pull(l >> i);
+            if (((r >> i) << i) != r)
+                pull((r - 1) >> i);
+        }
     }
 
-    LazySegTree(int n) : n(n), tree(4 * n), tag(4 * n) {}
-    LazySegTree(auto &&v) : n(v.size()), tree(4 * n), tag(4 * n) {
-        build(v, 1, 0, n - 1);
+    S Query(int l, int r) {
+        l += n, r += n;
+        for (int i = h; i >= 1; i--) {
+            if (((l >> i) << i) != l)
+                push(l >> i);
+            if (((r >> i) << i) != r)
+                push((r - 1) >> i);
+        }
+        S res{};
+        while (l < r) {
+            if (l & 1)
+                res = res + tr[l++];
+            if (r & 1)
+                res = res + tr[--r];
+            l >>= 1;
+            r >>= 1;
+        }
+        return res;
     }
-
-    S Query(int l, int r) { return query(l, r, 1, 0, n - 1); }
-    void Update(int l, int r, F f) { update(l, r, f, 1, 0, n - 1); }
 };
 // ANCHOR_END: LazySegTree
