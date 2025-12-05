@@ -28,6 +28,11 @@ struct LazySegTree {
             lz[k] += f;
     }
 
+#define updown(x) do {                         \
+    if (((l >> i) << i) != l) x(l >> i);       \
+    if (((r >> i) << i) != r) x((r - 1) >> i); \
+} while(0)
+
     void pull(int k) {
         tr[k] = tr[k << 1] + tr[k << 1 | 1];
     }
@@ -54,10 +59,7 @@ struct LazySegTree {
     void Update(int l, int r, const F &f) {
         l += n, r += n;
         for (int i = h; i >= 1; i--) {
-            if (((l >> i) << i) != l)
-                push(l >> i);
-            if (((r >> i) << i) != r)
-                push((r - 1) >> i);
+            updown(push);
         }
         {
             int l_ = l, r_ = r;
@@ -71,20 +73,14 @@ struct LazySegTree {
             r = r_;
         }
         for (int i = 1; i <= h; i++) {
-            if (((l >> i) << i) != l)
-                pull(l >> i);
-            if (((r >> i) << i) != r)
-                pull((r - 1) >> i);
+            updown(pull);
         }
     }
 
     S Query(int l, int r) {
         l += n, r += n;
         for (int i = h; i >= 1; i--) {
-            if (((l >> i) << i) != l)
-                push(l >> i);
-            if (((r >> i) << i) != r)
-                push((r - 1) >> i);
+            updown(push);
         }
         S res{};
         while (l < r) {
