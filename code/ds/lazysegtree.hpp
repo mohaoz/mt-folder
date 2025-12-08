@@ -82,16 +82,16 @@ struct LazySegTree {
         for (int i = h; i >= 1; i--) {
             updown(push);
         }
-        S res{};
+        S sml{}, smr{};
         while (l < r) {
             if (l & 1)
-                res = res + tr[l++];
+                sml = sml + tr[l++];
             if (r & 1)
-                res = res + tr[--r];
+                smr = smr + tr[--r];
             l >>= 1;
             r >>= 1;
         }
-        return res;
+        return sml + smr;
     }
 };
 // ANCHOR_END: LazySegTree
