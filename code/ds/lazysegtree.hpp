@@ -14,17 +14,17 @@ struct LazySegTree {
         build(n, std::vector<S>(n, e));
     }
 
-    LazySegTree(const std::vector<S> &arr) {
-        build(arr.size(), arr);
+    LazySegTree(auto &&l, auto &&r) {
+        build(r - l, l);
     }
 
-    void build(int m, const std::vector<S> &arr) {
+    void build(int m, auto &&arr) {
         for (n = 1; n < m; n <<= 1);
         h = __builtin_ctz(n);
         tr.resize(n << 1);
         lz.resize(n);
         for (int i = 0; i < m; i++)
-            tr[n + i] = arr[i];
+            tr[i + n] = arr[i];
         for (int i = n - 1; i >= 1; i--)
             pull(i);
     }
@@ -45,7 +45,7 @@ struct LazySegTree {
         lz[k] = {};
     }
 
-    void Set(int p, S x) {
+    void Set(int p, const S &x) {
         p += n;
         for (int i = h; i >= 1; i--) push(p >> i);
         tr[p] = x;

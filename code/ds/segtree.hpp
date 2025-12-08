@@ -13,11 +13,11 @@ struct SegTree {
         build(n, std::vector<S>(n, e));
     }
 
-    SegTree(const std::vector<S> &arr) {
-        build(arr.size(), arr);
+    SegTree(auto &&l, auto &&r) {
+        build(r - l, l);
     }
 
-    void build(int m, const std::vector<S> &arr) {
+    void build(int m, auto &&arr) {
         for (n = 1; n < m; n <<= 1);
         tr.resize(n << 1);
         for (int i = 0; i < m; i++)
@@ -30,7 +30,7 @@ struct SegTree {
         tr[k] = tr[k << 1] + tr[k << 1 | 1];
     }
 
-    void Set(int p, S x) {
+    void Set(int p, const S &x) {
         p += n;
         tr[p] = x;
         for (p >>= 1; p; p >>= 1)
