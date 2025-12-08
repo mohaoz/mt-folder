@@ -3,18 +3,25 @@
 #include <vector>
 
 // ANCHOR: SegTree
-template<class S>
+template <class S>
 struct SegTree {
 
-    int n, h;
+    int n;
     std::vector<S> tr;
 
-     SegTree(int m, auto &&arr) {
-        n = std::bit_ceil((size_t)m);
-        h = std::countr_zero((size_t)n);
-        tr.resize(2 * n);
-        for (int i = 0; i < n; i++)
-            tr[n + i] = arr[i];
+    SegTree(int n, const S &e) {
+        build(n, std::vector<S>(n, e));
+    }
+
+    SegTree(const std::vector<S> &arr) {
+        build(arr.size(), arr);
+    }
+
+    void build(int m, const std::vector<S> &arr) {
+        for (n = 1; n < m; n <<= 1);
+        tr.resize(n << 1);
+        for (int i = 0; i < m; i++)
+            tr[i + n] = arr[i];
         for (int i = n - 1; i >= 1; i--)
             pull(i);
     }
@@ -26,8 +33,8 @@ struct SegTree {
     void Set(int p, S x) {
         p += n;
         tr[p] = x;
-        for (int i = 1; i <= h; i++)
-            pull(p >> i);
+        for (p >>= 1; p; p >>= 1)
+            pull(p);
     }
 
     S Get(int p) {
@@ -36,16 +43,16 @@ struct SegTree {
 
     S Query(int l, int r) {
         l += n, r += n;
-        S res{};
+        S sml{}, smr{};
         while (l < r) {
             if (l & 1)
-                res = res + tr[l++];
+                sml = sml + tr[l++];
             if (r & 1)
-                res = res + tr[--r];
+                smr = tr[--r] + smr;
             l >>= 1;
             r >>= 1;
         }
-        return res;
+        return sml + smr;
     }
 };
 // ANCHOR_END: SegTree

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <bit>
 
 // ANCHOR: LazySegTree
 template<class S, class F>
@@ -11,12 +10,20 @@ struct LazySegTree {
     std::vector<S> tr;
     std::vector<F> lz;
 
-     LazySegTree(int m, auto &&arr) {
-        n = std::bit_ceil((size_t)m);
-        h = std::countr_zero((size_t)n);
-        tr.resize(2 * n);
+    LazySegTree(int n, const S &e) {
+        build(n, std::vector<S>(n, e));
+    }
+
+    LazySegTree(const std::vector<S> &arr) {
+        build(arr.size(), arr);
+    }
+
+    void build(int m, const std::vector<S> &arr) {
+        for (n = 1; n < m; n <<= 1);
+        h = __builtin_ctz(n);
+        tr.resize(n << 1);
         lz.resize(n);
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < m; i++)
             tr[n + i] = arr[i];
         for (int i = n - 1; i >= 1; i--)
             pull(i);
@@ -27,11 +34,6 @@ struct LazySegTree {
         if (k < n)
             lz[k] += f;
     }
-
-#define updown(x) do {                         \
-    if (((l >> i) << i) != l) x(l >> i);       \
-    if (((r >> i) << i) != r) x((r - 1) >> i); \
-} while(0)
 
     void pull(int k) {
         tr[k] = tr[k << 1] + tr[k << 1 | 1];
@@ -59,7 +61,8 @@ struct LazySegTree {
     void Update(int l, int r, const F &f) {
         l += n, r += n;
         for (int i = h; i >= 1; i--) {
-            updown(push);
+            if ((l & ((1 << i) - 1)) != 0) push(l >> i);
+            if ((r & ((1 << i) - 1)) != 0) push((r - 1) >> i);
         }
         {
             int l_ = l, r_ = r;
@@ -73,14 +76,16 @@ struct LazySegTree {
             r = r_;
         }
         for (int i = 1; i <= h; i++) {
-            updown(pull);
+            if ((l & ((1 << i) - 1)) != 0) pull(l >> i);
+            if ((r & ((1 << i) - 1)) != 0) pull((r - 1) >> i);
         }
     }
 
     S Query(int l, int r) {
         l += n, r += n;
         for (int i = h; i >= 1; i--) {
-            updown(push);
+            if ((l & ((1 << i) - 1)) != 0) push(l >> i);
+            if ((r & ((1 << i) - 1)) != 0) push((r - 1) >> i);
         }
         S sml{}, smr{};
         while (l < r) {
