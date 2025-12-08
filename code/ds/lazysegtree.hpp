@@ -87,7 +87,7 @@ struct LazySegTree {
             if (l & 1)
                 sml = sml + tr[l++];
             if (r & 1)
-                smr = smr + tr[--r];
+                smr = tr[--r] + smr;
             l >>= 1;
             r >>= 1;
         }
