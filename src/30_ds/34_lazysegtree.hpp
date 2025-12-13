@@ -1,8 +1,27 @@
 #pragma once
 
 #include <vector>
+#include <bit>
 
-// ANCHOR: LazySegTree
+// CIALLO_MD
+// ## 懒标记线段树
+// 使用非递归的实现方式。
+// 关于 `F` 的约束：
+// 
+// - 存在满足封闭性的 `operator+=` 运算；
+// - 存在一个恒等映射 `{}`（默认构造函数）。
+// 
+// 关于 `S` 的约束：
+// 
+// - 存在满足封闭性结合律的 `operator+` 运算；
+// - 存在单位元 `{}` （具有默认构造函数，且满足和单位元运算后不改变原值）
+// - 存在 `operator*=` 运算满足将映射 `F` 应用于 `S` 返回一个 `S`，并且满足分配律。
+// 
+// 关于初始数组 `vector<T>`：
+// 
+// - 若 `T` $\neq$ `S`，则必须保证 `S` 存在可由 `T` 构造的构造函数。
+//
+// CIALLO_CODE
 template<class S, class F>
 struct LazySegTree {
 
@@ -99,4 +118,4 @@ struct LazySegTree {
         return sml + smr;
     }
 };
-// ANCHOR_END: LazySegTree
+// CIALLO_END
