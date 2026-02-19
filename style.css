@@ -1,9 +1,0 @@
-pre, code {
-  max-width: 80ch;
-  overflow-x: auto;
-}
-
-pre {
-  white-space: pre;
-  word-wrap: normal;
-}
