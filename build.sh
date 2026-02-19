@@ -34,7 +34,10 @@ echo "Processing source files..."
 echo "Running pandoc..."
 pandoc --standalone \
   --metadata title="莫号模板库" \
+  --css=style.css \
   -o book/index.html \
   /tmp/ciallo_output.md
+
+cp style.css book/
 
 echo "Successfully built book/index.html"
