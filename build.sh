@@ -23,11 +23,18 @@ fi
 
 echo "Building HTML..."
 
-mkdir -p dist
+mkdir -p book
 
-./ciallo.sh src | pandoc \
-  --standalone \
+# Ensure scripts are executable
+chmod +x ciallo.sh 2>/dev/null || true
+
+echo "Processing source files..."
+./ciallo.sh src > /tmp/ciallo_output.md
+
+echo "Running pandoc..."
+pandoc --standalone \
   --metadata title="莫号模板库" \
-  -o book/index.html
+  -o book/index.html \
+  /tmp/ciallo_output.md
 
 echo "Successfully built book/index.html"
