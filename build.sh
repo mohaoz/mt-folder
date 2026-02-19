@@ -1,19 +1,25 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Installing pandoc..."
+# Check if pandoc is already installed
+if command -v pandoc &> /dev/null; then
+  echo "Pandoc is already installed:"
+  pandoc --version
+else
+  echo "Installing pandoc..."
 
-PANDOC_VERSION="3.1.11"
-PANDOC_FILENAME="pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz"
+  PANDOC_VERSION="3.1.11"
+  PANDOC_FILENAME="pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz"
 
-curl -L "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/${PANDOC_FILENAME}" \
-  | tar xz
+  curl -L "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/${PANDOC_FILENAME}" \
+    | tar xz
 
-PANDOC_DIR="pandoc-${PANDOC_VERSION}"
-export PATH="$PWD/${PANDOC_DIR}/bin:$PATH"
+  PANDOC_DIR="pandoc-${PANDOC_VERSION}"
+  export PATH="$PWD/${PANDOC_DIR}/bin:$PATH"
 
-echo "Pandoc installed:"
-pandoc --version
+  echo "Pandoc installed:"
+  pandoc --version
+fi
 
 echo "Building HTML..."
 
