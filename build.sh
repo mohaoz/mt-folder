@@ -37,6 +37,5 @@ pandoc --standalone \
   -o book/index.html \
   /tmp/ciallo_output.md
 
-cp style.css book/
 
 echo "Successfully built book/index.html"

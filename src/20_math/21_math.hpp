@@ -73,7 +73,7 @@ inline auto ExGCD(auto a, auto b, auto &x, auto &y) {
         x = 1, y = 0;
         return a;
     }
-    auto d = exgcd(b, a % b, y, x);
+    auto d = ExGCD(b, a % b, y, x);
     y -= a / b * x;
     return d;
 }
