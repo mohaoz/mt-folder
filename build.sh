@@ -29,13 +29,13 @@ mkdir -p book
 chmod +x ciallo.sh 2>/dev/null || true
 
 echo "Processing source files..."
-./ciallo.sh src > /tmp/ciallo_output.md
+./ciallo.sh src > book/index.md
 
 echo "Running pandoc..."
 pandoc --standalone \
   --metadata title="莫号模板库" \
   -o book/index.html \
-  /tmp/ciallo_output.md
+  book/index.md
 
 
 echo "Successfully built book/index.html"
