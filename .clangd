@@ -1,2 +1,4 @@
 CompileFlags:
-  Add: [-std=gnu++23]
+  Compiler: g++-15
+  Add:
+    - -std=gnu++23
