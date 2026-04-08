@@ -3,6 +3,9 @@ using namespace std;
 
 constexpr int INF = 1e9;
 
+// CIALLO_MD
+// ## 单源最短路
+// CIALLO_CODE
 vector<int> dijkstra(const auto &adj, int n, int s) {
     vector<int> dis(n + 1, INF);
     vector<bool> vis(n + 1, false);
@@ -23,6 +26,7 @@ vector<int> dijkstra(const auto &adj, int n, int s) {
     }
     return dis;
 }
+// CIALLO_END
 
 void P4779() {
     int n, m, s;
