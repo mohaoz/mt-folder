@@ -33,6 +33,9 @@ echo "Processing source files..."
 
 echo "Running pandoc..."
 pandoc --standalone \
+  --toc \
+  --toc-depth=2 \
+  --include-in-header=assets/html-header.html \
   --metadata title="莫号模板库" \
   -o book/index.html \
   book/index.md

@@ -13,13 +13,13 @@
 使用方式：
 
 ```sh
-./build src > out.md
+./ciallo.sh src > out.md
 ```
 
 或者
 
 ```sh
-./build a.cpp > out.md
+./ciallo.sh a.cpp > out.md
 ```
 
 关于新特性，以下是 ChatGPT 5.2 提供的介绍：
@@ -82,3 +82,11 @@
 ## HTML 输出
 
 访问 https://mt-folder.mohao.me
+
+本地构建：
+
+```sh
+./build.sh        # 生成 book/index.html，云端部署入口
+./ciallo.sh src   # 仅生成 Markdown 到 stdout
+./check.sh        # 静态生成与语法检查
+```
