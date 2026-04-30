@@ -4,9 +4,15 @@ using namespace std;
 constexpr int INF = 1e9;
 
 // CIALLO_MD
+// # 图论
 // ## 单源最短路
+// 适用于非负边权图。
+//
+// - `adj[u]` 存储 `(v, w)`；
+// - 默认点编号为 `1..n`；
+// - 复杂度 `O((n + m) log n)`。
 // CIALLO_CODE
-vector<int> dijkstra(const auto &adj, int n, int s) {
+auto dijkstra(const auto &adj, int n, int s) {
     vector<int> dis(n + 1, INF);
     vector<bool> vis(n + 1, false);
     priority_queue<pair<int, int>> pq;

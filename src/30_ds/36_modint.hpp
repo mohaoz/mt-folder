@@ -1,10 +1,18 @@
 #pragma once
 
-#include <utility>
+#include <compare>
+#include <concepts>
 #include <iostream>
+#include <type_traits>
+#include <utility>
 
 // CIALLO_MD
 // ## ModInt
+// 固定模数整数，支持四则运算、输入输出和比较。
+//
+// - `ModInt<P>` 使用 `unsigned` 模数；
+// - 除法要求除数可逆；
+// - 乘法对 `u64` 模数使用长双精度近似规避溢出。
 // CIALLO_CODE
 using u32 = unsigned;
 using i64 = long long; using u64 = unsigned long long;

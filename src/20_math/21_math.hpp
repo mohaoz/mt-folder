@@ -1,7 +1,8 @@
 #pragma once
 
-#include <vector>
 #include <algorithm>
+#include <iostream>
+#include <vector>
 
 using i8 = signed char;
 using u8 = unsigned char;
@@ -15,25 +16,57 @@ using u128 = unsigned __int128;
 // CIALLO_MD
 // # 数学
 // ## 线性筛
+// 初始化 `[2, N]` 内质数和非质数标记。
+//
+// - `pri` 存储所有质数；
+// - `np[x]` 表示 `x` 是否不是质数；
+// - 固定上界作为模板参数，使用 `Sieve<N> sieve;` 初始化；
+// - 复杂度 `O(N)`。
 // CIALLO_CODE
-inline void Sieve(int n, auto &&pri, auto &&mp) {
-    mp.resize(n + 1);
-    for (int i = 2; i <= n; i++) {
-        if (!mp[i])
-            pri.emplace_back(i);
-        for (int p : pri) {
-            if (i * p > n)
-                break;
-            mp[i * p] = p;
-            if (i % p == 0)
-                break;
+template <int N>
+struct Sieve {
+    std::vector<int> pri;
+    bool np[N + 1]{};
+
+    Sieve() {
+        np[0] = np[1] = true;
+        for (int i = 2; i <= N; i++) {
+            if (!np[i])
+                pri.emplace_back(i);
+            for (int p : pri) {
+                if (i * p > N)
+                    break;
+                np[i * p] = true;
+                if (i % p == 0)
+                    break;
+            }
         }
     }
-}
+};
 // CIALLO_END
+
+void P3383() {
+    int n, q;
+    std::cin >> n >> q;
+    static Sieve<100000000> sieve;
+    while (q--) {
+        int k;
+        std::cin >> k;
+        std::cout << sieve.pri[k - 1] << '\n';
+    }
+}
+
+int main() {
+    std::cin.tie(nullptr)->sync_with_stdio(false);
+    P3383();
+}
 
 // CIALLO_MD
 // ## 因数/约数分解
+// `Factor(n)` 返回质因数分解，`Divisor(n)` 返回大于 `1` 且小于等于 `n` 的约数。
+//
+// - 适合 `int` 范围内的试除；
+// - 复杂度 `O(sqrt n)`。
 // CIALLO_CODE
 inline auto Factor(int n) {
     std::vector<std::pair<int, int>> res;
@@ -67,6 +100,10 @@ inline auto Divisor(int n) {
 
 // CIALLO_MD
 // ## 扩展欧几里得
+// 返回 `gcd(a, b)`，并求出 `ax + by = gcd(a, b)` 的一组解。
+//
+// - 参数可以是整数类型；
+// - 复杂度 `O(log min(a, b))`。
 // CIALLO_CODE
 inline auto ExGCD(auto a, auto b, auto &x, auto &y) {
     if (b == 0) {
@@ -81,6 +118,10 @@ inline auto ExGCD(auto a, auto b, auto &x, auto &y) {
 
 // CIALLO_MD
 // ## 快速幂
+// 计算 `a^b mod p`。
+//
+// - `b >= 0`；
+// - 复杂度 `O(log b)`。
 // CIALLO_CODE
 inline int PowMod(i64 a, i64 b, int p) {
     i64 res = 1;

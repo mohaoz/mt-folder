@@ -1,17 +1,23 @@
 #pragma once
 
+#include <iterator>
 #include <vector>
 
 // CIALLO_MD
 // ## 线段树
+// 维护单点修改、区间查询。
+//
+// - 单次操作复杂度 `O(log n)`。
+//
 // 关于 `S` 的约束：
 // 
 // - 存在满足封闭性结合律的 `operator+` 运算；
 // - 存在单位元 `{}` （具有默认构造函数，且满足和单位元运算后不改变原值）
 // 
-// 关于初始数组 `vector<T>`：
+// 关于初始区间：
 // 
-// - 若 `T` $\neq$ `S`，则必须保证 `S` 存在可由 `T` 构造的构造函数。
+// - 使用随机访问迭代器；
+// - 若元素类型 $\neq$ `S`，则必须保证 `S` 存在对应构造函数。
 // 
 // CIALLO_CODE
 template <class S>
@@ -24,7 +30,8 @@ struct SegTree {
         build(n, std::vector<S>(n, e));
     }
 
-    SegTree(auto &&l, auto &&r) {
+    template <std::random_access_iterator It>
+    SegTree(It l, It r) {
         build(r - l, l);
     }
 

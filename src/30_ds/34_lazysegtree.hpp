@@ -1,11 +1,15 @@
 #pragma once
 
-#include <vector>
 #include <bit>
+#include <iterator>
+#include <vector>
 
 // CIALLO_MD
 // ## 懒标记线段树
 // 使用非递归的实现方式。
+//
+// - 单次操作复杂度 `O(log n)`。
+//
 // 关于 `F` 的约束：
 // 
 // - 存在满足封闭性的 `operator+=` 运算；
@@ -17,9 +21,10 @@
 // - 存在单位元 `{}` （具有默认构造函数，且满足和单位元运算后不改变原值）
 // - 存在 `operator*=` 运算满足将映射 `F` 应用于 `S` 返回一个 `S`，并且满足分配律。
 // 
-// 关于初始数组 `vector<T>`：
+// 关于初始区间：
 // 
-// - 若 `T` $\neq$ `S`，则必须保证 `S` 存在可由 `T` 构造的构造函数。
+// - 使用随机访问迭代器；
+// - 若元素类型 $\neq$ `S`，则必须保证 `S` 存在对应构造函数。
 //
 // CIALLO_CODE
 template<class S, class F>
@@ -33,7 +38,8 @@ struct LazySegTree {
         build(n, std::vector<S>(n, e));
     }
 
-    LazySegTree(auto &&l, auto &&r) {
+    template <std::random_access_iterator It>
+    LazySegTree(It l, It r) {
         build(r - l, l);
     }
 

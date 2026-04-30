@@ -4,6 +4,11 @@
 
 // CIALLO_MD
 // ## 树状数组
+// 维护单点加、前缀和、区间和。
+//
+// - 使用 `1-indexed`；
+// - `Sum(l, r)` 查询闭区间 `[l, r]`；
+// - 单次操作复杂度 `O(log n)`。
 // CIALLO_CODE
 template <typename T> struct Fenwick {
     int n;
