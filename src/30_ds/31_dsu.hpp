@@ -7,9 +7,9 @@
 // ## 并查集 (DSU)
 // CIALLO_CODE
 struct DSU {
-    std::vector<int> f, sz;
+    std::vector<int> f;
 
-    DSU(int n) : f(n), sz(n, 1) { std::iota(f.begin(), f.end(), 0); }
+    DSU(int n) : f(n) { std::iota(f.begin(), f.end(), 0); }
 
     int Find(int x) {
         while (x != f[x])
@@ -17,12 +17,12 @@ struct DSU {
         return x;
     }
 
-    void Merge(int x, int y) {
+    bool Merge(int x, int y) {
         x = Find(x), y = Find(y);
         if (x == y)
-            return;
+            return false;
         f[y] = x;
-        sz[x] += sz[y];
+        return true;
     }
 };
 // CIALLO_END
