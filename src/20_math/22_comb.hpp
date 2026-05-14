@@ -23,15 +23,15 @@ struct Comb {
             ifac[i - 1] = ifac[i] * i;
     }
 
-    Z C(int n, int k) const {
+    auto C(int n, int k) const {
         if (k < 0 or k > n)
-            return 0;
+            return Z{};
         return fac[n] * ifac[k] * ifac[n - k];
     }
 
-    Z A(int n, int k) const {
+    auto A(int n, int k) const {
         if (k < 0 or k > n)
-            return 0;
+            return Z{};
         return fac[n] * ifac[n - k];
     }
 };

@@ -9,7 +9,7 @@ using namespace std;
 // - `Kmp(s)[i]` 表示 `s[0..i)` 的 border 长度；
 // - 匹配复杂度 `O(n + m)`。
 // CIALLO_CODE
-vector<int> Kmp(const string &s) {
+auto Kmp(const string& s) {
     int n = s.size();
     vector<int> f(n + 1);
     for (int i = 1, j = 0; i < n; i++) {

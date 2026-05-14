@@ -13,7 +13,7 @@ using namespace std;
 using comp = complex<double>;
 const double PI = acos(-1);
 
-void Fft(vector<comp> &a, bool inv) {
+void Fft(vector<comp>& a, bool inv) {
     int n = a.size();
     for (int i = 1, j = 0; i < n; i++) {
         int bit = n >> 1;
@@ -38,18 +38,20 @@ void Fft(vector<comp> &a, bool inv) {
         }
     }
     if (inv)
-        for (auto &x : a)
+        for (auto& x : a)
             x /= n;
 }
 
-vector<long long> Convolution(const vector<long long> &a, const vector<long long> &b) {
+auto Convolution(const vector<long long>& a,
+                 const vector<long long>& b) {
     if (a.empty() or b.empty())
-        return {};
+        return vector<long long>{};
     int need = a.size() + b.size() - 1;
     int n = 1;
     while (n < need)
         n <<= 1;
-    vector<comp> fa(a.begin(), a.end()), fb(b.begin(), b.end());
+    vector<comp> fa(a.begin(), a.end()),
+        fb(b.begin(), b.end());
     fa.resize(n);
     fb.resize(n);
     Fft(fa, false);
@@ -68,9 +70,9 @@ void P3803() {
     int n, m;
     cin >> n >> m;
     vector<long long> a(n + 1), b(m + 1);
-    for (auto &x : a)
+    for (auto& x : a)
         cin >> x;
-    for (auto &x : b)
+    for (auto& x : b)
         cin >> x;
     auto c = Convolution(a, b);
     for (int i = 0; i <= n + m; i++)

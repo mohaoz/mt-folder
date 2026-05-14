@@ -12,15 +12,17 @@ constexpr int INF = 1e9;
 // - 默认点编号为 `1..n`；
 // - 复杂度 `O((n + m) log n)`。
 // CIALLO_CODE
-auto dijkstra(const auto &adj, int n, int s) {
+template <class Adj>
+auto dijkstra(const Adj& adj, int n, int s) {
     vector<int> dis(n + 1, INF);
     vector<bool> vis(n + 1, false);
     priority_queue<pair<int, int>> pq;
     dis[s] = 0;
     pq.emplace(0, s);
     while (!pq.empty()) {
-        auto [_, u] = pq.top(); pq.pop();
-        if (vis[u]) 
+        auto [_, u] = pq.top();
+        pq.pop();
+        if (vis[u])
             continue;
         vis[u] = true;
         for (auto [v, w] : adj[u]) {

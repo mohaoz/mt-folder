@@ -9,7 +9,8 @@ using namespace std;
 // - 若返回数量小于 `n`，则图中有环；
 // - 复杂度 `O(n + m)`。
 // CIALLO_CODE
-vector<int> TopoSort(const vector<vector<int>> &adj, int n) {
+auto TopoSort(const vector<vector<int>>& adj,
+              int n) {
     vector<int> indeg(n + 1), res;
     queue<int> q;
     for (int u = 1; u <= n; u++)

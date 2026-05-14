@@ -105,7 +105,8 @@ inline auto Divisor(int n) {
 // - 参数可以是整数类型；
 // - 复杂度 `O(log min(a, b))`。
 // CIALLO_CODE
-inline auto ExGCD(auto a, auto b, auto &x, auto &y) {
+template <class T>
+inline T ExGCD(T a, T b, T& x, T& y) {
     if (b == 0) {
         x = 1, y = 0;
         return a;
@@ -123,10 +124,11 @@ inline auto ExGCD(auto a, auto b, auto &x, auto &y) {
 // - `b >= 0`；
 // - 复杂度 `O(log b)`。
 // CIALLO_CODE
-inline int PowMod(i64 a, i64 b, int p) {
+inline auto PowMod(i64 a, i64 b, int p) {
     i64 res = 1;
     while (b) {
-        if (b & 1) res = res * a % p;
+        if (b & 1)
+            res = res * a % p;
         b = b >> 1;
         a = a * a % p;
     }

@@ -10,15 +10,15 @@
 // - 单次操作复杂度 `O(log n)`。
 //
 // 关于 `S` 的约束：
-// 
+//
 // - 存在满足封闭性结合律的 `operator+` 运算；
 // - 存在单位元 `{}` （具有默认构造函数，且满足和单位元运算后不改变原值）
-// 
+//
 // 关于初始区间：
-// 
+//
 // - 使用随机访问迭代器；
 // - 若元素类型 $\neq$ `S`，则必须保证 `S` 存在对应构造函数。
-// 
+//
 // CIALLO_CODE
 template <class S>
 struct SegTree {
@@ -26,17 +26,19 @@ struct SegTree {
     int n;
     std::vector<S> tr;
 
-    SegTree(int n, const S &e) {
+    SegTree(int n, const S& e) {
         build(n, std::vector<S>(n, e));
     }
 
-    template <std::random_access_iterator It>
+    template <class It>
     SegTree(It l, It r) {
         build(r - l, l);
     }
 
-    void build(int m, auto &&arr) {
-        for (n = 1; n < m; n <<= 1);
+    template <class Arr>
+    void build(int m, const Arr& arr) {
+        for (n = 1; n < m; n <<= 1)
+            ;
         tr.resize(n << 1);
         for (int i = 0; i < m; i++)
             tr[i + n] = arr[i];
@@ -48,18 +50,16 @@ struct SegTree {
         tr[k] = tr[k << 1] + tr[k << 1 | 1];
     }
 
-    void Set(int p, const S &x) {
+    void Set(int p, const S& x) {
         p += n;
         tr[p] = x;
         for (p >>= 1; p; p >>= 1)
             pull(p);
     }
 
-    S Get(int p) {
-        return tr[p + n];
-    }
+    auto Get(int p) { return tr[p + n]; }
 
-    S Query(int l, int r) {
+    auto Query(int l, int r) {
         l += n, r += n;
         S sml{}, smr{};
         while (l < r) {

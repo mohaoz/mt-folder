@@ -10,7 +10,8 @@
 // - `Sum(l, r)` 查询闭区间 `[l, r]`；
 // - 单次操作复杂度 `O(log n)`。
 // CIALLO_CODE
-template <typename T> struct Fenwick {
+template <typename T>
+struct Fenwick {
     int n;
     std::vector<T> a;
 
@@ -21,13 +22,15 @@ template <typename T> struct Fenwick {
             a[x] += v;
     }
 
-    T sum(int x) {
+    auto sum(int x) {
         T res = {};
         for (; x; x -= x & -x)
             res += a[x];
         return res;
     }
 
-    T Sum(int l, int r) { return sum(r) - sum(l - 1); }
+    auto Sum(int l, int r) {
+        return sum(r) - sum(l - 1);
+    }
 };
 // CIALLO_END

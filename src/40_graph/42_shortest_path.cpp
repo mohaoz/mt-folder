@@ -17,13 +17,16 @@ constexpr i64 INF = 1'000'000'000'000'000'000LL;
 //
 // 复杂度 `O((n k + m k) log(n k))`。
 // CIALLO_CODE
-auto LayeredDijkstra(const auto &adj, int n, int s, int k) {
+template <class Adj>
+auto LayeredDijkstra(const Adj& adj, int n, int s,
+                     int k) {
     vector dist(n + 1, vector<i64>(k + 1, INF));
     priority_queue<tuple<i64, int, int>> pq;
     dist[s][0] = 0;
     pq.emplace(0, s, 0);
     while (!pq.empty()) {
-        auto [d, u, used] = pq.top(); pq.pop();
+        auto [d, u, used] = pq.top();
+        pq.pop();
         d = -d;
         if (d != dist[u][used])
             continue;
@@ -32,9 +35,11 @@ auto LayeredDijkstra(const auto &adj, int n, int s, int k) {
                 dist[v][used] = dist[u][used] + w;
                 pq.emplace(-dist[v][used], v, used);
             }
-            if (used < k and dist[u][used] < dist[v][used + 1]) {
+            if (used < k and
+                dist[u][used] < dist[v][used + 1]) {
                 dist[v][used + 1] = dist[u][used];
-                pq.emplace(-dist[v][used + 1], v, used + 1);
+                pq.emplace(-dist[v][used + 1], v,
+                           used + 1);
             }
         }
     }
@@ -55,7 +60,9 @@ void P4568() {
         adj[v].emplace_back(u, w);
     }
     auto dist = LayeredDijkstra(adj, n, s, k);
-    cout << *min_element(dist[t].begin(), dist[t].end()) << '\n';
+    cout << *min_element(dist[t].begin(),
+                         dist[t].end())
+         << '\n';
 }
 
 signed main() {

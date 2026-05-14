@@ -42,7 +42,7 @@ struct XorTrie {
         }
     }
 
-    int Query(int x) {
+    auto Query(int x) {
         int res = 0;
         int u = 1;
         for (int i = 30; i >= 0; i--) {

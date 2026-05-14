@@ -9,7 +9,8 @@ using namespace std;
 // - `edges` 存储 `(u, v, w)`；
 // - 无解返回空数组。
 // CIALLO_CODE
-vector<long long> DifferenceConstraints(int n, const vector<array<int, 3>> &edges) {
+auto DifferenceConstraints(
+    int n, const vector<array<int, 3>>& edges) {
     vector<long long> d(n + 1);
     for (int i = 1; i <= n; i++) {
         bool changed = false;
@@ -22,7 +23,7 @@ vector<long long> DifferenceConstraints(int n, const vector<array<int, 3>> &edge
         if (!changed)
             break;
         if (i == n)
-            return {};
+            return vector<long long>{};
     }
     return d;
 }

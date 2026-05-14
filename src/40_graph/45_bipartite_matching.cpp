@@ -9,15 +9,17 @@ using namespace std;
 // - `adj[u]` 存储左部点 `u` 能匹配的右部点；
 // - 复杂度 `O(nm)`，稀疏图通常够用。
 // CIALLO_CODE
-int BipartiteMatching(const vector<vector<int>> &adj, int n, int m) {
+auto BipartiteMatching(
+    const vector<vector<int>>& adj, int n, int m) {
     vector<int> mt(m + 1), vis(m + 1);
     int ans = 0, stamp = 0;
-    auto dfs = [&](this auto &&self, int u) -> bool {
+    auto dfs = [&](auto&& self,
+                   int u) -> bool {
         for (int v : adj[u]) {
             if (vis[v] == stamp)
                 continue;
             vis[v] = stamp;
-            if (!mt[v] or self(mt[v])) {
+            if (!mt[v] or self(self, mt[v])) {
                 mt[v] = u;
                 return true;
             }
@@ -26,7 +28,7 @@ int BipartiteMatching(const vector<vector<int>> &adj, int n, int m) {
     };
     for (int i = 1; i <= n; i++) {
         stamp++;
-        ans += dfs(i);
+        ans += dfs(dfs, i);
     }
     return ans;
 }

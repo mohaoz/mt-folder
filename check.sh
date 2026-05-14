@@ -10,7 +10,7 @@ if [ -z "${CXX:-}" ]; then
     CXX=c++
   fi
 fi
-STD=${STD:-gnu++23}
+STD=${STD:-gnu++17}
 TMP=${TMPDIR:-/tmp}/mt-folder-check.md
 
 ./ciallo.sh src > "$TMP"
