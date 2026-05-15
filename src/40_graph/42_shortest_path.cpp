@@ -1,9 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-using i64 = int64_t;
-constexpr i64 INF = 1'000'000'000'000'000'000LL;
-
 // CIALLO_MD
 // ## 分层图最短路
 // 适用于非负边权图上最多使用 `k` 次特殊操作。
@@ -20,6 +17,8 @@ constexpr i64 INF = 1'000'000'000'000'000'000LL;
 template <class Adj>
 auto LayeredDijkstra(const Adj& adj, int n, int s,
                      int k) {
+    using i64 = int64_t;
+    constexpr i64 INF = 4'000'000'000'000'000'000LL;
     vector dist(n + 1, vector<i64>(k + 1, INF));
     priority_queue<tuple<i64, int, int>> pq;
     dist[s][0] = 0;

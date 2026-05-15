@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-constexpr int INF = 1e9;
-
 // CIALLO_MD
 // # 图论
 // ## 单源最短路
@@ -12,11 +10,14 @@ constexpr int INF = 1e9;
 // - 默认点编号为 `1..n`；
 // - 复杂度 `O((n + m) log n)`。
 // CIALLO_CODE
+using i64 = int64_t;
+constexpr i64 INF = 4'000'000'000'000'000'000LL;
+
 template <class Adj>
 auto dijkstra(const Adj& adj, int n, int s) {
-    vector<int> dis(n + 1, INF);
+    vector<i64> dis(n + 1, INF);
     vector<bool> vis(n + 1, false);
-    priority_queue<pair<int, int>> pq;
+    priority_queue<pair<i64, int>> pq;
     dis[s] = 0;
     pq.emplace(0, s);
     while (!pq.empty()) {
