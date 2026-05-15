@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <iostream>
 #include <type_traits>
 #include <utility>
@@ -15,8 +16,8 @@
 // - 乘法对 `u64` 模数使用长双精度近似规避溢出。
 // CIALLO_CODE
 using u32 = unsigned;
-using i64 = long long;
-using u64 = unsigned long long;
+using i64 = int64_t;
+using u64 = uint64_t;
 
 template <class T>
 constexpr auto power(T a, u64 b, T res = 1) {

@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+using i64 = int64_t;
+
 // CIALLO_MD
 // ## Dinic 最大流
 // 分层图 + 当前弧优化求最大流。
@@ -13,7 +15,7 @@ using namespace std;
 struct Dinic {
     struct Edge {
         int to, rev;
-        long long cap;
+        i64 cap;
     };
 
     int n;
@@ -23,26 +25,28 @@ struct Dinic {
     Dinic(int n)
         : n(n), adj(n + 1), dep(n + 1), cur(n + 1) {}
 
-    int AddEdge(int u, int v, long long c) {
-        int id = int(adj[u].size());
-        Edge a{v, int(adj[v].size()), c};
-        Edge b{u, int(adj[u].size()), 0};
+    int AddEdge(int u, int v, i64 c) {
+        int id = adj[u].size();
+        int revU = adj[v].size();
+        int revV = adj[u].size();
+        Edge a{v, revU, c};
+        Edge b{u, revV, 0};
         adj[u].emplace_back(a);
         adj[v].emplace_back(b);
         return id;
     }
 
-    long long Flow(int u, int id) const {
+    i64 Flow(int u, int id) const {
         const Edge& e = adj[u][id];
         return adj[e.to][e.rev].cap;
     }
 
-    long long MaxFlow(int s, int t) {
-        long long flow = 0;
-        constexpr long long INF = numeric_limits<long long>::max() / 4;
+    i64 MaxFlow(int s, int t) {
+        i64 flow = 0;
+        constexpr i64 INF = numeric_limits<i64>::max() / 4;
         while (bfs(s, t)) {
             fill(cur.begin(), cur.end(), 0);
-            while (long long f = dfs(s, t, INF))
+            while (i64 f = dfs(s, t, INF))
                 flow += f;
         }
         return flow;
@@ -66,14 +70,14 @@ struct Dinic {
         return dep[t] != -1;
     }
 
-    long long dfs(int u, int t, long long f) {
+    i64 dfs(int u, int t, i64 f) {
         if (u == t or f == 0)
             return f;
-        for (int& i = cur[u]; i < int(adj[u].size()); i++) {
+        for (int& i = cur[u]; i < (i64)adj[u].size(); i++) {
             Edge& e = adj[u][i];
             if (e.cap <= 0 or dep[e.to] != dep[u] + 1)
                 continue;
-            long long w = dfs(e.to, t, min(f, e.cap));
+            i64 w = dfs(e.to, t, min(f, e.cap));
             if (!w)
                 continue;
             e.cap -= w;
@@ -91,7 +95,7 @@ void P3376() {
     Dinic flow(n);
     while (m--) {
         int u, v;
-        long long w;
+        i64 w;
         cin >> u >> v >> w;
         flow.AddEdge(u, v, w);
     }

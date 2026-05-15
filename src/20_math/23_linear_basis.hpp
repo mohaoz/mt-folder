@@ -1,18 +1,21 @@
 #pragma once
 
 #include <array>
+#include <cstdint>
 #include <vector>
 
 // CIALLO_MD
 // ## 线性基
 // 维护异或线性空间。
 //
-// - 默认处理 `unsigned long long`，最高位为 `63`；
+// - 默认处理 `u64`，最高位为 `63`；
 // - `Insert(x)` 返回 `x` 是否使秩增加；
 // - `Contains(x)` 判断 `x` 能否由当前线性基异或得到；
 // - `MaxXor(x)` 返回 `x` 与线性空间中某个元素异或后的最大值。
 // CIALLO_CODE
-template <class T = unsigned long long, int LOG = 63>
+using u64 = uint64_t;
+
+template <class T = u64, int LOG = 63>
 struct LinearBasis {
     std::array<T, LOG + 1> p{};
     int rank = 0;

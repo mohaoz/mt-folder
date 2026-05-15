@@ -19,7 +19,7 @@ struct LCA {
     vector<vector<int>> up;
 
     LCA(const vector<vector<int>>& adj, int root = 1) {
-        n = int(adj.size()) - 1;
+        n = adj.size() - 1;
         LOG = __lg(n) + 1;
         dep.assign(n + 1, 0);
         siz.assign(n + 1, 1);

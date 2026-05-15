@@ -45,8 +45,8 @@ using i8 = signed char;
 using u8 = unsigned char;
 using i32 = signed;
 using u32 = unsigned;
-using i64 = long long;
-using u64 = unsigned long long;
+using i64 = int64_t;
+using u64 = uint64_t;
 using i128 = __int128;
 using u128 = unsigned __int128;
 // CIALLO_END

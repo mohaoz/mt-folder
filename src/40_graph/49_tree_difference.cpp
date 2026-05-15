@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+using i64 = int64_t;
+
 // CIALLO_MD
 // ## 树上差分
 // 对树上路径做批量加法，再一次 DFS 汇总。
@@ -14,11 +16,11 @@ struct TreeDifference {
     int n, LOG;
     vector<vector<int>> adj, up;
     vector<int> dep;
-    vector<long long> diff;
+    vector<i64> diff;
 
     TreeDifference(const vector<vector<int>>& adj,
                    int root = 1)
-        : n(int(adj.size()) - 1), adj(adj),
+        : n(adj.size() - 1), adj(adj),
           LOG(__lg(n) + 1), up(LOG, vector<int>(n + 1, root)),
           dep(n + 1), diff(n + 1) {
         auto dfs = [&](auto&& self, int u,
@@ -37,7 +39,7 @@ struct TreeDifference {
     }
 
     void AddVertexPath(int u, int v,
-                       long long w = 1) {
+                       i64 w = 1) {
         int g = lca(u, v);
         diff[u] += w;
         diff[v] += w;
@@ -47,14 +49,14 @@ struct TreeDifference {
     }
 
     void AddEdgePath(int u, int v,
-                     long long w = 1) {
+                     i64 w = 1) {
         int g = lca(u, v);
         diff[u] += w;
         diff[v] += w;
         diff[g] -= 2 * w;
     }
 
-    vector<long long> Work(int root = 1) {
+    vector<i64> Work(int root = 1) {
         auto res = diff;
         auto dfs = [&](auto&& self, int u,
                        int p) -> void {

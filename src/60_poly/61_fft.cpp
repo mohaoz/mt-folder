@@ -10,6 +10,7 @@ using namespace std;
 // - 返回长度为 `a.size() + b.size() - 1` 的结果；
 // - 复杂度 `O(n log n)`。
 // CIALLO_CODE
+using i64 = int64_t;
 using comp = complex<double>;
 const double PI = acos(-1);
 
@@ -42,10 +43,10 @@ void Fft(vector<comp>& a, bool inv) {
             x /= n;
 }
 
-auto Convolution(const vector<long long>& a,
-                 const vector<long long>& b) {
+auto Convolution(const vector<i64>& a,
+                 const vector<i64>& b) {
     if (a.empty() or b.empty())
-        return vector<long long>{};
+        return vector<i64>{};
     int need = a.size() + b.size() - 1;
     int n = 1;
     while (n < need)
@@ -59,7 +60,7 @@ auto Convolution(const vector<long long>& a,
     for (int i = 0; i < n; i++)
         fa[i] *= fb[i];
     Fft(fa, true);
-    vector<long long> res(need);
+    vector<i64> res(need);
     for (int i = 0; i < need; i++)
         res[i] = llround(fa[i].real());
     return res;
@@ -69,7 +70,7 @@ auto Convolution(const vector<long long>& a,
 void P3803() {
     int n, m;
     cin >> n >> m;
-    vector<long long> a(n + 1), b(m + 1);
+    vector<i64> a(n + 1), b(m + 1);
     for (auto& x : a)
         cin >> x;
     for (auto& x : b)

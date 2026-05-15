@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-using i64 = long long;
+using i64 = int64_t;
 constexpr i64 INF = 1'000'000'000'000'000'000LL;
 
 // CIALLO_MD

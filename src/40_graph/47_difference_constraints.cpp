@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+using i64 = int64_t;
+
 // CIALLO_MD
 // ## 差分约束
 // Bellman-Ford 判负环并求一组可行解。
@@ -11,7 +13,7 @@ using namespace std;
 // CIALLO_CODE
 auto DifferenceConstraints(
     int n, const vector<array<int, 3>>& edges) {
-    vector<long long> d(n + 1);
+    vector<i64> d(n + 1);
     for (int i = 1; i <= n; i++) {
         bool changed = false;
         for (auto [u, v, w] : edges) {
@@ -23,7 +25,7 @@ auto DifferenceConstraints(
         if (!changed)
             break;
         if (i == n)
-            return vector<long long>{};
+            return vector<i64>{};
     }
     return d;
 }
