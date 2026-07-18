@@ -2,3 +2,4 @@ CompileFlags:
   Compiler: g++-15
   Add:
     - -std=gnu++23
+    - -Iinclude

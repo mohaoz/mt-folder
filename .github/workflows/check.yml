@@ -1,0 +1,25 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cxx: [g++, clang++]
+    env:
+      CXX: ${{ matrix.cxx }}
+      STD: gnu++23
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: typst-community/setup-typst@v5
+        with:
+          typst-version: 0.15.1
+      - run: ./check.sh

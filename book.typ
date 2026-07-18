@@ -1,0 +1,28 @@
+#import "template.typ": book
+
+#show: book
+
+#include "src/10_misc/11_misc.typ"
+#include "src/20_math/21_math.typ"
+#include "src/20_math/22_comb.typ"
+#include "src/20_math/23_linear_basis.typ"
+#include "src/30_ds/31_dsu.typ"
+#include "src/30_ds/32_fenwick.typ"
+#include "src/30_ds/33_segtree.typ"
+#include "src/30_ds/34_lazysegtree.typ"
+#include "src/30_ds/35_xortrie.typ"
+#include "src/30_ds/36_modint.typ"
+#include "src/30_ds/37_sparse_table.typ"
+#include "src/40_graph/41_dijkstra.typ"
+#include "src/40_graph/42_shortest_path.typ"
+#include "src/40_graph/43_scc.typ"
+#include "src/40_graph/44_cut_vertex.typ"
+#include "src/40_graph/45_bipartite_matching.typ"
+#include "src/40_graph/46_toposort.typ"
+#include "src/40_graph/47_difference_constraints.typ"
+#include "src/40_graph/48_lca.typ"
+#include "src/40_graph/49_tree_difference.typ"
+#include "src/40_graph/50_dinic.typ"
+#include "src/40_graph/51_hopcroft_karp.typ"
+#include "src/50_string/51_kmp.typ"
+#include "src/60_poly/61_fft.typ"
