@@ -20,6 +20,7 @@ const CPP_STARTER: &str = ".mtf/starter.cpp";
 const PCH_CACHE_VERSION: u32 = 1;
 const BUILD_CACHE_VERSION: u32 = 1;
 const PCH_SOURCE: &str = "#pragma once\n#include <bits/stdc++.h>\n";
+const PCH_FORWARDER: &[u8] = b"#pragma once\n#include_next <bits/stdc++.h>\n";
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 struct FileStamp {
@@ -612,8 +613,10 @@ fn prepare_pch(config: &WorkspaceConfig, root: &Path) -> Result<Option<PathBuf>>
     let profile = cache_root.join(format!("pch/{hash:016x}"));
     let include = profile.join("include");
     let pch = include.join("bits/stdc++.h.gch");
+    let header = include.join("bits/stdc++.h");
     let manifest_path = profile.join("manifest.json");
     if pch.is_file() && pch_manifest_is_valid(&manifest_path, &pch_profile) {
+        ensure_pch_forwarder(&header)?;
         return Ok(Some(include));
     }
 
@@ -751,6 +754,11 @@ fn build_pch(
     }
     fs::rename(&temporary_pch, pch)
         .with_context(|| format!("cannot persist precompiled header {}", pch.display()))?;
+    let header = pch
+        .parent()
+        .expect("precompiled header parent was checked above")
+        .join("stdc++.h");
+    ensure_pch_forwarder(&header)?;
     let manifest = PchManifest {
         profile: pch_profile,
         dependencies,
@@ -758,6 +766,13 @@ fn build_pch(
     let bytes = serde_json::to_vec(&manifest).context("cannot serialize PCH manifest")?;
     atomic_write(manifest_path, &bytes)?;
     Ok(())
+}
+
+fn ensure_pch_forwarder(path: &Path) -> Result<()> {
+    if fs::read(path).is_ok_and(|bytes| bytes == PCH_FORWARDER) {
+        return Ok(());
+    }
+    atomic_write(path, PCH_FORWARDER)
 }
 
 fn pch_manifest_is_valid(path: &Path, profile: &PchProfile) -> bool {
@@ -1090,5 +1105,18 @@ mod tests {
         let mut config = WorkspaceConfig::default();
         config.cpp.flags.push("-Ivendor".to_owned());
         assert!(pch_is_disabled(&config));
+    }
+
+    #[test]
+    fn restores_pch_forwarding_header() {
+        let directory = tempdir().unwrap();
+        let header = directory.path().join("include/bits/stdc++.h");
+
+        ensure_pch_forwarder(&header).unwrap();
+        assert_eq!(fs::read(&header).unwrap(), PCH_FORWARDER);
+
+        fs::write(&header, "stale").unwrap();
+        ensure_pch_forwarder(&header).unwrap();
+        assert_eq!(fs::read(&header).unwrap(), PCH_FORWARDER);
     }
 }

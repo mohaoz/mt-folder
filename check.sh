@@ -54,6 +54,12 @@ mkdir -p "$CONTEST"
   "$MTF" new A
   "$MTF" compile A.cpp
   "$MTF" run A.cpp
+  printf '%s\n' \
+    '#include <bits/stdc++.h>' \
+    '#include <mtf/ds/dsu.hpp>' \
+    'int main() { mtf::DSU dsu(2); return dsu.Find(0); }' \
+    > pch-repeated-include.cpp
+  "$MTF" compile pch-repeated-include.cpp
 )
 
 cp examples/contest/A.cpp "$CONTEST/online.cpp"
