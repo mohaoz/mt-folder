@@ -114,9 +114,20 @@ a { color: var(--ac-ink); }
 
 .brand {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: space-between;
   gap: 0.55rem;
-  padding: 1.1rem 1rem 0.8rem;
+  padding: 1.05rem 1rem 0.15rem;
+}
+
+.brand-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .brand-mark {
@@ -125,7 +136,29 @@ a { color: var(--ac-ink); }
   letter-spacing: 0.04em;
 }
 
-.brand-name { font-weight: 700; }
+.side-meta {
+  margin: 0.2rem 1rem 0.35rem;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.side-meta .verified { color: var(--ac-ink); }
+
+.side-pdfs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 1rem 0.75rem;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.side-pdfs a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--line);
+}
+
+.side-pdfs a:hover { color: var(--ac-ink); border-bottom-color: var(--ac); }
 
 .nav-search {
   margin: 0 1rem 0.3rem;
@@ -165,7 +198,21 @@ a { color: var(--ac-ink); }
   overflow-y: auto;
   padding: 0 0.6rem 2rem;
   font-size: 12.5px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
 }
+
+/* WebKit：滚动条默认隐形，悬停侧栏时浮现细条 */
+.sidebar nav::-webkit-scrollbar { width: 5px; }
+
+.sidebar nav::-webkit-scrollbar-track { background: transparent; }
+
+.sidebar nav::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+}
+
+.sidebar:hover nav::-webkit-scrollbar-thumb { background: var(--line); }
 
 .sidebar nav ol {
   margin: 0;
@@ -214,7 +261,7 @@ a { color: var(--ac-ink); }
 .content {
   margin-left: 17rem;
   min-height: 100vh;
-  padding: 0 3rem 5rem;
+  padding: 1.2rem 3rem 5rem;
   background: var(--surface);
 }
 
@@ -222,47 +269,6 @@ a { color: var(--ac-ink); }
   max-width: 50rem;
   margin: 0 auto;
 }
-
-.masthead {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  padding: 1.6rem 0 1rem;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 2.2rem;
-  font-family: var(--font-mono);
-}
-
-.masthead h1 {
-  margin: 0;
-  font-size: 19px;
-  letter-spacing: 0.01em;
-}
-
-.masthead h1 .brand-mark { margin-right: 0.5rem; }
-
-.mast-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  flex-wrap: wrap;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.mast-meta .verified { color: var(--ac-ink); }
-
-.mast-pdfs { display: inline-flex; gap: 0.45rem; }
-
-.mast-pdfs a {
-  color: var(--muted);
-  text-decoration: none;
-  border-bottom: 1px dotted var(--line);
-}
-
-.mast-pdfs a:hover { color: var(--ac-ink); border-bottom-color: var(--ac); }
 
 .theme-toggle {
   padding: 0.2rem 0.55rem;
@@ -414,9 +420,7 @@ h1, h2, h3, h4 {
 
   .nav-toggle { display: block; }
 
-  .content { margin-left: 0; padding: 0 1.1rem 4rem; }
-
-  .masthead { padding-top: 1.1rem; }
+  .content { margin-left: 0; padding: 1rem 1.1rem 4rem; }
 }
 
 @media print {
@@ -598,6 +602,23 @@ document.addEventListener("DOMContentLoaded", () => {
     .filter((h) => navLinks.has(h.id));
   if (headings.length > 0) {
     let currentLink = null;
+    // 目录跟随：把当前条目滚到侧栏中部（编辑器 zz 式定位），
+    // 用户正把光标放在侧栏上时不抢滚动
+    const nav = document.querySelector(".sidebar nav");
+    const follow = (link) => {
+      if (!nav || nav.matches(":hover")) {
+        return;
+      }
+      const navBox = nav.getBoundingClientRect();
+      const linkBox = link.getBoundingClientRect();
+      const offset = linkBox.top - navBox.top + nav.scrollTop;
+      nav.scrollTo({
+        top: Math.max(
+          0,
+          offset - (nav.clientHeight - linkBox.height) / 2
+        ),
+      });
+    };
     const highlight = (id) => {
       const link = navLinks.get(id);
       if (!link || link === currentLink) {
@@ -605,8 +626,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       currentLink?.classList.remove("is-current");
       link.classList.add("is-current");
-      // 侧栏跟随滚动，保证当前条目始终可见
-      link.scrollIntoView({ block: "nearest" });
+      follow(link);
       currentLink = link;
     };
     const observer = new IntersectionObserver(
@@ -808,8 +828,41 @@ document.addEventListener("DOMContentLoaded", () => {
   #html.elem("body")[
     #html.elem("aside", attrs: (class: "sidebar"))[
       #html.elem("div", attrs: (class: "brand"))[
-        #html.elem("span", attrs: (class: "brand-mark"))[MTF]
-        #html.elem("span", attrs: (class: "brand-name"))[莫号模板库]
+        #html.elem("h1", attrs: (class: "brand-title"))[
+          #html.elem("span", attrs: (class: "brand-mark"))[MTF]
+          莫号模板库
+        ]
+        #html.elem("button", attrs: (
+          class: "theme-toggle",
+          type: "button",
+          "aria-label": "切换深浅色主题",
+        ))[◐]
+      ]
+      #html.elem("p", attrs: (class: "side-meta"))[
+        #category-count 类 · #template-count 模板 ·
+        #html.elem("span", attrs: (
+          class: "verified",
+          title: "由 mtf verify 对 Library Checker 官方数据验证",
+        ))[✓ #verified-count 项官方验证]
+      ]
+      #html.elem("p", attrs: (class: "side-pdfs"))[
+        打印
+        #html.elem("a", attrs: (
+          href: "mtf.pdf",
+          title: "A4 竖排双栏 · 彩色",
+        ))[PDF]
+        #html.elem("a", attrs: (
+          href: "mtf-bw.pdf",
+          title: "A4 竖排双栏 · 黑白",
+        ))[黑白]
+        #html.elem("a", attrs: (
+          href: "mtf-landscape.pdf",
+          title: "A4 横排三栏 · 彩色",
+        ))[横排]
+        #html.elem("a", attrs: (
+          href: "mtf-landscape-bw.pdf",
+          title: "A4 横排三栏 · 黑白",
+        ))[横黑白]
       ]
       #html.elem("input", attrs: (
         class: "nav-search",
@@ -827,42 +880,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ]
     #html.elem("main", attrs: (class: "content"))[
       #html.elem("div", attrs: (class: "content-inner"))[
-        #html.elem("header", attrs: (class: "masthead"))[
-          #html.elem("h1")[
-            #html.elem("span", attrs: (class: "brand-mark"))[MTF]莫号模板库
-          ]
-          #html.elem("div", attrs: (class: "mast-meta"))[
-            #html.elem("span")[#category-count 类 · #template-count 模板]
-            #html.elem("span", attrs: (
-              class: "verified",
-              title: "由 mtf verify 对 Library Checker 官方数据验证",
-            ))[✓ #verified-count 项官方验证]
-            #html.elem("span", attrs: (class: "mast-pdfs"))[
-              打印
-              #html.elem("a", attrs: (
-                href: "mtf.pdf",
-                title: "A4 竖排双栏 · 彩色",
-              ))[PDF]
-              #html.elem("a", attrs: (
-                href: "mtf-bw.pdf",
-                title: "A4 竖排双栏 · 黑白",
-              ))[黑白]
-              #html.elem("a", attrs: (
-                href: "mtf-landscape.pdf",
-                title: "A4 横排三栏 · 彩色",
-              ))[横排]
-              #html.elem("a", attrs: (
-                href: "mtf-landscape-bw.pdf",
-                title: "A4 横排三栏 · 黑白",
-              ))[横黑白]
-            ]
-            #html.elem("button", attrs: (
-              class: "theme-toggle",
-              type: "button",
-              "aria-label": "切换深浅色主题",
-            ))[◐]
-          ]
-        ]
         #body
       ]
     ]
