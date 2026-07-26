@@ -104,7 +104,7 @@ a { color: var(--ac-ink); }
 .sidebar {
   position: fixed;
   inset: 0 auto 0 0;
-  width: 17rem;
+  width: 19rem;
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--line);
@@ -117,7 +117,7 @@ a { color: var(--ac-ink); }
   align-items: center;
   justify-content: space-between;
   gap: 0.55rem;
-  padding: 1.05rem 1rem 0.15rem;
+  padding: 1.25rem 1rem 0.8rem;
 }
 
 .brand-title {
@@ -136,10 +136,18 @@ a { color: var(--ac-ink); }
   letter-spacing: 0.04em;
 }
 
-.side-meta {
-  margin: 0.2rem 1rem 0.35rem;
-  color: var(--muted);
+.side-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.7rem 1rem 0.9rem;
+  border-top: 1px solid var(--line);
   font-size: 11.5px;
+}
+
+.side-meta {
+  margin: 0;
+  color: var(--muted);
 }
 
 .side-meta .verified { color: var(--ac-ink); }
@@ -147,9 +155,8 @@ a { color: var(--ac-ink); }
 .side-pdfs {
   display: flex;
   gap: 0.5rem;
-  margin: 0 1rem 0.75rem;
+  margin: 0;
   color: var(--muted);
-  font-size: 11.5px;
 }
 
 .side-pdfs a {
@@ -259,7 +266,7 @@ a { color: var(--ac-ink); }
 /* ---- 正文 ---- */
 
 .content {
-  margin-left: 17rem;
+  margin-left: 19rem;
   min-height: 100vh;
   padding: 1.2rem 3rem 5rem;
   background: var(--surface);
@@ -838,32 +845,6 @@ document.addEventListener("DOMContentLoaded", () => {
           "aria-label": "切换深浅色主题",
         ))[◐]
       ]
-      #html.elem("p", attrs: (class: "side-meta"))[
-        #category-count 类 · #template-count 模板 ·
-        #html.elem("span", attrs: (
-          class: "verified",
-          title: "由 mtf verify 对 Library Checker 官方数据验证",
-        ))[✓ #verified-count 项官方验证]
-      ]
-      #html.elem("p", attrs: (class: "side-pdfs"))[
-        打印
-        #html.elem("a", attrs: (
-          href: "mtf.pdf",
-          title: "A4 竖排双栏 · 彩色",
-        ))[PDF]
-        #html.elem("a", attrs: (
-          href: "mtf-bw.pdf",
-          title: "A4 竖排双栏 · 黑白",
-        ))[黑白]
-        #html.elem("a", attrs: (
-          href: "mtf-landscape.pdf",
-          title: "A4 横排三栏 · 彩色",
-        ))[横排]
-        #html.elem("a", attrs: (
-          href: "mtf-landscape-bw.pdf",
-          title: "A4 横排三栏 · 黑白",
-        ))[横黑白]
-      ]
       #html.elem("input", attrs: (
         class: "nav-search",
         type: "search",
@@ -876,6 +857,33 @@ document.addEventListener("DOMContentLoaded", () => {
       ))[]
       #html.elem("nav", attrs: ("aria-label": "目录"))[
         #outline(title: none, depth: 2)
+      ]
+      #html.elem("footer", attrs: (class: "side-foot"))[
+        #html.elem("p", attrs: (class: "side-pdfs"))[
+          打印
+          #html.elem("a", attrs: (
+            href: "mtf.pdf",
+            title: "A4 竖排双栏 · 彩色",
+          ))[PDF]
+          #html.elem("a", attrs: (
+            href: "mtf-bw.pdf",
+            title: "A4 竖排双栏 · 黑白",
+          ))[黑白]
+          #html.elem("a", attrs: (
+            href: "mtf-landscape.pdf",
+            title: "A4 横排三栏 · 彩色",
+          ))[横排]
+          #html.elem("a", attrs: (
+            href: "mtf-landscape-bw.pdf",
+            title: "A4 横排三栏 · 黑白",
+          ))[横黑白]
+        ]
+        #html.elem("p", attrs: (class: "side-meta"))[
+          #html.elem("span", attrs: (
+            class: "verified",
+            title: "由 mtf verify 对 Library Checker 官方数据验证",
+          ))[✓ #verified-count/#template-count 已验证]
+        ]
       ]
     ]
     #html.elem("main", attrs: (class: "content"))[

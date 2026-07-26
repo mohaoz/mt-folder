@@ -120,9 +120,11 @@ class HtmlGateTests(unittest.TestCase):
             len(self.covered),
         )
 
-    def test_masthead_counts_match_catalog(self) -> None:
-        self.assertIn(f"{len(self.catalog.inventory)} 模板", self.html)
-        self.assertIn(f"✓ {len(self.covered)} 项官方验证", self.html)
+    def test_sidebar_counts_match_catalog(self) -> None:
+        self.assertIn(
+            f"✓ {len(self.covered)}/{len(self.catalog.inventory)} 已验证",
+            self.html,
+        )
 
     def test_offline_single_file(self) -> None:
         allowed = re.compile(r"^https://judge\.yosupo\.jp/")
