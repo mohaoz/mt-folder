@@ -13,6 +13,7 @@
 #include "src/30_ds/35_xortrie.typ"
 #include "src/30_ds/36_modint.typ"
 #include "src/30_ds/37_sparse_table.typ"
+#include "src/30_ds/38_meld_heap.typ"
 #include "src/40_graph/41_dijkstra.typ"
 #include "src/40_graph/42_shortest_path.typ"
 #include "src/40_graph/43_scc.typ"

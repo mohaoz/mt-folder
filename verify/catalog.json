@@ -109,6 +109,12 @@
       "export": "sparse-table"
     },
     {
+      "id": "meld-heap",
+      "title": "可并堆",
+      "source": "src/30_ds/38_meld_heap.typ",
+      "export": "meld-heap"
+    },
+    {
       "id": "dijkstra",
       "title": "单源最短路",
       "source": "src/40_graph/41_dijkstra.typ",
