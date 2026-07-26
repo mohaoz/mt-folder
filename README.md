@@ -21,6 +21,34 @@ mt-folder/
 └── yosupo/                     `mtf verify` 生成的提交与清单（git 忽略）
 ```
 
+## 章节分组
+
+一级分类由 [OI Wiki](https://oi.wiki/) 顶层导航与
+[Library Checker](https://judge.yosupo.jp/)（yosupo）题目分类合并而来：
+
+| 章 | 内容 | 参考依据 |
+| --- | --- | --- |
+| 杂项 | 约定、初始代码、语言惯用法、高维前缀和 | OI Wiki 杂项（高维前缀和归杂项即从其例） |
+| 数学 | 数论、ModInt、组合数、线性基、矩阵 | OI Wiki 数学；覆盖 yosupo 的 Number Theory / Enumerative Combinatorics / Linear Algebra |
+| 数据结构 | DSU、树状数组、线段树家族、Trie、堆 | 两站同名分类 |
+| 图论 | 最短路 → DAG → 连通性 → 流与匹配 | 两站同名分类 |
+| 树上问题 | LCA、树上差分、Kruskal 重构树 | yosupo Tree；OI Wiki 并入图论，取独立分类便于赛时检索 |
+| 字符串 | KMP | 两站同名分类 |
+| 多项式与卷积 | FFT | yosupo Polynomial + Convolution 合并 |
+
+分组原则：
+
+1. 骨架取两站交集；两站分歧时按赛时检索效率取舍
+   （树上问题独立、SOS DP 留杂项）；
+2. 条目稀少的相邻类目先合并（数学暂不拆数论/组合/线代，
+   多项式与卷积同章），条目变多后按 yosupo 细分；
+3. 杂项只收约定与语言惯用法，成型算法一律进主题章；
+4. 章内排序：前置依赖在前（ModInt 在组合数之前）、
+   主题相邻（网络流与匹配连排）；
+5. 计算几何为预留章（两站均设 Geometry），收录时新开
+   `70_geometry`；
+6. 新模板入库先对照两站分类定章，再登记 catalog。
+
 ## 环境
 
 - Python 3.11+
