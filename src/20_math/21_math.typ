@@ -32,7 +32,7 @@ struct Sieve {
 };
 ```
 
-#snippet(sieve, header: "math/math.hpp")
+#snippet(sieve)
 
 == 因数/约数分解
 `Factor(n)` 返回质因数分解，`Divisor(n)` 返回大于 `1` 且小于等于 `n` 的约数。
@@ -71,7 +71,7 @@ inline auto Divisor(int n) {
 }
 ```
 
-#snippet(factorization, header: "math/math.hpp")
+#snippet(factorization)
 
 == 扩展欧几里得
 返回 `gcd(a, b)`，并求出 `ax + by = gcd(a, b)` 的一组解。
@@ -92,7 +92,7 @@ inline T ExGCD(T a, T b, T& x, T& y) {
 }
 ```
 
-#snippet(exgcd, header: "math/math.hpp")
+#snippet(exgcd)
 
 == 快速幂
 计算 `a^b mod p`。
@@ -113,4 +113,4 @@ inline auto PowMod(i64 a, i64 b, int p) {
 }
 ```
 
-#snippet(powmod, header: "math/math.hpp")
+#snippet(powmod)

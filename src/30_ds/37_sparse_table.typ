@@ -57,4 +57,4 @@ struct SparseTable {
 };
 ```
 
-#snippet(sparse-table, header: "ds/sparse_table.hpp")
+#snippet(sparse-table, id: "sparse-table")

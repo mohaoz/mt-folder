@@ -33,4 +33,4 @@ struct DSU {
 };
 ```
 
-#snippet(dsu, header: "ds/dsu.hpp")
+#snippet(dsu, id: "dsu")

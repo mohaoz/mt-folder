@@ -66,4 +66,4 @@ auto Convolution(const vector<i64>& a,
 }
 ```
 
-#snippet(fft, header: "poly/fft.hpp")
+#snippet(fft)

@@ -1,132 +1,613 @@
-#let html-css = ```css
-:root {
-  color-scheme: light;
-  font-family: "Noto Serif CJK SC", serif;
-  line-height: 1.65;
+// 莫号模板库 · 渲染模板
+//
+// 视觉方向：“判题台”。等宽字体做骨架，绿色只表示一件事——Accepted。
+// 代码块渲染为编辑器缓冲区（语言标签 + 验证徽章 + 复制按钮）；
+// 验证徽章的数据直接来自 verify/catalog.json，与 `mtf verify` 同源。
+
+#let catalog = json("/verify/catalog.json")
+
+// inventory id -> Library Checker problem（仅含被 checks.covers 覆盖的模板）
+#let verified-problems = {
+  let mapping = (:)
+  for check in catalog.checks {
+    for item-id in check.at("covers", default: ()) {
+      mapping.insert(item-id, check.problem)
+    }
+  }
+  mapping
 }
 
-* {
-  box-sizing: border-box;
+#let template-count = catalog.inventory.len()
+#let verified-count = verified-problems.len()
+#let category-count = {
+  catalog.inventory.map(item => item.source.split("/").at(1)).dedup().len()
+}
+
+#let mono-fonts = ("DejaVu Sans Mono", "Noto Sans Mono CJK SC")
+#let ac-green = rgb("#0e7a44")
+
+// PDF 打印模式，由 `typst compile --input` 传入：
+//   pdf-layout = portrait（A4 竖排双栏）| landscape（A4 横排三栏）
+//   pdf-theme  = color | bw（黑白打印：灰阶章节条、无语法高亮）
+#let pdf-layout = sys.inputs.at("pdf-layout", default: "portrait")
+#let pdf-theme = sys.inputs.at("pdf-theme", default: "color")
+
+#let html-css = ```css
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #1b2431;
+  --muted: #5f6d7b;
+  --line: #dfe5eb;
+  --ac: #148a4d;
+  --ac-ink: #0c6b3a;
+  --ac-soft: #e5f5ec;
+  --code-bg: #f4f6f8;
+  --code-head: #eceff2;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas,
+    "DejaVu Sans Mono", "Noto Sans Mono CJK SC", monospace;
+  --font-body: "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei",
+    system-ui, sans-serif;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0d1117;
+  --surface: #131a22;
+  --ink: #d9e1e8;
+  --muted: #8b98a5;
+  --line: #242f3b;
+  --ac: #3fb950;
+  --ac-ink: #56d364;
+  --ac-soft: #12261a;
+  --code-bg: #10171f;
+  --code-head: #182029;
+  color-scheme: dark;
+}
+
+/* Typst 导出的高亮是固定浅色内联样式；暗色主题按色值逐一重映射 */
+:root[data-theme="dark"] pre span[style="color: #d73948"] { color: #ff7b72 !important; }
+:root[data-theme="dark"] pre span[style="color: #4b69c6"] { color: #79c0ff !important; }
+:root[data-theme="dark"] pre span[style="color: #b60157"] { color: #d2a8ff !important; }
+:root[data-theme="dark"] pre span[style="color: #74747c"] { color: #8b949e !important; }
+:root[data-theme="dark"] pre span[style="color: #198810"] { color: #7ee787 !important; }
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
 }
 
 body {
   margin: 0;
-  color: #202124;
-  background: #ffffff;
+  color: var(--ink);
+  background: var(--bg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.75;
 }
 
-.mtf-nav {
+::selection { background: var(--ac-soft); }
+
+a { color: var(--ac-ink); }
+
+:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+/* ---- 侧栏 ---- */
+
+.sidebar {
   position: fixed;
   inset: 0 auto 0 0;
-  width: 18rem;
-  padding: 1.5rem;
+  width: 17rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  background: var(--bg);
+  font-family: var(--font-mono);
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 1.1rem 1rem 0.8rem;
+}
+
+.brand-mark {
+  color: var(--ac);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.brand-name { font-weight: 700; }
+
+.nav-search {
+  margin: 0 1rem 0.7rem;
+  padding: 0.42rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: var(--surface);
+  font: inherit;
+  font-size: 12.5px;
+}
+
+.nav-search::placeholder { color: var(--muted); }
+
+.sidebar nav {
+  flex: 1;
   overflow-y: auto;
-  border-right: 1px solid #e5e7eb;
-  background: #fafafa;
-  font-family: "Noto Sans CJK SC", sans-serif;
-  font-size: 0.9rem;
+  padding: 0 0.6rem 2rem;
+  font-size: 12.5px;
 }
 
-.mtf-nav ol {
-  padding-left: 1.25rem;
+.sidebar nav ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.mtf-main {
-  max-width: 64rem;
-  margin-left: 18rem;
-  padding: 2rem 3rem 5rem;
+.sidebar nav ol ol { margin: 0 0 0.35rem 0.9rem; }
+
+.sidebar nav li.is-hidden { display: none; }
+
+.sidebar nav a {
+  display: block;
+  padding: 0.24rem 0.5rem;
+  border-left: 2px solid transparent;
+  border-radius: 0 4px 4px 0;
+  color: var(--muted);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Noto Sans CJK SC", sans-serif;
-  line-height: 1.3;
+.sidebar nav a .prefix {
+  color: var(--ac);
+  margin-right: 0.4em;
 }
 
-pre {
-  position: relative;
+/* Typst outline 的顶层条目包在 <div> 里 */
+.sidebar nav li > div a {
+  color: var(--ink);
+  font-weight: 700;
+  margin-top: 0.55rem;
+}
+
+.sidebar nav a:hover { color: var(--ac-ink); }
+
+.sidebar nav a.is-current {
+  border-left-color: var(--ac);
+  color: var(--ac-ink);
+  background: var(--ac-soft);
+}
+
+/* ---- 正文 ---- */
+
+.content {
+  margin-left: 17rem;
+  min-height: 100vh;
+  padding: 0 3rem 5rem;
+  background: var(--surface);
+}
+
+.content-inner {
+  max-width: 50rem;
+}
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1.6rem 0 1rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 2.2rem;
+  font-family: var(--font-mono);
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: 19px;
+  letter-spacing: 0.01em;
+}
+
+.masthead h1 .brand-mark { margin-right: 0.5rem; }
+
+.mast-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mast-meta .verified { color: var(--ac-ink); }
+
+.theme-toggle {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.theme-toggle:hover { color: var(--ac-ink); border-color: var(--ac); }
+
+h1, h2, h3, h4 {
+  line-height: 1.35;
+  scroll-margin-top: 1.2rem;
+  font-family: var(--font-mono);
+}
+
+.content h2 {
+  margin: 3.2rem 0 1rem;
+  padding: 0.35rem 0.7rem;
+  border-left: 3px solid var(--ac);
+  background: var(--ac-soft);
+  border-radius: 0 6px 6px 0;
+  color: var(--ink);
+  font-size: 17px;
+}
+
+.content h3 {
+  margin: 2.4rem 0 0.7rem;
+  font-size: 15.5px;
+}
+
+.content p, .content li { max-width: 46rem; }
+
+.content li { margin: 0.15rem 0; }
+
+.content code:not(pre code) {
+  padding: 0.08rem 0.32rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--code-bg);
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+
+/* ---- 代码卡片：编辑器缓冲区 ---- */
+
+.code-card {
+  margin: 1rem 0 1.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--code-bg);
+}
+
+.code-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.3rem 0.5rem 0.3rem 0.85rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--code-head);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+}
+
+.code-lang { color: var(--muted); letter-spacing: 0.05em; }
+
+.code-verified {
+  color: var(--ac-ink);
+  text-decoration: none;
+  border: 1px solid var(--ac);
+  border-radius: 999px;
+  padding: 0 0.55rem;
+  line-height: 1.6;
+  background: var(--ac-soft);
+}
+
+.code-verified:hover { text-decoration: underline; }
+
+.copy-code {
+  margin-left: auto;
+  padding: 0.14rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.copy-code:hover, .copy-code:focus-visible {
+  color: var(--ac-ink);
+  border-color: var(--ac);
+}
+
+.copy-code.is-success { color: var(--ac-ink); }
+.copy-code.is-error { color: #d1242f; }
+
+.code-card pre {
+  margin: 0;
+  padding: 0.85rem 1rem;
   overflow-x: auto;
-  padding: 1rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.4rem;
-  background: #f8f8f8;
-  line-height: 1.45;
+  line-height: 1.55;
   tab-size: 4;
 }
 
-pre code {
-  font-family: "DejaVu Sans Mono", "Noto Sans Mono CJK SC", monospace;
-  font-size: 0.85rem;
+.code-card pre code {
+  font-family: var(--font-mono);
+  font-size: 13px;
 }
 
-.copy-code {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  padding: 0.2rem 0.55rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.25rem;
-  background: #ffffff;
+/* ---- 移动端 ---- */
+
+.nav-toggle {
+  display: none;
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 30;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
   cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 13px;
 }
 
-@media (max-width: 960px) {
-  .mtf-nav {
-    position: static;
-    width: auto;
-    border-right: 0;
-    border-bottom: 1px solid #e5e7eb;
+@media (max-width: 900px) {
+  .sidebar {
+    z-index: 20;
+    width: min(19rem, 85vw);
+    transform: translateX(-102%);
+    transition: transform 0.18s ease-out;
+    box-shadow: none;
   }
 
-  .mtf-main {
-    margin-left: 0;
-    padding: 1.25rem;
+  body.nav-open .sidebar {
+    transform: none;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
   }
+
+  .nav-toggle { display: block; }
+
+  .content { margin-left: 0; padding: 0 1.1rem 4rem; }
+
+  .masthead { padding-top: 1.1rem; }
 }
+
+@media print {
+  .sidebar, .nav-toggle, .theme-toggle, .copy-code { display: none; }
+  .content { margin: 0; padding: 0; }
+  .code-card { break-inside: avoid; }
+}
+```.text
+
+#let theme-boot-js = ```js
+(() => {
+  let theme = "light";
+  try {
+    const saved = localStorage.getItem("mtf-theme");
+    theme = saved === "dark" || saved === "light"
+      ? saved
+      : (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  } catch (error) {
+    /* file:// 或隐私模式下没有 localStorage，跟随浅色 */
+  }
+  document.documentElement.dataset.theme = theme;
+})();
 ```.text
 
 #let html-js = ```js
 document.addEventListener("DOMContentLoaded", () => {
-  for (const block of document.querySelectorAll("pre")) {
+  const fallbackCopy = (text) => {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+    const copied = document.execCommand("copy");
+    textarea.remove();
+    if (!copied) {
+      throw new Error("copy command failed");
+    }
+  };
+
+  const copyText = async (text) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      fallbackCopy(text);
+    }
+  };
+
+  // 所有代码块统一为“编辑器缓冲区”卡片；snippet 生成的卡片已带头部，
+  // 散落的裸 pre 在这里补一个头部。
+  for (const pre of document.querySelectorAll("main pre")) {
+    let head = pre.closest(".code-card")?.querySelector(".code-head");
+    if (!head) {
+      const card = document.createElement("figure");
+      card.className = "code-card";
+      pre.replaceWith(card);
+      head = document.createElement("figcaption");
+      head.className = "code-head";
+      const lang = document.createElement("span");
+      lang.className = "code-lang";
+      lang.textContent = "code";
+      head.append(lang);
+      card.append(head, pre);
+    }
+
+    const code = pre.querySelector("code") ?? pre;
     const button = document.createElement("button");
     button.type = "button";
     button.className = "copy-code";
     button.textContent = "复制";
+    button.setAttribute("aria-label", "复制代码");
     button.addEventListener("click", async () => {
-      const code = block.querySelector("code");
-      await navigator.clipboard.writeText(code?.innerText ?? block.innerText);
-      button.textContent = "已复制";
-      window.setTimeout(() => button.textContent = "复制", 1200);
+      try {
+        await copyText(code.textContent || "");
+        button.textContent = "已复制";
+        button.classList.add("is-success");
+      } catch {
+        button.textContent = "复制失败";
+        button.classList.add("is-error");
+      }
+      window.setTimeout(() => {
+        button.textContent = "复制";
+        button.classList.remove("is-success", "is-error");
+      }, 1400);
     });
-    block.appendChild(button);
+    head.append(button);
   }
+
+  // 深浅色切换
+  const toggle = document.querySelector(".theme-toggle");
+  toggle?.addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "dark"
+      ? "light"
+      : "dark";
+    document.documentElement.dataset.theme = next;
+    try {
+      localStorage.setItem("mtf-theme", next);
+    } catch (error) {
+      /* 无持久化环境，仅本次生效 */
+    }
+  });
+
+  // 侧栏搜索：过滤目录项，保留命中项的上级分类
+  const search = document.querySelector(".nav-search");
+  const navItems = [...document.querySelectorAll(".sidebar nav li")];
+  search?.addEventListener("input", () => {
+    const query = search.value.trim().toLowerCase();
+    for (const item of navItems) {
+      item.classList.remove("is-hidden");
+    }
+    if (!query) {
+      return;
+    }
+    for (const item of navItems) {
+      const text =
+        item.querySelector(":scope > a, :scope > div > a")?.textContent ?? "";
+      const selfHit = text.toLowerCase().includes(query);
+      const childHit = [...item.querySelectorAll("ol a")].some((a) =>
+        a.textContent.toLowerCase().includes(query)
+      );
+      if (!selfHit && !childHit) {
+        item.classList.add("is-hidden");
+      }
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (
+      event.key === "/" &&
+      search &&
+      !/^(input|textarea)$/i.test(document.activeElement?.tagName ?? "")
+    ) {
+      event.preventDefault();
+      search.focus();
+    }
+    if (event.key === "Escape") {
+      document.body.classList.remove("nav-open");
+    }
+  });
+
+  // 当前章节高亮
+  const navLinks = new Map(
+    [...document.querySelectorAll(".sidebar nav a[href^='#']")].map((a) => [
+      decodeURIComponent(a.getAttribute("href").slice(1)),
+      a,
+    ])
+  );
+  const headings = [...document.querySelectorAll("main h2[id], main h3[id]")]
+    .filter((h) => navLinks.has(h.id));
+  if (headings.length > 0) {
+    let currentLink = null;
+    const highlight = (id) => {
+      const link = navLinks.get(id);
+      if (!link || link === currentLink) {
+        return;
+      }
+      currentLink?.classList.remove("is-current");
+      link.classList.add("is-current");
+      currentLink = link;
+    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            highlight(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -70% 0px" }
+    );
+    for (const heading of headings) {
+      observer.observe(heading);
+    }
+    highlight(headings[0].id);
+  }
+
+  // 移动端目录抽屉
+  const navToggle = document.querySelector(".nav-toggle");
+  navToggle?.addEventListener("click", () => {
+    document.body.classList.toggle("nav-open");
+  });
+  document.querySelector(".sidebar nav")?.addEventListener("click", (event) => {
+    if (event.target.closest("a")) {
+      document.body.classList.remove("nav-open");
+    }
+  });
 });
 ```.text
 
-#let snippet(
-  code,
-  header: none,
-  starter: none,
-  targets: ("web", "pdf", "verify"),
-) = context {
-  let marker = []
-  if header != none and targets.contains("verify") {
-    marker = metadata((
-      kind: "mtf-snippet",
-      header: header,
-      code: code.text,
-    ))
-  }
-  if starter != none {
-    marker = marker + metadata((
-      kind: "mtf-starter",
-      language: starter,
-      code: code.text,
-    ))
-  }
+// ---- 内容级工具 ----
 
+#let verified-problem(id) = if (
+  id != none and id in verified-problems
+) { verified-problems.at(id) } else { none }
+
+#let snippet(code, id: none, targets: ("web", "pdf")) = context {
   let output = if target() == "html" { "web" } else { "pdf" }
-  let displayed = if targets.contains(output) { code } else { [] }
-  marker + displayed
+  if not targets.contains(output) { return }
+  let problem = verified-problem(id)
+  if output == "web" {
+    html.elem("figure", attrs: (class: "code-card"))[
+      #html.elem("figcaption", attrs: (class: "code-head"))[
+        #html.elem("span", attrs: (class: "code-lang"))[C++17]
+        #if problem != none {
+          html.elem(
+            "a",
+            attrs: (
+              class: "code-verified",
+              href: "https://judge.yosupo.jp/problem/" + problem,
+              target: "_blank",
+              rel: "noopener",
+              title: "已通过 Library Checker 官方数据验证",
+            ),
+          )[✓ 已验证 · #problem]
+        }
+      ]
+      #code
+    ]
+  } else {
+    // PDF 面向线下赛打印：验证徽章只属于屏幕（HTML）版本。
+    code
+  }
 }
 
 #let web-only(body) = context {
@@ -137,32 +618,114 @@ document.addEventListener("DOMContentLoaded", () => {
   if target() == "paged" { body }
 }
 
+// ---- PDF：赛用速查，彩色/黑白 × 竖排/横排 ----
+
 #let pdf-book(body) = {
+  let bw = pdf-theme == "bw"
+  let landscape = pdf-layout == "landscape"
+  let accent = if bw { luma(0) } else { ac-green }
+  let ink = if bw { luma(0) } else { rgb("#1b2431") }
+  let muted = if bw { luma(90) } else { rgb("#5f6d7b") }
+  let line-color = if bw { luma(140) } else { rgb("#d7dee5") }
+
   set page(
     paper: "a4",
-    margin: (x: 1.25cm, y: 1.2cm),
-    numbering: "1",
-    footer: context align(center, counter(page).display()),
+    flipped: landscape,
+    margin: (x: 1.1cm, top: 1.45cm, bottom: 1.1cm),
+    columns: if landscape { 3 } else { 2 },
+    header: context {
+      if counter(page).get().first() > 1 {
+        grid(
+          columns: (1fr, auto),
+          text(6.5pt, font: mono-fonts, fill: muted)[
+            莫号模板库 · GNU++17
+          ],
+          text(
+            6.5pt,
+            font: mono-fonts,
+            fill: muted,
+            counter(page).display("1 / 1", both: true),
+          ),
+        )
+      }
+    },
   )
-  set text(
-    font: ("Noto Serif CJK SC", "Libertinus Serif"),
-    size: 9pt,
-    lang: "zh",
-  )
-  set par(justify: true, leading: 0.65em)
+  set columns(gutter: 0.75cm)
+  set text(font: "Noto Sans CJK SC", size: 8pt, lang: "zh", fill: ink)
+  set par(justify: true, leading: 0.62em, spacing: 0.85em)
   set heading(numbering: "1.1")
-  show raw: set text(
-    font: ("DejaVu Sans Mono", "Noto Sans Mono CJK SC"),
-    size: 7pt,
-  )
-  set raw(tab-size: 4)
+  // 黑白打印时关闭语法高亮：彩色 token 在灰阶下深浅不一，可读性反而差
+  set raw(tab-size: 4, theme: if bw { none } else { auto })
+  set list(indent: 0.5em, body-indent: 0.4em)
 
-  align(center, text(20pt, weight: "bold")[莫号模板库])
-  v(0.8em)
-  outline(title: [目录], depth: 2)
-  pagebreak()
+  show raw.where(block: true): it => block(
+    width: 100%,
+    inset: (x: 4.5pt, y: 4pt),
+    radius: 1.5pt,
+    stroke: 0.4pt + line-color,
+    breakable: true,
+  )[
+    #set text(font: mono-fonts, size: 6.5pt)
+    #set par(justify: false, leading: 0.5em)
+    #it
+  ]
+  show raw.where(block: false): set text(size: 7.5pt)
+
+  show heading.where(level: 1): it => block(
+    width: 100%,
+    inset: (x: 6pt, y: 4.5pt),
+    radius: 1.5pt,
+    fill: if bw { luma(232) } else { accent },
+    above: 1.35em,
+    below: 0.9em,
+  )[
+    #set text(
+      size: 10pt,
+      weight: "bold",
+      fill: if bw { luma(0) } else { white },
+      font: mono-fonts,
+    )
+    #it
+  ]
+  show heading.where(level: 2): it => block(above: 1.15em, below: 0.6em)[
+    #set text(size: 9pt, weight: "bold", fill: ink, font: mono-fonts)
+    #it
+    #v(2.5pt)
+    #line(length: 100%, stroke: 0.35pt + line-color)
+  ]
+
+  // 跨栏刊头
+  place(top, scope: "parent", float: true)[
+    #grid(
+      columns: (auto, 1fr),
+      align: (left + bottom, right + bottom),
+      [
+        #text(16pt, weight: "bold", font: mono-fonts, fill: accent)[MTF]
+        #h(0.5em)
+        #text(16pt, weight: "bold", font: mono-fonts)[莫号模板库]
+      ],
+      text(7pt, font: mono-fonts, fill: muted)[
+        算法竞赛速查 · GNU++17 · #template-count 模板
+      ],
+    )
+    #v(3pt)
+    #line(length: 100%, stroke: 0.6pt + accent)
+    #v(1pt)
+  ]
+
+  {
+    show outline.entry.where(level: 1): set text(
+      size: 7.5pt,
+      weight: "bold",
+    )
+    show outline.entry: set text(size: 7pt)
+    outline(title: none, depth: 2)
+  }
+  v(0.6em)
   body
 }
+
+// ---- HTML：单文件离线模板站 ----
 
 #let html-book(body) = html.elem("html", attrs: (lang: "zh-CN"))[
   #html.elem("head")[
@@ -171,18 +734,57 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "viewport",
       content: "width=device-width, initial-scale=1",
     ))
+    #html.elem("meta", attrs: (
+      name: "description",
+      content: "算法竞赛模板、复杂度说明与 C++ 实现，Library Checker 官方数据验证",
+    ))
     #html.elem("title")[莫号模板库]
+    #html.elem("script")[#theme-boot-js]
     #html.elem("style")[#html-css]
   ]
   #html.elem("body")[
-    #html.elem("nav", attrs: (class: "mtf-nav"))[
-      *目录*
-      #outline(title: none, depth: 2)
+    #html.elem("aside", attrs: (class: "sidebar"))[
+      #html.elem("div", attrs: (class: "brand"))[
+        #html.elem("span", attrs: (class: "brand-mark"))[MTF]
+        #html.elem("span", attrs: (class: "brand-name"))[莫号模板库]
+      ]
+      #html.elem("input", attrs: (
+        class: "nav-search",
+        type: "search",
+        placeholder: "搜索模板（按 / 聚焦）",
+        "aria-label": "搜索模板",
+      ))
+      #html.elem("nav", attrs: ("aria-label": "目录"))[
+        #outline(title: none, depth: 2)
+      ]
     ]
-    #html.elem("main", attrs: (class: "mtf-main"))[
-      #title[莫号模板库]
-      #body
+    #html.elem("main", attrs: (class: "content"))[
+      #html.elem("div", attrs: (class: "content-inner"))[
+        #html.elem("header", attrs: (class: "masthead"))[
+          #html.elem("h1")[
+            #html.elem("span", attrs: (class: "brand-mark"))[MTF]莫号模板库
+          ]
+          #html.elem("div", attrs: (class: "mast-meta"))[
+            #html.elem("span")[#category-count 类 · #template-count 模板]
+            #html.elem("span", attrs: (
+              class: "verified",
+              title: "由 mtf verify 对 Library Checker 官方数据验证",
+            ))[✓ #verified-count 项官方验证]
+            #html.elem("button", attrs: (
+              class: "theme-toggle",
+              type: "button",
+              "aria-label": "切换深浅色主题",
+            ))[◐]
+          ]
+        ]
+        #body
+      ]
     ]
+    #html.elem("button", attrs: (
+      class: "nav-toggle",
+      type: "button",
+      "aria-label": "打开目录",
+    ))[☰ 目录]
     #html.elem("script")[#html-js]
   ]
 ]
@@ -193,6 +795,7 @@ document.addEventListener("DOMContentLoaded", () => {
     description: [算法竞赛模板及说明],
   )
   if target() == "html" {
+    set heading(numbering: "1.1")
     html-book(body)
   } else {
     pdf-book(body)

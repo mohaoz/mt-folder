@@ -7,19 +7,20 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        cxx: [g++, clang++]
-    env:
-      CXX: ${{ matrix.cxx }}
-      STD: gnu++23
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
         with:
-          components: rustfmt, clippy
+          python-version: "3.11"
       - uses: typst-community/setup-typst@v5
         with:
           typst-version: 0.15.1
-      - run: ./check.sh
+      - run: python -m pip install .
+      - run: python -m compileall -q mtf tests
+      - run: python -m unittest discover -s tests -v
+      - run: mtf render --output-dir preview
+      - run: mtf verify --syntax-only --ui plain --output-dir yosupo
+      - run: test -s preview/mtf.pdf
+      - run: test -s preview/index.html
+      - run: test -s yosupo/unionfind.cpp
+      - run: test -s yosupo/bipartitematching_dinic.cpp

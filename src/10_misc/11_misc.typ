@@ -16,7 +16,7 @@
    + 使用邻接表存图；
    + 使用 `0-indexed` 的左闭右开区间；
    + 使用解绑同步流的 `std::cin` 和 `std::cout` 输入输出；
-   + 使用 `using namespace std;` 和 `#define int long long`；
+   + 使用 `using namespace std;`；
    + 使用局部变量而非全局变量，局部 `lambda` 而非全局函数；
    + 使用 `emplace` 而非 `push`，集合查重使用 `count`；
    + 若键值较小，使用 `vector` 而非 `map`；不要求顺序的情况下可以用 `unordered_` 系列，但在 Codeforces 上记得使用随机模数；
@@ -27,12 +27,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define int long long
-
 int T{0};
 void solve() {}
 
-signed main() {
+int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
     if (!T)
         cin >> T;
@@ -41,7 +39,7 @@ signed main() {
 }
 ```
 
-#snippet(initial, starter: "cpp", targets: ("web", "pdf"))
+#snippet(initial)
 
 == 类型定义
 
@@ -56,7 +54,7 @@ using i128 = __int128;
 using u128 = unsigned __int128;
 ```
 
-#snippet(types, header: "prelude.hpp")
+#snippet(types)
 
 == 随机数生成
 
@@ -85,7 +83,7 @@ struct custom_hash {
 };
 ```
 
-#snippet(random-hash, header: "misc/random.hpp")
+#snippet(random-hash)
 
 == 二分答案
 
@@ -104,7 +102,7 @@ while (l <= r) {
 }
 ```
 
-#snippet(binary-search, targets: ("web", "pdf"))
+#snippet(binary-search)
 
 == Lambda 递归
 
@@ -129,4 +127,4 @@ std::function<void(int, int)> dfs2 =
     };
 ```
 
-#snippet(lambda-recursion, targets: ("web", "pdf"))
+#snippet(lambda-recursion)

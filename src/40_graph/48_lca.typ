@@ -84,4 +84,4 @@ struct LCA {
 };
 ```
 
-#snippet(lca, header: "graph/lca.hpp")
+#snippet(lca, id: "lca")

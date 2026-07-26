@@ -73,4 +73,4 @@ struct HopcroftKarp {
 };
 ```
 
-#snippet(hopcroft-karp, header: "graph/hopcroft_karp.hpp")
+#snippet(hopcroft-karp, id: "hopcroft-karp")

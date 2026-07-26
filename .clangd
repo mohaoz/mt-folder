@@ -1,5 +1,4 @@
 CompileFlags:
-  Compiler: g++-15
+  Compiler: g++
   Add:
-    - -std=gnu++23
-    - -Iinclude
+    - -std=gnu++17

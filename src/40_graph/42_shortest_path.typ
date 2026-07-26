@@ -45,4 +45,4 @@ auto LayeredDijkstra(const Adj& adj, int n, int s,
 }
 ```
 
-#snippet(layered-dijkstra, header: "graph/layered_dijkstra.hpp")
+#snippet(layered-dijkstra)

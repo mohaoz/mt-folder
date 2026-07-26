@@ -33,4 +33,4 @@ auto BipartiteMatching(
 }
 ```
 
-#snippet(bipartite-matching, header: "graph/bipartite_matching.hpp")
+#snippet(bipartite-matching)

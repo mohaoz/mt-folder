@@ -33,4 +33,4 @@ struct Fenwick {
 };
 ```
 
-#snippet(fenwick, header: "ds/fenwick.hpp")
+#snippet(fenwick, id: "fenwick")

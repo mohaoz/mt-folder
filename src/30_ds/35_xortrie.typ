@@ -57,4 +57,4 @@ struct XorTrie {
 };
 ```
 
-#snippet(xor-trie, header: "ds/xortrie.hpp")
+#snippet(xor-trie)

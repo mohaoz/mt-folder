@@ -92,4 +92,4 @@ struct TreeDifference {
 };
 ```
 
-#snippet(tree-difference, header: "graph/tree_difference.hpp")
+#snippet(tree-difference)

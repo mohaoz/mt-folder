@@ -134,4 +134,4 @@ struct LazySegTree {
 };
 ```
 
-#snippet(lzseg, header: "ds/lazysegtree.hpp")
+#snippet(lzseg)

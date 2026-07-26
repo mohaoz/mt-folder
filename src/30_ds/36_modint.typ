@@ -208,4 +208,5 @@ template <u64 P>
 using ModInt64 = ModIntBase<u64, P>;
 ```
 
-#snippet(modint, header: "ds/modint.hpp", targets: ("web", "verify"))
+// 这是有意的输出差异：ModInt 只进入 HTML，不进入 PDF。
+#snippet(modint, targets: ("web",))

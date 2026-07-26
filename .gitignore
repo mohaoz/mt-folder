@@ -1,7 +1,10 @@
-/book/
-_legacy
+/preview/
+/.mtf/
+/.venv/
 .DS_Store
 __pycache__/
+*.egg-info/
+/build/
 dist/
-/include/mtf/
-/target/
+/.pytest_cache/
+/yosupo/

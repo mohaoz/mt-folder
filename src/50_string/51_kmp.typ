@@ -21,4 +21,4 @@ auto Kmp(const string& s) {
 }
 ```
 
-#snippet(kmp, header: "string/kmp.hpp")
+#snippet(kmp)

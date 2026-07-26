@@ -71,4 +71,4 @@ struct SegTree {
 };
 ```
 
-#snippet(segtree, header: "ds/segtree.hpp")
+#snippet(segtree)

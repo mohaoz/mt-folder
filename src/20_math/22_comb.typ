@@ -35,4 +35,4 @@ struct Comb {
 };
 ```
 
-#snippet(comb, header: "math/comb.hpp")
+#snippet(comb)

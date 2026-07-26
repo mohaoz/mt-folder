@@ -36,4 +36,4 @@ auto dijkstra(const Adj& adj, int n, int s) {
 }
 ```
 
-#snippet(dijkstra, header: "graph/dijkstra.hpp")
+#snippet(dijkstra)

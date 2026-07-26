@@ -30,4 +30,4 @@ auto TopoSort(const vector<vector<int>>& adj,
 }
 ```
 
-#snippet(toposort, header: "graph/toposort.hpp")
+#snippet(toposort)

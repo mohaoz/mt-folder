@@ -28,4 +28,4 @@ auto DifferenceConstraints(
 }
 ```
 
-#snippet(difference-constraints, header: "graph/difference_constraints.hpp")
+#snippet(difference-constraints)

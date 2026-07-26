@@ -1,0 +1,19 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mtf"
+version = "0.1.0"
+description = "Render and verify the MTF competitive-programming handbook"
+requires-python = ">=3.11"
+dependencies = [
+  "colorlog>=6.12,<7",
+  "rich>=14.3,<15",
+]
+
+[project.scripts]
+mtf = "mtf.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mtf"]

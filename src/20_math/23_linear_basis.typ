@@ -58,4 +58,4 @@ struct LinearBasis {
 };
 ```
 
-#snippet(linear-basis, header: "math/linear_basis.hpp")
+#snippet(linear-basis)

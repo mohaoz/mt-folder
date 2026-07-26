@@ -86,4 +86,4 @@ struct Dinic {
 };
 ```
 
-#snippet(dinic, header: "graph/dinic.hpp")
+#snippet(dinic, id: "dinic")

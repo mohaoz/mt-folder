@@ -55,4 +55,4 @@ struct SCC {
 };
 ```
 
-#snippet(scc, header: "graph/scc.hpp")
+#snippet(scc, id: "scc")

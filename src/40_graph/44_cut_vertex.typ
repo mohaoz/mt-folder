@@ -41,4 +41,4 @@ auto CutVertex(const vector<vector<int>>& adj,
 }
 ```
 
-#snippet(cut-vertex, header: "graph/cut_vertex.hpp")
+#snippet(cut-vertex)
