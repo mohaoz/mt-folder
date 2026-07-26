@@ -101,26 +101,17 @@ def check_inventory_syntax(
     temporary_dir: Path,
     log_dir: Path,
 ) -> dict[str, str]:
-    """对没有进入任何 check 片段的 inventory 模板做语法编译。
+    """对每个 inventory 模板做独立编译，再做全书合并编译。
 
-    这些模板不会被 driver 编译，是"书里印的代码根本编不过"这类
-    缺陷的唯一防线。同时把全部模板拼进一个编译单元做合并编译，
-    保证任意模板组合可共存（结果记在保留键 ``__all__`` 下——该键
-    不是合法 inventory id，不会与真实条目冲突）。
+    独立编译不注入任何前置（连 ``catalog.common`` 也不给）：
+    模板必须自带所需类型别名与 include，保证"抄哪段就只用哪段"。
+    合并编译把全部模板拼进一个编译单元，保证任意组合可共存
+    （结果记在保留键 ``__all__`` 下——该键不是合法 inventory id，
+    不会与真实条目冲突）。
     返回 ``{inventory_id: "passed" | 错误信息}``。
     """
 
-    in_checks = set(catalog.common) | {
-        reference
-        for check in catalog.checks
-        for reference in check.snippets
-    }
-    pending = [
-        item
-        for item in catalog.inventory
-        if item.reference not in in_checks
-    ]
-    if not pending:
+    if not catalog.inventory:
         return {}
 
     references = tuple(
@@ -137,33 +128,24 @@ def check_inventory_syntax(
     )
     statuses: dict[str, str] = {}
     ready: list[tuple[str, ExportRef]] = []
-    for item in pending:
-        error = next(
-            (
-                export_errors[reference]
-                for reference in (*catalog.common, item.reference)
-                if reference in export_errors
-            ),
-            None,
-        )
+    for item in catalog.inventory:
+        error = export_errors.get(item.reference)
         if error is None:
             ready.append((item.id, item.reference))
         else:
             statuses[item.id] = error
 
-    scopes = {item.id: item.scope for item in pending}
+    scopes = {item.id: item.scope for item in catalog.inventory}
 
     def compile_one(item_id: str, reference: ExportRef) -> None:
-        item_exports = dict(exports)
+        code = exports[reference]
         if scopes[item_id] == "function":
-            item_exports[reference] = (
-                "inline void mtf_fragment_scope() {\n"
-                + item_exports[reference]
-                + "\n}"
+            code = (
+                "inline void mtf_fragment_scope() {\n" + code + "\n}"
             )
         header = submission.verification_header(
-            tuple(catalog.common) + (reference,),
-            item_exports,
+            (reference,),
+            {reference: code},
         )
         wrapper = temporary_dir / "inventory" / f"{item_id}.cpp"
         wrapper.parent.mkdir(parents=True, exist_ok=True)
@@ -175,7 +157,7 @@ def check_inventory_syntax(
                 "-fsyntax-only",
                 str(wrapper),
             ],
-            subject=f"inventory template {item_id}",
+            subject=f"standalone template {item_id}",
             log_path=log_dir / "inventory" / f"{item_id}.log",
         )
 

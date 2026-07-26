@@ -101,6 +101,8 @@ inline T ExGCD(T a, T b, T& x, T& y) {
 - 复杂度 `O(log b)`。
 
 #let powmod = ```cpp
+using i64 = int64_t;
+
 inline auto PowMod(i64 a, i64 b, int p) {
     i64 res = 1;
     while (b) {

@@ -77,6 +77,8 @@ struct SegTree {
 空状态用哨兵 `-1e18` 而 `sum`、`len` 取 0，恰好构成单位元：
 
 ```cpp
+using i64 = int64_t;
+
 struct Kadane {
     i64 len{};
     i64 sum{}, ans = -1e18;

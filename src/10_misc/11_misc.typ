@@ -20,8 +20,9 @@
    + 使用局部变量而非全局变量，局部 `lambda` 而非全局函数；
    + 使用 `emplace` 而非 `push`，集合查重使用 `count`；
    + 若键值较小，使用 `vector` 而非 `map`；不要求顺序的情况下可以用 `unordered_` 系列，但在 Codeforces 上记得使用随机模数；
-   + 全部模板以 1.3 节类型别名为前置，任意组合可拼入同一编译
-     单元（验证器的合并编译门禁保证）；
+   + 每个模板自包含：自带所需类型别名与 `include`，独立作用域、
+     零前置依赖，抄哪段就只用哪段（验证器对每个模板做独立编译
+     门禁）；任意组合可拼入同一编译单元（合并编译门禁保证）；
 
 == 初始代码
 
@@ -61,6 +62,8 @@ using u128 = unsigned __int128;
 == 随机数生成
 
 #let random-hash = ```cpp
+using u64 = uint64_t;
+
 // std::mt19937
 mt19937 rng(std::chrono::steady_clock::now()
                 .time_since_epoch()

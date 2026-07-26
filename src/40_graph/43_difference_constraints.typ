@@ -8,6 +8,8 @@ Bellman-Ford 判负环并求一组可行解。
 - 无解返回空数组。
 
 #let difference-constraints = ```cpp
+using i64 = int64_t;
+
 auto DifferenceConstraints(
     int n, const vector<array<int, 3>>& edges) {
     vector<i64> d(n + 1);

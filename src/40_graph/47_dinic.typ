@@ -12,6 +12,8 @@
 - 一般图复杂度 `O(n^2m)`，二分图等特殊图更快。
 
 #let dinic = ```cpp
+using i64 = int64_t;
+
 struct Dinic {
     int n;
     vector<int> to, nxt, head, dep, cur, que;

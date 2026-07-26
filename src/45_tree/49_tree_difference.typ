@@ -9,6 +9,8 @@
 - `Work()` 返回汇总后的差分值。对于边差分，边权存放在子节点上。
 
 #let tree-difference = ```cpp
+using i64 = int64_t;
+
 struct TreeDifference {
     int n, LOG;
     vector<vector<int>> adj, up;

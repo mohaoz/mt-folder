@@ -15,6 +15,8 @@
   剪枝条件是正确性的全部来源。
 
 #let potential-segtree = ```cpp
+using i64 = int64_t;
+
 struct PotSegTree {
     struct Node {
         i64 sum = 0, mx = 0;

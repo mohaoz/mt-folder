@@ -150,7 +150,8 @@ def render_manifest(
                 state == "passed" for state in per_item.values()
             )
             lines.append(
-                f"未覆盖模板语法编译：{syntax_passed}/{len(per_item)} 通过。"
+                f"模板独立编译（零前置依赖）："
+                f"{syntax_passed}/{len(per_item)} 通过。"
             )
         combined = syntax_states.get("__all__")
         if combined == "passed":

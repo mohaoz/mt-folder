@@ -92,7 +92,7 @@ def verify(options: VerifyOptions) -> None:
             )
             inventory_syntax: dict[str, str] = {}
             if not options.selected:
-                with board.activity("语法编译未覆盖的模板"):
+                with board.activity("独立编译全部模板"):
                     inventory_syntax = preparation.check_inventory_syntax(
                         options,
                         verification_catalog,

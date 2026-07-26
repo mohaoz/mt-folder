@@ -103,7 +103,7 @@ class ReportTests(unittest.TestCase):
         self.assertIn("| 语法编译 |", manifest)
         self.assertIn("| KMP | `src/50_string/51_kmp.typ:kmp` | 通过 |", manifest)
         self.assertIn("失败：compile exploded", manifest)
-        self.assertIn("未覆盖模板语法编译：1/2 通过。", manifest)
+        self.assertIn("模板独立编译（零前置依赖）：1/2 通过。", manifest)
         self.assertIn("全书合并编译：通过", manifest)
 
 
