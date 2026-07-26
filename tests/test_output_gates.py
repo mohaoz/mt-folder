@@ -127,7 +127,10 @@ class HtmlGateTests(unittest.TestCase):
         )
 
     def test_offline_single_file(self) -> None:
-        allowed = re.compile(r"^https://judge\.yosupo\.jp/")
+        allowed = re.compile(
+            r"^https://(judge\.yosupo\.jp/"
+            r"|github\.com/mohaoz/mt-folder$)"
+        )
         outside = [
             ref
             for ref in self.index.external_refs
