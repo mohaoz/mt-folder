@@ -63,21 +63,27 @@
       "export": "powmod"
     },
     {
+      "id": "modint",
+      "title": "ModInt",
+      "source": "src/20_math/22_modint.typ",
+      "export": "modint"
+    },
+    {
       "id": "comb",
       "title": "组合数",
-      "source": "src/20_math/22_comb.typ",
+      "source": "src/20_math/23_comb.typ",
       "export": "comb"
     },
     {
       "id": "linear-basis",
       "title": "线性基",
-      "source": "src/20_math/23_linear_basis.typ",
+      "source": "src/20_math/24_linear_basis.typ",
       "export": "linear-basis"
     },
     {
       "id": "matrix",
       "title": "矩阵快速幂",
-      "source": "src/20_math/24_matrix.typ",
+      "source": "src/20_math/25_matrix.typ",
       "export": "matrix"
     },
     {
@@ -109,12 +115,6 @@
       "title": "异或 Trie",
       "source": "src/30_ds/35_xortrie.typ",
       "export": "xor-trie"
-    },
-    {
-      "id": "modint",
-      "title": "ModInt",
-      "source": "src/30_ds/36_modint.typ",
-      "export": "modint"
     },
     {
       "id": "sparse-table",
@@ -153,63 +153,63 @@
       "export": "layered-dijkstra"
     },
     {
+      "id": "difference-constraints",
+      "title": "差分约束",
+      "source": "src/40_graph/43_difference_constraints.typ",
+      "export": "difference-constraints"
+    },
+    {
+      "id": "toposort",
+      "title": "拓扑排序",
+      "source": "src/40_graph/44_toposort.typ",
+      "export": "toposort"
+    },
+    {
       "id": "scc",
       "title": "强连通分量 (SCC)",
-      "source": "src/40_graph/43_scc.typ",
+      "source": "src/40_graph/45_scc.typ",
       "export": "scc"
     },
     {
       "id": "cut-vertex",
       "title": "割点",
-      "source": "src/40_graph/44_cut_vertex.typ",
+      "source": "src/40_graph/46_cut_vertex.typ",
       "export": "cut-vertex"
+    },
+    {
+      "id": "dinic",
+      "title": "Dinic 最大流",
+      "source": "src/40_graph/47_dinic.typ",
+      "export": "dinic"
     },
     {
       "id": "bipartite-matching",
       "title": "二分图最大匹配",
-      "source": "src/40_graph/45_bipartite_matching.typ",
+      "source": "src/40_graph/48_bipartite_matching.typ",
       "export": "bipartite-matching"
     },
     {
-      "id": "toposort",
-      "title": "拓扑排序",
-      "source": "src/40_graph/46_toposort.typ",
-      "export": "toposort"
-    },
-    {
-      "id": "difference-constraints",
-      "title": "差分约束",
-      "source": "src/40_graph/47_difference_constraints.typ",
-      "export": "difference-constraints"
+      "id": "hopcroft-karp",
+      "title": "Hopcroft-Karp",
+      "source": "src/40_graph/49_hopcroft_karp.typ",
+      "export": "hopcroft-karp"
     },
     {
       "id": "lca",
       "title": "LCA",
-      "source": "src/40_graph/48_lca.typ",
+      "source": "src/45_tree/48_lca.typ",
       "export": "lca"
     },
     {
       "id": "tree-difference",
       "title": "树上差分",
-      "source": "src/40_graph/49_tree_difference.typ",
+      "source": "src/45_tree/49_tree_difference.typ",
       "export": "tree-difference"
-    },
-    {
-      "id": "dinic",
-      "title": "Dinic 最大流",
-      "source": "src/40_graph/50_dinic.typ",
-      "export": "dinic"
-    },
-    {
-      "id": "hopcroft-karp",
-      "title": "Hopcroft-Karp",
-      "source": "src/40_graph/51_hopcroft_karp.typ",
-      "export": "hopcroft-karp"
     },
     {
       "id": "kruskal-tree",
       "title": "Kruskal 重构树",
-      "source": "src/40_graph/52_kruskal_tree.typ",
+      "source": "src/45_tree/52_kruskal_tree.typ",
       "export": "kruskal-tree"
     },
     {
@@ -283,7 +283,7 @@
       ],
       "snippets": [
         {
-          "source": "src/40_graph/43_scc.typ",
+          "source": "src/40_graph/45_scc.typ",
           "export": "scc"
         }
       ]
@@ -297,7 +297,7 @@
       ],
       "snippets": [
         {
-          "source": "src/40_graph/48_lca.typ",
+          "source": "src/45_tree/48_lca.typ",
           "export": "lca"
         }
       ]
@@ -311,7 +311,7 @@
       ],
       "snippets": [
         {
-          "source": "src/40_graph/51_hopcroft_karp.typ",
+          "source": "src/40_graph/49_hopcroft_karp.typ",
           "export": "hopcroft-karp"
         }
       ]
@@ -325,7 +325,7 @@
       ],
       "snippets": [
         {
-          "source": "src/40_graph/50_dinic.typ",
+          "source": "src/40_graph/47_dinic.typ",
           "export": "dinic"
         }
       ]
@@ -354,7 +354,7 @@
       ],
       "snippets": [
         {
-          "source": "src/30_ds/36_modint.typ",
+          "source": "src/20_math/22_modint.typ",
           "export": "modint"
         },
         {
@@ -372,7 +372,7 @@
       ],
       "snippets": [
         {
-          "source": "src/30_ds/36_modint.typ",
+          "source": "src/20_math/22_modint.typ",
           "export": "modint"
         },
         {
@@ -404,7 +404,7 @@
       ],
       "snippets": [
         {
-          "source": "src/20_math/24_matrix.typ",
+          "source": "src/20_math/25_matrix.typ",
           "export": "matrix"
         }
       ]
@@ -432,7 +432,7 @@
       ],
       "snippets": [
         {
-          "source": "src/30_ds/36_modint.typ",
+          "source": "src/20_math/22_modint.typ",
           "export": "modint"
         },
         {

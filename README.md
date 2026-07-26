@@ -12,7 +12,7 @@
 ```
 mt-folder/
 ├── book.typ, template.typ      Typst 入口、样式与代码导出机制
-├── src/                        手册正文（6 类 24 个章节文件，31 个代码模板）
+├── src/                        手册正文（7 类分章，37 个代码模板）
 ├── mtf/                        Python 工具链：render / verify / TUI
 │   └── verification/           验证子系统（导出、编译、判题、报告）
 ├── verify/catalog.json         模板 ↔ 官方题目的映射表

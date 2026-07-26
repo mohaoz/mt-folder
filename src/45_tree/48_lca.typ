@@ -1,5 +1,6 @@
 #import "../../template.typ": snippet, web-only
 
+= 树上问题
 == LCA
 倍增求树上最近公共祖先。
 
