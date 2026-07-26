@@ -21,22 +21,21 @@ int main() {
         flow.AddEdge(right_base + right, sink, 1);
 
     struct Candidate {
-        int left, right, from, edge_id;
+        int left, right, edge_id;
     };
     std::vector<Candidate> candidates;
     candidates.reserve(edge_count);
     while (edge_count--) {
         int left, right;
         std::cin >> left >> right;
-        const int from = left_base + left;
-        const int edge_id =
-            flow.AddEdge(from, right_base + right, 1);
-        candidates.push_back({left, right, from, edge_id});
+        const int edge_id = flow.AddEdge(
+            left_base + left, right_base + right, 1);
+        candidates.push_back({left, right, edge_id});
     }
 
     std::cout << flow.MaxFlow(source, sink) << '\n';
     for (const auto& edge : candidates) {
-        if (flow.Flow(edge.from, edge.edge_id) == 1)
+        if (flow.Flow(edge.edge_id) == 1)
             std::cout << edge.left << ' ' << edge.right << '\n';
     }
 }
