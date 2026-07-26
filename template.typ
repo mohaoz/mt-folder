@@ -128,17 +128,37 @@ a { color: var(--ac-ink); }
 .brand-name { font-weight: 700; }
 
 .nav-search {
-  margin: 0 1rem 0.7rem;
-  padding: 0.42rem 0.6rem;
-  border: 1px solid var(--line);
-  border-radius: 6px;
+  margin: 0 1rem 0.3rem;
+  padding: 0.55rem 0.75rem;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
   color: var(--ink);
   background: var(--surface);
   font: inherit;
-  font-size: 12.5px;
+  font-size: 13px;
 }
 
 .nav-search::placeholder { color: var(--muted); }
+
+.nav-search:focus {
+  border-color: var(--ac);
+  box-shadow: 0 0 0 3px var(--ac-soft);
+  outline: none;
+}
+
+.search-count {
+  margin: 0 1rem 0.55rem;
+  min-height: 1.1em;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.search-count.has-hits { color: var(--ac-ink); }
+
+.content h3:target::before {
+  content: "▸ ";
+  color: var(--ac);
+}
 
 .sidebar nav {
   flex: 1;
@@ -488,15 +508,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 侧栏搜索：过滤目录项，保留命中项的上级分类
+  // 侧栏搜索：过滤目录项并统计命中，Enter 跳转第一个匹配
   const search = document.querySelector(".nav-search");
+  const searchCount = document.querySelector(".search-count");
   const navItems = [...document.querySelectorAll(".sidebar nav li")];
-  search?.addEventListener("input", () => {
+  let hitLinks = [];
+  const applyFilter = () => {
     const query = search.value.trim().toLowerCase();
     for (const item of navItems) {
       item.classList.remove("is-hidden");
     }
+    hitLinks = [];
     if (!query) {
+      if (searchCount) {
+        searchCount.textContent = "";
+        searchCount.classList.remove("has-hits");
+      }
       return;
     }
     for (const item of navItems) {
@@ -509,6 +536,28 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!selfHit && !childHit) {
         item.classList.add("is-hidden");
       }
+    }
+    hitLinks = [
+      ...document.querySelectorAll(
+        ".sidebar nav li:not(.is-hidden) a[href^='#']"
+      ),
+    ].filter((a) => a.textContent.toLowerCase().includes(query));
+    if (searchCount) {
+      searchCount.textContent = hitLinks.length
+        ? `${hitLinks.length} 个匹配 · Enter 跳转`
+        : "无匹配";
+      searchCount.classList.toggle("has-hits", hitLinks.length > 0);
+    }
+  };
+  search?.addEventListener("input", applyFilter);
+  search?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      hitLinks[0]?.click();
+    } else if (event.key === "Escape" && search.value) {
+      event.stopPropagation();
+      search.value = "";
+      applyFilter();
     }
   });
 
@@ -751,9 +800,13 @@ document.addEventListener("DOMContentLoaded", () => {
       #html.elem("input", attrs: (
         class: "nav-search",
         type: "search",
-        placeholder: "搜索模板（按 / 聚焦）",
+        placeholder: "搜索模板 · Enter 跳转（/ 聚焦）",
         "aria-label": "搜索模板",
       ))
+      #html.elem("div", attrs: (
+        class: "search-count",
+        "aria-live": "polite",
+      ))[]
       #html.elem("nav", attrs: ("aria-label": "目录"))[
         #outline(title: none, depth: 2)
       ]
