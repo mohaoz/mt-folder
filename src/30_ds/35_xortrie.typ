@@ -57,4 +57,4 @@ struct XorTrie {
 };
 ```
 
-#snippet(xor-trie)
+#snippet(xor-trie, id: "xor-trie")

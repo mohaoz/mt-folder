@@ -71,4 +71,4 @@ struct SegTree {
 };
 ```
 
-#snippet(segtree)
+#snippet(segtree, id: "segtree")

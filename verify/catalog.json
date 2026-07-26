@@ -291,6 +291,71 @@
           "export": "dinic"
         }
       ]
+    },
+    {
+      "id": "shortest_path",
+      "problem": "shortest_path",
+      "driver": "verify/library-checker/shortest_path.test.cpp",
+      "covers": [
+        "dijkstra"
+      ],
+      "snippets": [
+        {
+          "source": "src/40_graph/41_dijkstra.typ",
+          "export": "dijkstra"
+        }
+      ]
+    },
+    {
+      "id": "point_set_range_composite",
+      "problem": "point_set_range_composite",
+      "driver": "verify/library-checker/point_set_range_composite.test.cpp",
+      "covers": [
+        "segtree",
+        "modint"
+      ],
+      "snippets": [
+        {
+          "source": "src/30_ds/36_modint.typ",
+          "export": "modint"
+        },
+        {
+          "source": "src/30_ds/33_segtree.typ",
+          "export": "segtree"
+        }
+      ]
+    },
+    {
+      "id": "range_affine_range_sum",
+      "problem": "range_affine_range_sum",
+      "driver": "verify/library-checker/range_affine_range_sum.test.cpp",
+      "covers": [
+        "lzseg"
+      ],
+      "snippets": [
+        {
+          "source": "src/30_ds/36_modint.typ",
+          "export": "modint"
+        },
+        {
+          "source": "src/30_ds/34_lazysegtree.typ",
+          "export": "lzseg"
+        }
+      ]
+    },
+    {
+      "id": "set_xor_min",
+      "problem": "set_xor_min",
+      "driver": "verify/library-checker/set_xor_min.test.cpp",
+      "covers": [
+        "xor-trie"
+      ],
+      "snippets": [
+        {
+          "source": "src/30_ds/35_xortrie.typ",
+          "export": "xor-trie"
+        }
+      ]
     }
   ]
 }

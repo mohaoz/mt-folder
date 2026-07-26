@@ -156,7 +156,7 @@ uv run mtf verify --ui plain
 ### 新增验证项
 
 验证映射集中在 [`verify/catalog.json`](verify/catalog.json)，算法正文不
-含任何验证 metadata。当前 31 个模板中 7 个有正式验证，24 个在面板与
+含任何验证 metadata。当前 31 个模板中 12 个有正式验证，19 个在面板与
 manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
 
 1. **确认 `inventory` 条目**：`{id, title, source, export}` 指向 `.typ`
@@ -172,8 +172,10 @@ manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
    `snippets` 列出注入的导出（`common` 中的 `types` 自动注入），`covers`
    声明该检查覆盖的 inventory id，且其导出必须出现在 `snippets` 中。
 
-优先补有官方题目的高频模板：线段树（如 point_add_range_sum 变体）、
-Dijkstra（shortest_path）、KMP/Z（zalgorithm）、FFT（convolution_mod）。
+尚未验证的模板多数缺少可直接对应的官方题目：KMP 无前缀函数题
+（zalgorithm 是不同算法）、浮点 FFT 做 convolution_mod 需拆系数（那测的
+是 driver 而非模板）、组合数需要运行时模数而 ModInt 是编译期模数。为它
+们补验证前先确认题目与模板契约真正一致。
 
 ## 开发检查
 

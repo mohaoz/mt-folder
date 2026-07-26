@@ -35,10 +35,10 @@ class ReportTests(unittest.TestCase):
             manifest = (output / "README.md").read_text(encoding="utf-8")
 
         self.assertIn("## 未验证模板", manifest)
-        self.assertIn("| ModInt |", manifest)
-        self.assertIn("src/30_ds/36_modint.typ:modint` |", manifest)
+        self.assertIn("| KMP |", manifest)
+        self.assertIn("src/50_string/51_kmp.typ:kmp` |", manifest)
         self.assertNotIn("文档目标", manifest)
-        self.assertIn("另有 24 个模板未独立验证", manifest)
+        self.assertIn("另有 19 个模板未独立验证", manifest)
 
     def test_manifest_reports_slowest_case_and_near_limit(self) -> None:
         root = Path(__file__).resolve().parents[1]

@@ -36,4 +36,4 @@ auto dijkstra(const Adj& adj, int n, int s) {
 }
 ```
 
-#snippet(dijkstra)
+#snippet(dijkstra, id: "dijkstra")

@@ -209,4 +209,4 @@ using ModInt64 = ModIntBase<u64, P>;
 ```
 
 // 这是有意的输出差异：ModInt 只进入 HTML，不进入 PDF。
-#snippet(modint, targets: ("web",))
+#snippet(modint, id: "modint", targets: ("web",))

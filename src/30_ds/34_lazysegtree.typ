@@ -134,4 +134,4 @@ struct LazySegTree {
 };
 ```
 
-#snippet(lzseg)
+#snippet(lzseg, id: "lzseg")
