@@ -147,10 +147,21 @@ def _parse_inventory(raw: Any) -> tuple[InventoryItem, ...]:
         context = f"catalog.inventory[{index}]"
         if not isinstance(value, dict):
             raise MtfError(f"{context} must be an object")
-        unknown_keys = set(value) - {"id", "title", "source", "export"}
+        unknown_keys = set(value) - {
+            "id",
+            "title",
+            "source",
+            "export",
+            "scope",
+        }
         if unknown_keys:
             names = ", ".join(sorted(unknown_keys))
             raise MtfError(f"{context} contains unknown field(s): {names}")
+        scope = value.get("scope", "namespace")
+        if scope not in {"namespace", "function"}:
+            raise MtfError(
+                f"{context}.scope must be \"namespace\" or \"function\""
+            )
 
         item_id = _required_string(value, "id", context)
         title = _required_string(value, "title", context)
@@ -176,6 +187,7 @@ def _parse_inventory(raw: Any) -> tuple[InventoryItem, ...]:
                 id=item_id,
                 title=title,
                 reference=reference,
+                scope=scope,
             )
         )
     return tuple(items)

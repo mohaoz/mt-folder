@@ -36,6 +36,27 @@ class SubmissionTests(unittest.TestCase):
             header.index("namespace mtf"),
         )
 
+    def test_header_hoists_snippet_includes_out_of_namespace(self) -> None:
+        unit = ExportRef("src/meld_heap.typ", "meld-heap")
+        header = verification_header(
+            [unit],
+            {
+                unit: (
+                    "#include <ext/pb_ds/priority_queue.hpp>\n"
+                    "#include <bits/stdc++.h>\n"
+                    "using Heap = int;"
+                ),
+            },
+        )
+        namespace_at = header.index("namespace mtf")
+        pbds_at = header.index("#include <ext/pb_ds/priority_queue.hpp>")
+        self.assertLess(pbds_at, namespace_at)
+        # namespace 体内不允许残留 include；bits 不重复出现
+        body = header[namespace_at:]
+        self.assertNotIn("#include", body)
+        self.assertEqual(header.count("#include <bits/stdc++.h>"), 1)
+        self.assertIn("using Heap = int;", body)
+
     def test_driver_contract_and_inlining(self) -> None:
         check = Check(
             "unionfind",

@@ -90,6 +90,18 @@ def verify(options: VerifyOptions) -> None:
                 log_dir,
                 board,
             )
+            inventory_syntax: dict[str, str] = {}
+            if not options.selected:
+                with board.activity("语法编译未覆盖的模板"):
+                    inventory_syntax = preparation.check_inventory_syntax(
+                        options,
+                        verification_catalog,
+                        temporary_dir,
+                        log_dir,
+                    )
+                for item_id, state in sorted(inventory_syntax.items()):
+                    if state != "passed":
+                        board.error(f"{item_id}: {state}")
             if options.syntax_only:
                 _finish_syntax_only(results, board)
             else:
@@ -108,6 +120,7 @@ def verify(options: VerifyOptions) -> None:
                 options.library_checker_dir,
                 revision,
                 options.syntax_only,
+                inventory_syntax=inventory_syntax,
             )
             passed = sum(result.passed for result in results.values())
             board.summary(
@@ -117,12 +130,25 @@ def verify(options: VerifyOptions) -> None:
             )
 
     failures = [result for result in results.values() if not result.passed]
-    if failures:
-        names = ", ".join(result.check.id for result in failures)
+    syntax_failures = sorted(
+        item_id
+        for item_id, state in inventory_syntax.items()
+        if state != "passed"
+    )
+    if failures or syntax_failures:
+        parts = []
+        if failures:
+            names = ", ".join(result.check.id for result in failures)
+            parts.append(
+                f"{len(failures)} verification check(s) failed ({names})"
+            )
+        if syntax_failures:
+            parts.append(
+                f"{len(syntax_failures)} unverified template(s) failed "
+                f"the syntax check ({', '.join(syntax_failures)})"
+            )
         suffix = f": {official_error}" if official_error else ""
-        raise VerificationError(
-            f"{len(failures)} verification check(s) failed ({names}){suffix}"
-        )
+        raise VerificationError("; ".join(parts) + suffix)
     print(f"Manifest {options.output_dir / 'README.md'}")
 
 

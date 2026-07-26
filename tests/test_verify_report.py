@@ -75,6 +75,35 @@ class ReportTests(unittest.TestCase):
         self.assertIn("复核通过", manifest)
         self.assertIn("最慢用例超过时限 60%", manifest)
 
+    def test_manifest_reports_inventory_syntax_states(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        catalog = load_catalog(root)
+        result = CheckResult(
+            catalog.checks[0],
+            syntax="passed",
+            official="skipped",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            write_manifest(
+                output,
+                [result],
+                catalog,
+                output / "library-checker",
+                None,
+                True,
+                inventory_syntax={
+                    "kmp": "passed",
+                    "fft": "compile exploded",
+                },
+            )
+            manifest = (output / "README.md").read_text(encoding="utf-8")
+
+        self.assertIn("| 语法编译 |", manifest)
+        self.assertIn("| KMP | `src/50_string/51_kmp.typ:kmp` | 通过 |", manifest)
+        self.assertIn("失败：compile exploded", manifest)
+        self.assertIn("未覆盖模板语法编译：1/2 通过。", manifest)
+
 
 if __name__ == "__main__":
     unittest.main()

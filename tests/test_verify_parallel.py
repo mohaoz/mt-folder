@@ -12,6 +12,8 @@ from mtf.verification.models import (
     Check,
     CheckResult,
     ExportRef,
+    InventoryItem,
+    MtfError,
     VerifyOptions,
 )
 
@@ -131,6 +133,85 @@ class ParallelPreparationTests(unittest.TestCase):
         )
         self.assertTrue(board_threads)
         self.assertEqual(set(board_threads), {main_thread})
+
+
+class InventorySyntaxTests(unittest.TestCase):
+    def test_uncovered_templates_are_compiled_and_reported(self) -> None:
+        common = ExportRef("src/common.typ", "types")
+        covered_ref = ExportRef("src/dsu.typ", "dsu")
+        good_ref = ExportRef("src/good.typ", "good")
+        bad_ref = ExportRef("src/bad.typ", "bad")
+        catalog = Catalog(
+            inventory=(
+                InventoryItem("dsu", "并查集", covered_ref),
+                InventoryItem("good", "好模板", good_ref),
+                InventoryItem("bad", "坏模板", bad_ref),
+            ),
+            common=(common,),
+            checks=(
+                Check(
+                    "unionfind",
+                    "unionfind",
+                    "verify/unionfind.test.cpp",
+                    (covered_ref,),
+                ),
+            ),
+        )
+
+        compiled: list[str] = []
+
+        def load_export(
+            root: Path,
+            typst: str,
+            reference: ExportRef,
+        ) -> str:
+            return f"// {reference.symbol}"
+
+        def run_checked(command: list[str], **kwargs: object) -> None:
+            source = Path(command[-1]).read_text(encoding="utf-8")
+            compiled.append(command[-1])
+            if "src/bad.typ" in source:
+                raise MtfError("inventory template bad failed")
+
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            options = VerifyOptions(
+                root=base,
+                output_dir=base / "output",
+                compiler="g++",
+                typst="typst",
+                library_checker_dir=base / "library-checker",
+                update=False,
+                rebuild_data=False,
+                syntax_only=True,
+                ui="plain",
+                selected=(),
+                jobs=2,
+            )
+            with (
+                mock.patch.object(
+                    preparation.submission,
+                    "load_export",
+                    load_export,
+                ),
+                mock.patch.object(
+                    preparation,
+                    "run_checked",
+                    run_checked,
+                ),
+            ):
+                statuses = preparation.check_inventory_syntax(
+                    options,
+                    catalog,
+                    base / "temporary",
+                    base / "logs",
+                )
+
+        # 已进 check 的 dsu 不重复编译；其余两个都编译并汇报
+        self.assertEqual(len(compiled), 2)
+        self.assertEqual(statuses["good"], "passed")
+        self.assertIn("failed", statuses["bad"])
+        self.assertNotIn("dsu", statuses)
 
 
 if __name__ == "__main__":

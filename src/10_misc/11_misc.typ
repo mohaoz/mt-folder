@@ -107,6 +107,7 @@ while (l <= r) {
 == Lambda 递归
 
 #let lambda-recursion = ```cpp
+std::vector<std::vector<int>> adj;
 auto dfs1 = [&](auto&& self, int x,
                 int p) -> void {
     for (auto y : adj[x]) {

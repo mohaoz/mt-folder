@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from pathlib import Path
 
 from .catalog import unverified_inventory
@@ -15,6 +15,7 @@ def write_manifest(
     repository: Path,
     revision: str | None,
     syntax_only: bool,
+    inventory_syntax: Mapping[str, str] | None = None,
 ) -> None:
     content = render_manifest(
         output_dir,
@@ -23,6 +24,7 @@ def write_manifest(
         repository,
         revision,
         syntax_only,
+        inventory_syntax=inventory_syntax,
     )
     (output_dir / "README.md").write_text(content, encoding="utf-8")
 
@@ -34,6 +36,7 @@ def render_manifest(
     repository: Path,
     revision: str | None,
     syntax_only: bool,
+    inventory_syntax: Mapping[str, str] | None = None,
 ) -> str:
     result_list = list(results)
     lines = [
@@ -91,19 +94,28 @@ def render_manifest(
         )
 
     unverified = unverified_inventory(catalog)
+    syntax_states = dict(inventory_syntax or {})
     lines.extend(
         [
             "",
             "## 未验证模板",
             "",
-            "| 模板 | Typst 导出 |",
-            "| --- | --- |",
+            "| 模板 | Typst 导出 | 语法编译 |",
+            "| --- | --- | --- |",
         ]
     )
     for item in unverified:
+        state = syntax_states.get(item.id)
+        if state is None:
+            mark = "—"
+        elif state == "passed":
+            mark = "通过"
+        else:
+            mark = f"失败：{short(state, 80)}"
         lines.append(
             f"| {item.title} | "
-            f"`{item.reference.source}:{item.reference.symbol}` |"
+            f"`{item.reference.source}:{item.reference.symbol}` | "
+            f"{mark} |"
         )
 
     passed = sum(result.passed for result in result_list)
@@ -118,6 +130,13 @@ def render_manifest(
             f"另有 {len(unverified)} 个模板未独立验证。",
         ]
     )
+    if syntax_states:
+        syntax_passed = sum(
+            state == "passed" for state in syntax_states.values()
+        )
+        lines.append(
+            f"未覆盖模板语法编译：{syntax_passed}/{len(syntax_states)} 通过。"
+        )
     if near_limit:
         lines.append(
             f"⚠ {near_limit} 个实现的最慢用例超过时限 60%，"

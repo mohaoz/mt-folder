@@ -22,13 +22,15 @@
       "id": "binary-search",
       "title": "二分答案",
       "source": "src/10_misc/11_misc.typ",
-      "export": "binary-search"
+      "export": "binary-search",
+      "scope": "function"
     },
     {
       "id": "lambda-recursion",
       "title": "Lambda 递归",
       "source": "src/10_misc/11_misc.typ",
-      "export": "lambda-recursion"
+      "export": "lambda-recursion",
+      "scope": "function"
     },
     {
       "id": "sos-dp",

@@ -35,6 +35,10 @@ class VerifyOrchestrationTests(unittest.TestCase):
             def __exit__(self, *args: object) -> None:
                 pass
 
+            @contextlib.contextmanager
+            def activity(self, message: str):
+                yield
+
             def update(
                 self,
                 check_id: str,

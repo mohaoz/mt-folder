@@ -45,6 +45,9 @@ class InventoryItem:
     id: str
     title: str
     reference: ExportRef
+    # "namespace"：完整声明，可直接放进头文件；
+    # "function"：函数体写法示意，语法检查时包进函数作用域。
+    scope: str = "namespace"
 
 
 @dataclass(frozen=True)

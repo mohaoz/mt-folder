@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 
@@ -16,6 +17,7 @@ from .models import (
 from .process import run_checked
 
 CONTRACT_INCLUDE = "#include <mtf_verify.hpp>"
+INCLUDE_DIRECTIVE = re.compile(r"^\s*#\s*include\b")
 
 
 def prepare_submission(
@@ -136,21 +138,45 @@ def verification_header(
     references: Sequence[ExportRef],
     exports: Mapping[ExportRef, str],
 ) -> str:
+    # 片段里的 #include（如 pb_ds）必须提升到 namespace 之外，
+    # 否则标准头会被包进 mtf:: 导致编译失败。
+    hoisted: list[str] = []
+    bodies: list[tuple[ExportRef, str]] = []
+    for reference in references:
+        kept: list[str] = []
+        for line in exports[reference].strip().splitlines():
+            if INCLUDE_DIRECTIVE.match(line):
+                directive = line.strip()
+                if directive not in hoisted:
+                    hoisted.append(directive)
+            else:
+                kept.append(line)
+        bodies.append((reference, "\n".join(kept).strip()))
+
     sections = [
         "#ifndef MTF_VERIFY_HPP",
         "#define MTF_VERIFY_HPP",
         "",
         "#include <bits/stdc++.h>",
-        "",
-        "namespace mtf {",
-        "using namespace std;",
-        "",
     ]
-    for reference in references:
+    sections.extend(
+        directive
+        for directive in hoisted
+        if directive != "#include <bits/stdc++.h>"
+    )
+    sections.extend(
+        [
+            "",
+            "namespace mtf {",
+            "using namespace std;",
+            "",
+        ]
+    )
+    for reference, body in bodies:
         sections.extend(
             [
                 f"// Typst export: {reference.source}:{reference.symbol}",
-                exports[reference].strip(),
+                body,
                 "",
             ]
         )

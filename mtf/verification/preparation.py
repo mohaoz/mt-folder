@@ -5,6 +5,7 @@ from pathlib import Path
 
 from . import concurrency, submission
 from .models import (
+    CPP_STANDARD,
     Catalog,
     Check,
     CheckResult,
@@ -13,7 +14,7 @@ from .models import (
     ProgressSink,
     VerifyOptions,
 )
-from .process import short
+from .process import run_checked, short
 
 
 def prepare_checks(
@@ -89,6 +90,101 @@ def prepare_checks(
                 _record_failure(result, str(error), board)
             else:
                 result.syntax = "passed"
+
+
+def check_inventory_syntax(
+    options: VerifyOptions,
+    catalog: Catalog,
+    temporary_dir: Path,
+    log_dir: Path,
+) -> dict[str, str]:
+    """对没有进入任何 check 片段的 inventory 模板做语法编译。
+
+    这些模板不会被 driver 编译，是"书里印的代码根本编不过"这类
+    缺陷的唯一防线。返回 ``{inventory_id: "passed" | 错误信息}``。
+    """
+
+    in_checks = set(catalog.common) | {
+        reference
+        for check in catalog.checks
+        for reference in check.snippets
+    }
+    pending = [
+        item
+        for item in catalog.inventory
+        if item.reference not in in_checks
+    ]
+    if not pending:
+        return {}
+
+    references = tuple(catalog.common) + tuple(
+        item.reference for item in pending
+    )
+    exports, export_errors = _load_exports(
+        options,
+        {"__inventory__": references},
+    )
+    statuses: dict[str, str] = {}
+    ready: list[tuple[str, ExportRef]] = []
+    for item in pending:
+        error = next(
+            (
+                export_errors[reference]
+                for reference in (*catalog.common, item.reference)
+                if reference in export_errors
+            ),
+            None,
+        )
+        if error is None:
+            ready.append((item.id, item.reference))
+        else:
+            statuses[item.id] = error
+
+    scopes = {item.id: item.scope for item in pending}
+
+    def compile_one(item_id: str, reference: ExportRef) -> None:
+        item_exports = dict(exports)
+        if scopes[item_id] == "function":
+            item_exports[reference] = (
+                "inline void mtf_fragment_scope() {\n"
+                + item_exports[reference]
+                + "\n}"
+            )
+        header = submission.verification_header(
+            tuple(catalog.common) + (reference,),
+            item_exports,
+        )
+        wrapper = temporary_dir / "inventory" / f"{item_id}.cpp"
+        wrapper.parent.mkdir(parents=True, exist_ok=True)
+        wrapper.write_text(header, encoding="utf-8")
+        run_checked(
+            [
+                options.compiler,
+                f"-std={CPP_STANDARD}",
+                "-fsyntax-only",
+                str(wrapper),
+            ],
+            subject=f"inventory template {item_id}",
+            log_path=log_dir / "inventory" / f"{item_id}.log",
+        )
+
+    with concurrency.worker_pool(
+        max_workers=min(options.jobs, max(1, len(ready))),
+        thread_name_prefix="mtf-inventory",
+    ) as executor:
+        future_to_id = {
+            executor.submit(compile_one, item_id, reference): item_id
+            for item_id, reference in ready
+        }
+        for future in as_completed(future_to_id):
+            item_id = future_to_id[future]
+            try:
+                future.result()
+            except (MtfError, OSError) as error:
+                statuses[item_id] = str(error)
+            else:
+                statuses[item_id] = "passed"
+    return statuses
 
 
 def _load_exports(
