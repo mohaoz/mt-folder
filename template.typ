@@ -162,14 +162,6 @@ a { color: var(--ac-ink); }
 
 .side-pdfs svg { display: block; opacity: 0.75; }
 
-.pdf-group { display: inline-flex; align-items: center; gap: 0.35rem; }
-
-.pdf-group + .pdf-group {
-  margin-left: 0.3rem;
-  padding-left: 0.65rem;
-  border-left: 1px solid var(--line);
-}
-
 .side-pdfs a {
   color: var(--muted);
   text-decoration: none;
@@ -898,28 +890,22 @@ document.addEventListener("DOMContentLoaded", () => {
               height: "8",
             ))
           ]
-          #html.elem("span", attrs: (class: "pdf-group"))[
-            竖排
-            #html.elem("a", attrs: (
-              href: "mtf.pdf",
-              title: "A4 竖排双栏 · 彩色",
-            ))[彩]
-            #html.elem("a", attrs: (
-              href: "mtf-bw.pdf",
-              title: "A4 竖排双栏 · 黑白",
-            ))[黑]
-          ]
-          #html.elem("span", attrs: (class: "pdf-group"))[
-            横排
-            #html.elem("a", attrs: (
-              href: "mtf-landscape.pdf",
-              title: "A4 横排三栏 · 彩色",
-            ))[彩]
-            #html.elem("a", attrs: (
-              href: "mtf-landscape-bw.pdf",
-              title: "A4 横排三栏 · 黑白",
-            ))[黑]
-          ]
+          #html.elem("a", attrs: (
+            href: "mtf.pdf",
+            title: "A4 竖排双栏 · 彩色",
+          ))[竖彩]
+          #html.elem("a", attrs: (
+            href: "mtf-bw.pdf",
+            title: "A4 竖排双栏 · 黑白",
+          ))[竖黑]
+          #html.elem("a", attrs: (
+            href: "mtf-landscape.pdf",
+            title: "A4 横排三栏 · 彩色",
+          ))[横彩]
+          #html.elem("a", attrs: (
+            href: "mtf-landscape-bw.pdf",
+            title: "A4 横排三栏 · 黑白",
+          ))[横黑]
         ]
         #html.elem("p", attrs: (
           class: "side-meta",
