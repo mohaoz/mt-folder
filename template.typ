@@ -220,6 +220,7 @@ a { color: var(--ac-ink); }
 
 .content-inner {
   max-width: 50rem;
+  margin: 0 auto;
 }
 
 .masthead {
@@ -604,6 +605,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       currentLink?.classList.remove("is-current");
       link.classList.add("is-current");
+      // 侧栏跟随滚动，保证当前条目始终可见
+      link.scrollIntoView({ block: "nearest" });
       currentLink = link;
     };
     const observer = new IntersectionObserver(
