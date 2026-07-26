@@ -55,6 +55,15 @@ def render_manifest(
                 f"- revision：`{revision}`",
             ]
         )
+    if len(result_list) < len(catalog.checks):
+        lines.extend(
+            [
+                "",
+                f"⚠ 本次为 `--check` 子集运行"
+                f"（{len(result_list)}/{len(catalog.checks)}），"
+                "下表仅反映选定项。",
+            ]
+        )
     lines.extend(
         [
             "",
@@ -131,12 +140,23 @@ def render_manifest(
         ]
     )
     if syntax_states:
-        syntax_passed = sum(
-            state == "passed" for state in syntax_states.values()
-        )
-        lines.append(
-            f"未覆盖模板语法编译：{syntax_passed}/{len(syntax_states)} 通过。"
-        )
+        per_item = {
+            key: state
+            for key, state in syntax_states.items()
+            if key != "__all__"
+        }
+        if per_item:
+            syntax_passed = sum(
+                state == "passed" for state in per_item.values()
+            )
+            lines.append(
+                f"未覆盖模板语法编译：{syntax_passed}/{len(per_item)} 通过。"
+            )
+        combined = syntax_states.get("__all__")
+        if combined == "passed":
+            lines.append("全书合并编译：通过（任意模板组合可共存）。")
+        elif combined:
+            lines.append(f"全书合并编译失败：{short(combined, 80)}。")
     if near_limit:
         lines.append(
             f"⚠ {near_limit} 个实现的最慢用例超过时限 60%，"

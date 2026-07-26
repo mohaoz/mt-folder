@@ -92,6 +92,9 @@ def prepare_checks(
                 result.syntax = "passed"
 
 
+COMBINED_KEY = "__all__"
+
+
 def check_inventory_syntax(
     options: VerifyOptions,
     catalog: Catalog,
@@ -101,7 +104,10 @@ def check_inventory_syntax(
     """对没有进入任何 check 片段的 inventory 模板做语法编译。
 
     这些模板不会被 driver 编译，是"书里印的代码根本编不过"这类
-    缺陷的唯一防线。返回 ``{inventory_id: "passed" | 错误信息}``。
+    缺陷的唯一防线。同时把全部模板拼进一个编译单元做合并编译，
+    保证任意模板组合可共存（结果记在保留键 ``__all__`` 下——该键
+    不是合法 inventory id，不会与真实条目冲突）。
+    返回 ``{inventory_id: "passed" | 错误信息}``。
     """
 
     in_checks = set(catalog.common) | {
@@ -117,8 +123,13 @@ def check_inventory_syntax(
     if not pending:
         return {}
 
-    references = tuple(catalog.common) + tuple(
-        item.reference for item in pending
+    references = tuple(
+        dict.fromkeys(
+            (
+                *catalog.common,
+                *(item.reference for item in catalog.inventory),
+            )
+        )
     )
     exports, export_errors = _load_exports(
         options,
@@ -184,7 +195,62 @@ def check_inventory_syntax(
                 statuses[item_id] = str(error)
             else:
                 statuses[item_id] = "passed"
+
+    statuses[COMBINED_KEY] = _check_combined_syntax(
+        options,
+        catalog,
+        exports,
+        export_errors,
+        temporary_dir,
+        log_dir,
+    )
     return statuses
+
+
+def _check_combined_syntax(
+    options: VerifyOptions,
+    catalog: Catalog,
+    exports: dict[ExportRef, str],
+    export_errors: dict[ExportRef, str],
+    temporary_dir: Path,
+    log_dir: Path,
+) -> str:
+    if export_errors:
+        return next(iter(export_errors.values()))
+    combined = dict(exports)
+    for index, item in enumerate(catalog.inventory):
+        if item.scope == "function":
+            combined[item.reference] = (
+                f"inline void mtf_fragment_{index}() {{\n"
+                + combined[item.reference]
+                + "\n}"
+            )
+    references = tuple(
+        dict.fromkeys(
+            (
+                *catalog.common,
+                *(item.reference for item in catalog.inventory),
+            )
+        )
+    )
+    header = submission.verification_header(references, combined)
+    wrapper = temporary_dir / "inventory" / "__all__.cpp"
+    wrapper.parent.mkdir(parents=True, exist_ok=True)
+    wrapper.write_text(header, encoding="utf-8")
+    try:
+        run_checked(
+            [
+                options.compiler,
+                f"-std={CPP_STANDARD}",
+                "-fsyntax-only",
+                str(wrapper),
+            ],
+            subject="combined inventory templates",
+            log_path=log_dir / "inventory" / "__all__.log",
+        )
+    except (MtfError, OSError) as error:
+        return str(error)
+    return "passed"
 
 
 def _load_exports(

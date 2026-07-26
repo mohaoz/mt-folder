@@ -98,15 +98,9 @@ class Board:
             self._live.start(refresh=True)
         elif self._logger is not None and self._unverified:
             self._logger.info(
-                "[unverified] %d template(s)",
+                "[unverified] %d template(s)，详见 manifest 未验证表",
                 len(self._unverified),
             )
-            for item_id, title in self._unverified:
-                self._logger.info(
-                    "[unverified] %s [%s]",
-                    title,
-                    item_id,
-                )
         return self
 
     def __exit__(self, exc_type: object, exc: object, traceback: object) -> bool:

@@ -29,6 +29,7 @@ class RenderTests(unittest.TestCase):
 
         def record(command: list[str], *, root: Path) -> None:
             commands.append(command)
+            Path(command[3]).write_text("rendered", encoding="utf-8")
 
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)
@@ -37,17 +38,28 @@ class RenderTests(unittest.TestCase):
             with mock.patch.object(render_module, "_run_typst", record):
                 result = render(root=base, output_dir=base / "out")
 
-        self.assertEqual(len(commands), len(PDF_VARIANTS) + 1)
+            # 编译并行执行，按输出文件名归位断言
+            self.assertEqual(len(commands), len(PDF_VARIANTS) + 1)
+            by_name = {
+                Path(command[3]).name: command for command in commands
+            }
+            for name, layout, theme in PDF_VARIANTS:
+                self.assertIn(f"pdf-layout={layout}", by_name[name])
+                self.assertIn(f"pdf-theme={theme}", by_name[name])
+                # 暂存产物已原子替换进目标目录
+                self.assertTrue((base / "out" / name).is_file())
+            self.assertIn("html", by_name["index.html"])
+            self.assertTrue((base / "out" / "index.html").is_file())
+            self.assertFalse(
+                [p for p in (base / "out").iterdir() if p.is_dir()],
+                "暂存目录应已清理",
+            )
+
         self.assertEqual(
             [path.name for path in result.pdfs],
             [name for name, _, _ in PDF_VARIANTS],
         )
         self.assertEqual(result.pdf.name, "mtf.pdf")
-        for command, (name, layout, theme) in zip(commands, PDF_VARIANTS):
-            self.assertIn(f"pdf-layout={layout}", command)
-            self.assertIn(f"pdf-theme={theme}", command)
-            self.assertTrue(command[3].endswith(name))
-        self.assertIn("html", commands[-1])
         self.assertEqual(result.html.name, "index.html")
 
 

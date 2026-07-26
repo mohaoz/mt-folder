@@ -6,7 +6,9 @@
 
 - 适合普通整数卷积；
 - 返回长度为 `a.size() + b.size() - 1` 的结果；
-- 复杂度 `O(n log n)`。
+- 复杂度 `O(n log n)`；
+- 依赖 `double` 精度：需保证 `n * max|a| * max|b|`
+  不超过约 `1e15`，更大范围改用拆系数或 NTT。
 
 #let fft = ```cpp
 using i64 = int64_t;

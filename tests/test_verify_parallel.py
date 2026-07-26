@@ -207,10 +207,12 @@ class InventorySyntaxTests(unittest.TestCase):
                     base / "logs",
                 )
 
-        # 已进 check 的 dsu 不重复编译；其余两个都编译并汇报
-        self.assertEqual(len(compiled), 2)
+        # 已进 check 的 dsu 不单独重复编译；其余两个逐个编译，
+        # 另有一次全书合并编译（包含 bad → 同样失败）
+        self.assertEqual(len(compiled), 3)
         self.assertEqual(statuses["good"], "passed")
         self.assertIn("failed", statuses["bad"])
+        self.assertIn("failed", statuses["__all__"])
         self.assertNotIn("dsu", statuses)
 
 

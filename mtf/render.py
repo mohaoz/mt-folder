@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import subprocess
+import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -86,43 +89,69 @@ def render(
     destination = _absolute_output(output_dir)
     destination.mkdir(parents=True, exist_ok=True)
 
-    pdfs: list[Path] = []
-    for name, layout, theme in PDF_VARIANTS:
-        pdf = destination / name
-        _run_typst(
-            [
-                typst,
-                "compile",
-                "book.typ",
-                str(pdf),
-                "--root",
-                str(project_root),
-                "--input",
-                f"pdf-layout={layout}",
-                "--input",
-                f"pdf-theme={theme}",
-            ],
-            root=project_root,
-        )
-        pdfs.append(pdf)
+    # 先在目标目录下的暂存目录并行编译全部产物，全部成功后再逐个
+    # 原子替换——渲染失败不会留下半套新旧混杂的成品。
+    artifacts = [*(name for name, _, _ in PDF_VARIANTS), "index.html"]
+    with tempfile.TemporaryDirectory(
+        prefix=".render-",
+        dir=destination,
+    ) as staging_name:
+        staging = Path(staging_name)
 
-    html = destination / "index.html"
-    _run_typst(
-        [
-            typst,
-            "compile",
-            "book.typ",
-            str(html),
-            "--root",
-            str(project_root),
-            "--features",
-            "html",
-            "--pretty",
-        ],
-        root=project_root,
+        def compile_pdf(name: str, layout: str, theme: str) -> None:
+            _run_typst(
+                [
+                    typst,
+                    "compile",
+                    "book.typ",
+                    str(staging / name),
+                    "--root",
+                    str(project_root),
+                    "--input",
+                    f"pdf-layout={layout}",
+                    "--input",
+                    f"pdf-theme={theme}",
+                ],
+                root=project_root,
+            )
+
+        def compile_html() -> None:
+            _run_typst(
+                [
+                    typst,
+                    "compile",
+                    "book.typ",
+                    str(staging / "index.html"),
+                    "--root",
+                    str(project_root),
+                    "--features",
+                    "html",
+                    "--pretty",
+                ],
+                root=project_root,
+            )
+
+        with ThreadPoolExecutor(
+            max_workers=len(artifacts),
+            thread_name_prefix="mtf-render",
+        ) as pool:
+            futures = [
+                pool.submit(compile_pdf, name, layout, theme)
+                for name, layout, theme in PDF_VARIANTS
+            ]
+            futures.append(pool.submit(compile_html))
+            for future in futures:
+                future.result()
+
+        for name in artifacts:
+            os.replace(staging / name, destination / name)
+
+    pdfs = tuple(destination / name for name, _, _ in PDF_VARIANTS)
+    return RenderResult(
+        pdf=pdfs[0],
+        html=destination / "index.html",
+        pdfs=pdfs,
     )
-
-    return RenderResult(pdf=pdfs[0], html=html, pdfs=tuple(pdfs))
 
 
 def run_render(args: argparse.Namespace) -> int:

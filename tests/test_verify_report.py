@@ -95,6 +95,7 @@ class ReportTests(unittest.TestCase):
                 inventory_syntax={
                     "kmp": "passed",
                     "fft": "compile exploded",
+                    "__all__": "passed",
                 },
             )
             manifest = (output / "README.md").read_text(encoding="utf-8")
@@ -103,6 +104,7 @@ class ReportTests(unittest.TestCase):
         self.assertIn("| KMP | `src/50_string/51_kmp.typ:kmp` | 通过 |", manifest)
         self.assertIn("失败：compile exploded", manifest)
         self.assertIn("未覆盖模板语法编译：1/2 通过。", manifest)
+        self.assertIn("全书合并编译：通过", manifest)
 
 
 if __name__ == "__main__":

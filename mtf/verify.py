@@ -143,9 +143,13 @@ def verify(options: VerifyOptions) -> None:
                 f"{len(failures)} verification check(s) failed ({names})"
             )
         if syntax_failures:
+            names = ", ".join(
+                "combined" if item_id == "__all__" else item_id
+                for item_id in syntax_failures
+            )
             parts.append(
-                f"{len(syntax_failures)} unverified template(s) failed "
-                f"the syntax check ({', '.join(syntax_failures)})"
+                f"{len(syntax_failures)} template syntax check(s) failed "
+                f"({names})"
             )
         suffix = f": {official_error}" if official_error else ""
         raise VerificationError("; ".join(parts) + suffix)
