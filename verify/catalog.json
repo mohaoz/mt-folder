@@ -31,6 +31,12 @@
       "export": "lambda-recursion"
     },
     {
+      "id": "sos-dp",
+      "title": "高维前缀和",
+      "source": "src/10_misc/12_sos_dp.typ",
+      "export": "sos-dp"
+    },
+    {
       "id": "sieve",
       "title": "线性筛",
       "source": "src/20_math/21_math.typ",
@@ -121,6 +127,18 @@
       "export": "meld-heap"
     },
     {
+      "id": "potential-segtree",
+      "title": "势能线段树",
+      "source": "src/30_ds/39_potential_segtree.typ",
+      "export": "potential-segtree"
+    },
+    {
+      "id": "persistent-segtree",
+      "title": "可持久化权值线段树",
+      "source": "src/30_ds/40_persistent_segtree.typ",
+      "export": "persistent-segtree"
+    },
+    {
       "id": "dijkstra",
       "title": "单源最短路",
       "source": "src/40_graph/41_dijkstra.typ",
@@ -185,6 +203,12 @@
       "title": "Hopcroft-Karp",
       "source": "src/40_graph/51_hopcroft_karp.typ",
       "export": "hopcroft-karp"
+    },
+    {
+      "id": "kruskal-tree",
+      "title": "Kruskal 重构树",
+      "source": "src/40_graph/52_kruskal_tree.typ",
+      "export": "kruskal-tree"
     },
     {
       "id": "kmp",
@@ -380,6 +404,38 @@
         {
           "source": "src/20_math/24_matrix.typ",
           "export": "matrix"
+        }
+      ]
+    },
+    {
+      "id": "range_kth_smallest",
+      "problem": "range_kth_smallest",
+      "driver": "verify/library-checker/range_kth_smallest.test.cpp",
+      "covers": [
+        "persistent-segtree"
+      ],
+      "snippets": [
+        {
+          "source": "src/30_ds/40_persistent_segtree.typ",
+          "export": "persistent-segtree"
+        }
+      ]
+    },
+    {
+      "id": "bitwise_and_convolution",
+      "problem": "bitwise_and_convolution",
+      "driver": "verify/library-checker/bitwise_and_convolution.test.cpp",
+      "covers": [
+        "sos-dp"
+      ],
+      "snippets": [
+        {
+          "source": "src/30_ds/36_modint.typ",
+          "export": "modint"
+        },
+        {
+          "source": "src/10_misc/12_sos_dp.typ",
+          "export": "sos-dp"
         }
       ]
     }

@@ -72,3 +72,28 @@ struct SegTree {
 ```
 
 #snippet(segtree, id: "segtree")
+
+`S` 的经典实例——维护最大子段和（Kadane 合并）。
+空状态用哨兵 `-1e18` 而 `sum`、`len` 取 0，恰好构成单位元：
+
+```cpp
+struct Kadane {
+    i64 len{};
+    i64 sum{}, ans = -1e18;
+    i64 pre = -1e18, suf = -1e18;
+
+    Kadane() = default;
+    Kadane(i64 v)
+        : len(1), sum(v), ans(v), pre(v), suf(v) {}
+
+    friend Kadane operator+(const Kadane& l, const Kadane& r) {
+        Kadane res;
+        res.len = l.len + r.len;
+        res.sum = l.sum + r.sum;
+        res.pre = std::max(l.pre, l.sum + r.pre);
+        res.suf = std::max(r.suf, l.suf + r.sum);
+        res.ans = std::max({l.ans, r.ans, l.suf + r.pre});
+        return res;
+    }
+};
+```

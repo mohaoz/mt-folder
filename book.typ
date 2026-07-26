@@ -3,6 +3,7 @@
 #show: book
 
 #include "src/10_misc/11_misc.typ"
+#include "src/10_misc/12_sos_dp.typ"
 #include "src/20_math/21_math.typ"
 #include "src/20_math/22_comb.typ"
 #include "src/20_math/23_linear_basis.typ"
@@ -15,6 +16,8 @@
 #include "src/30_ds/36_modint.typ"
 #include "src/30_ds/37_sparse_table.typ"
 #include "src/30_ds/38_meld_heap.typ"
+#include "src/30_ds/39_potential_segtree.typ"
+#include "src/30_ds/40_persistent_segtree.typ"
 #include "src/40_graph/41_dijkstra.typ"
 #include "src/40_graph/42_shortest_path.typ"
 #include "src/40_graph/43_scc.typ"
@@ -26,5 +29,6 @@
 #include "src/40_graph/49_tree_difference.typ"
 #include "src/40_graph/50_dinic.typ"
 #include "src/40_graph/51_hopcroft_karp.typ"
+#include "src/40_graph/52_kruskal_tree.typ"
 #include "src/50_string/51_kmp.typ"
 #include "src/60_poly/61_fft.typ"

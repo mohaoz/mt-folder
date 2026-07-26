@@ -114,9 +114,9 @@ class CatalogTests(unittest.TestCase):
         unverified = [
             item for item in catalog.inventory if item.id not in covered
         ]
-        self.assertEqual(len(catalog.inventory), 33)
-        self.assertEqual(len(covered), 13)
-        self.assertEqual(len(unverified), 20)
+        self.assertEqual(len(catalog.inventory), 37)
+        self.assertEqual(len(covered), 15)
+        self.assertEqual(len(unverified), 22)
 
     def test_project_inventory_matches_rendered_typst_snippets(self) -> None:
         root = Path(__file__).resolve().parents[1]
