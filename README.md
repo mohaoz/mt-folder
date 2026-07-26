@@ -205,6 +205,26 @@ manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
 是 driver 而非模板）、组合数需要运行时模数而 ModInt 是编译期模数。为它
 们补验证前先确认题目与模板契约真正一致。
 
+## 部署
+
+推送 `main` 后自动完成三级流水：
+
+1. `check`：单元测试、渲染、产物质量门禁、`--syntax-only` 验证；
+2. `deploy`：渲染 → 产物门禁 → 发布 GitHub Pages，并把四个打印
+   PDF 与离线 HTML 挂到滚动 Release `latest`；
+3. `verify`：每周对 Library Checker 官方数据全量判题。
+
+Pages 站点由 workflow 首次运行时自动开启。把 `mt-folder.mohao.me`
+指过来有两条路：
+
+- **GitHub Pages**：仓库 Settings → Pages 填自定义域，DNS 侧把该
+  子域 CNAME 到 `mohaoz.github.io`（Cloudflare 可保持代理）；
+- **Cloudflare Pages**：把 `deploy.yml` 的发布步骤换成
+  `wrangler pages deploy site`（需要 `CLOUDFLARE_API_TOKEN`
+  secret），域名侧无需改动。
+
+当前线上仍是早期 pandoc 版本，接入任一方式后即被替换。
+
 ## 开发检查
 
 ```console

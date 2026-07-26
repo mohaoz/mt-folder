@@ -1,0 +1,66 @@
+name: deploy
+
+# CD：推 main → 渲染 → 产物质量门禁 → GitHub Pages + 滚动 Release。
+# Pages 首次运行时自动开启；自定义域接入见 README「部署」一节。
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: typst-community/setup-typst@v5
+        with:
+          typst-version: 0.15.1
+      - run: sudo apt-get update && sudo apt-get install -y poppler-utils fonts-noto-cjk
+      - run: python -m pip install .
+      - run: mtf render --output-dir site
+      # 部署前跑产物门禁：坏产物不出门
+      - run: MTF_PREVIEW_DIR="$PWD/site" python -m unittest tests.test_output_gates -v
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: 最新构建
+          body: >
+            自动构建于 ${{ github.sha }}。
+            四个打印版式的 PDF 与离线单文件 HTML。
+          prerelease: false
+          make_latest: true
+          files: |
+            site/mtf.pdf
+            site/mtf-bw.pdf
+            site/mtf-landscape.pdf
+            site/mtf-landscape-bw.pdf
+            site/index.html
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - id: deployment
+        uses: actions/deploy-pages@v4

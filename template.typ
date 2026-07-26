@@ -246,11 +246,22 @@ a { color: var(--ac-ink); }
   display: flex;
   align-items: center;
   gap: 0.9rem;
+  flex-wrap: wrap;
   color: var(--muted);
   font-size: 12px;
 }
 
 .mast-meta .verified { color: var(--ac-ink); }
+
+.mast-pdfs { display: inline-flex; gap: 0.45rem; }
+
+.mast-pdfs a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--line);
+}
+
+.mast-pdfs a:hover { color: var(--ac-ink); border-bottom-color: var(--ac); }
 
 .theme-toggle {
   padding: 0.2rem 0.55rem;
@@ -823,6 +834,25 @@ document.addEventListener("DOMContentLoaded", () => {
               class: "verified",
               title: "由 mtf verify 对 Library Checker 官方数据验证",
             ))[✓ #verified-count 项官方验证]
+            #html.elem("span", attrs: (class: "mast-pdfs"))[
+              打印
+              #html.elem("a", attrs: (
+                href: "mtf.pdf",
+                title: "A4 竖排双栏 · 彩色",
+              ))[PDF]
+              #html.elem("a", attrs: (
+                href: "mtf-bw.pdf",
+                title: "A4 竖排双栏 · 黑白",
+              ))[黑白]
+              #html.elem("a", attrs: (
+                href: "mtf-landscape.pdf",
+                title: "A4 横排三栏 · 彩色",
+              ))[横排]
+              #html.elem("a", attrs: (
+                href: "mtf-landscape-bw.pdf",
+                title: "A4 横排三栏 · 黑白",
+              ))[横黑白]
+            ]
             #html.elem("button", attrs: (
               class: "theme-toggle",
               type: "button",
