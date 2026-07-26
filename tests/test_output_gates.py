@@ -122,7 +122,7 @@ class HtmlGateTests(unittest.TestCase):
 
     def test_sidebar_counts_match_catalog(self) -> None:
         self.assertIn(
-            f"✓ {len(self.covered)}/{len(self.catalog.inventory)} 已验证",
+            f"✓ {len(self.covered)}/{len(self.catalog.inventory)}",
             self.html,
         )
 

@@ -138,26 +138,29 @@ a { color: var(--ac-ink); }
 
 .side-foot {
   display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  padding: 0.7rem 1rem 0.9rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
   border-top: 1px solid var(--line);
   font-size: 11.5px;
 }
 
 .side-meta {
   margin: 0;
-  color: var(--muted);
+  color: var(--ac-ink);
+  white-space: nowrap;
 }
-
-.side-meta .verified { color: var(--ac-ink); }
 
 .side-pdfs {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.55rem;
   margin: 0;
   color: var(--muted);
 }
+
+.side-pdfs svg { display: block; opacity: 0.75; }
 
 .side-pdfs a {
   color: var(--muted);
@@ -859,8 +862,34 @@ document.addEventListener("DOMContentLoaded", () => {
         #outline(title: none, depth: 2)
       ]
       #html.elem("footer", attrs: (class: "side-foot"))[
-        #html.elem("p", attrs: (class: "side-pdfs"))[
-          打印
+        #html.elem("p", attrs: (
+          class: "side-pdfs",
+          "aria-label": "打印版式",
+        ))[
+          #html.elem("svg", attrs: (
+            width: "13",
+            height: "13",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-width": "2",
+            "stroke-linecap": "round",
+            "stroke-linejoin": "round",
+            "aria-hidden": "true",
+            role: "img",
+            title: "打印版式",
+          ))[
+            #html.elem("path", attrs: (d: "M6 9V2h12v7"))
+            #html.elem("path", attrs: (
+              d: "M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2",
+            ))
+            #html.elem("rect", attrs: (
+              x: "6",
+              y: "14",
+              width: "12",
+              height: "8",
+            ))
+          ]
           #html.elem("a", attrs: (
             href: "mtf.pdf",
             title: "A4 竖排双栏 · 彩色",
@@ -878,12 +907,10 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "A4 横排三栏 · 黑白",
           ))[横黑白]
         ]
-        #html.elem("p", attrs: (class: "side-meta"))[
-          #html.elem("span", attrs: (
-            class: "verified",
-            title: "由 mtf verify 对 Library Checker 官方数据验证",
-          ))[✓ #verified-count/#template-count 已验证]
-        ]
+        #html.elem("p", attrs: (
+          class: "side-meta",
+          title: "已通过 Library Checker 官方数据验证的模板数",
+        ))[✓ #verified-count/#template-count]
       ]
     ]
     #html.elem("main", attrs: (class: "content"))[
