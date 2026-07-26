@@ -207,23 +207,27 @@ manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
 
 ## 部署
 
-推送 `main` 后自动完成三级流水：
+站点部署在 Cloudflare Pages（`mt-folder.mohao.me`）。CF 面板只需
+一次性设置两项，其余全部在仓库内：
 
-1. `check`：单元测试、渲染、产物质量门禁、`--syntax-only` 验证；
-2. `deploy`：渲染 → 产物门禁 → 发布 GitHub Pages，并把四个打印
-   PDF 与离线 HTML 挂到滚动 Release `latest`；
-3. `verify`：每周对 Library Checker 官方数据全量判题。
+- **构建命令**：`sh build.sh`
+- **构建输出目录**：`site`
 
-Pages 站点由 workflow 首次运行时自动开启。把 `mt-folder.mohao.me`
-指过来有两条路：
+`build.sh` 是四行入口，逻辑在 `ci/cloudflare_build.py`：CF 构建
+镜像没有 typst 和 CJK 字体，脚本把 typst 与全部所需字体下载到
+`.cf-deps/`、用 `TYPST_FONT_PATHS` 提供字体并在渲染前校验字体
+齐全，再产出 1 HTML + 4 PDF 到 `site/`。若构建镜像的 Python
+低于 3.11，在面板加环境变量 `PYTHON_VERSION=3.11`。
 
-- **GitHub Pages**：仓库 Settings → Pages 填自定义域，DNS 侧把该
-  子域 CNAME 到 `mohaoz.github.io`（Cloudflare 可保持代理）；
-- **Cloudflare Pages**：把 `deploy.yml` 的发布步骤换成
-  `wrangler pages deploy site`（需要 `CLOUDFLARE_API_TOKEN`
-  secret），域名侧无需改动。
+GitHub Actions 另有两条流水：
 
-当前线上仍是早期 pandoc 版本，接入任一方式后即被替换。
+- `check`：每次推送跑单元测试、渲染、产物质量门禁与
+  `--syntax-only` 验证；
+- `release`：推 `main` 后把四个打印 PDF 与离线 HTML 挂到滚动
+  Release `latest`；
+- `verify`：每周对 Library Checker 官方数据全量判题。
+
+当前线上仍是早期 pandoc 版本，CF 侧接到本仓库后即被替换。
 
 ## 开发检查
 

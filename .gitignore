@@ -8,3 +8,5 @@ __pycache__/
 dist/
 /.pytest_cache/
 /yosupo/
+/site/
+/.cf-deps/
