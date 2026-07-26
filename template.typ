@@ -298,15 +298,15 @@ a { color: var(--ac-ink); }
 .github-link:hover { color: var(--ac-ink); border-color: var(--ac); }
 
 .theme-toggle {
-  padding: 0.2rem 0.55rem;
+  display: flex;
+  align-items: center;
+  padding: 0.32rem 0.45rem;
   border: 1px solid var(--line);
   border-radius: 6px;
   color: var(--muted);
   background: transparent;
   cursor: pointer;
   font: inherit;
-  font-size: 13px;
-  line-height: 1.4;
 }
 
 .theme-toggle:hover { color: var(--ac-ink); border-color: var(--ac); }
@@ -884,7 +884,25 @@ document.addEventListener("DOMContentLoaded", () => {
             class: "theme-toggle",
             type: "button",
             "aria-label": "切换深浅色主题",
-          ))[◐]
+            title: "切换深浅色主题",
+          ))[
+            #html.elem("svg", attrs: (
+              width: "14",
+              height: "14",
+              viewBox: "0 0 24 24",
+              fill: "none",
+              stroke: "currentColor",
+              "stroke-width": "2",
+              "aria-hidden": "true",
+            ))[
+              #html.elem("circle", attrs: (cx: "12", cy: "12", r: "9"))
+              #html.elem("path", attrs: (
+                d: "M12 3a9 9 0 0 0 0 18z",
+                fill: "currentColor",
+                stroke: "none",
+              ))
+            ]
+          ]
         ]
       ]
       #html.elem("input", attrs: (
