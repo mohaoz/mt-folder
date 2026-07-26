@@ -67,6 +67,12 @@
       "export": "linear-basis"
     },
     {
+      "id": "matrix",
+      "title": "矩阵快速幂",
+      "source": "src/20_math/24_matrix.typ",
+      "export": "matrix"
+    },
+    {
       "id": "dsu",
       "title": "并查集 (DSU)",
       "source": "src/30_ds/31_dsu.typ",
@@ -360,6 +366,20 @@
         {
           "source": "src/30_ds/35_xortrie.typ",
           "export": "xor-trie"
+        }
+      ]
+    },
+    {
+      "id": "pow_of_matrix",
+      "problem": "pow_of_matrix",
+      "driver": "verify/library-checker/pow_of_matrix.test.cpp",
+      "covers": [
+        "matrix"
+      ],
+      "snippets": [
+        {
+          "source": "src/20_math/24_matrix.typ",
+          "export": "matrix"
         }
       ]
     }

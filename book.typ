@@ -6,6 +6,7 @@
 #include "src/20_math/21_math.typ"
 #include "src/20_math/22_comb.typ"
 #include "src/20_math/23_linear_basis.typ"
+#include "src/20_math/24_matrix.typ"
 #include "src/30_ds/31_dsu.typ"
 #include "src/30_ds/32_fenwick.typ"
 #include "src/30_ds/33_segtree.typ"

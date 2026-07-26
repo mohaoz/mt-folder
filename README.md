@@ -156,7 +156,7 @@ uv run mtf verify --ui plain
 ### 新增验证项
 
 验证映射集中在 [`verify/catalog.json`](verify/catalog.json)，算法正文不
-含任何验证 metadata。当前 32 个模板中 12 个有正式验证，20 个在面板与
+含任何验证 metadata。当前 33 个模板中 13 个有正式验证，20 个在面板与
 manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
 
 1. **确认 `inventory` 条目**：`{id, title, source, export}` 指向 `.typ`

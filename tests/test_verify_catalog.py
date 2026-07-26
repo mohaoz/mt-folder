@@ -114,8 +114,8 @@ class CatalogTests(unittest.TestCase):
         unverified = [
             item for item in catalog.inventory if item.id not in covered
         ]
-        self.assertEqual(len(catalog.inventory), 32)
-        self.assertEqual(len(covered), 12)
+        self.assertEqual(len(catalog.inventory), 33)
+        self.assertEqual(len(covered), 13)
         self.assertEqual(len(unverified), 20)
 
     def test_project_inventory_matches_rendered_typst_snippets(self) -> None:
