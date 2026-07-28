@@ -7,6 +7,9 @@
   [judge.yosupo.jp](https://judge.yosupo.jp) 官方数据编译、运行、判题，
   确保"书里印的代码"就是"能 AC 的代码"。
 
+项目现状与后续计划见 [`docs/STATUS.md`](docs/STATUS.md) 和
+[`docs/ROADMAP.md`](docs/ROADMAP.md)。
+
 ## 仓库结构
 
 ```
@@ -102,17 +105,10 @@ uv run mtf render --root /path/to/mt-folder -o /path/to/preview
 - `--library-checker-dir`：官方题库缓存，默认 `$PWD/.mtf/library-checker-problems`；
 - `-o/--output-dir`：生成的提交与清单，默认 `$PWD/yosupo`。
 
-在本机（缓存位于 `malgo/.mtf`）推荐从仓库外层统一运行：
+为避免缓存和产物散落，固定在 `mt-folder/` 内运行：
 
 ```console
-cd /home/mohao/malgo
-uv run --project mt-folder mtf verify --root mt-folder
-```
-
-或在 `mt-folder` 内运行并复用已有缓存：
-
-```console
-uv run mtf verify --library-checker-dir ../.mtf/library-checker-problems
+uv run mtf verify
 ```
 
 第一次运行会浅克隆官方
