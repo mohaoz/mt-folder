@@ -8,6 +8,7 @@ PDF 各打印变体的纸张、字体嵌入与文本可抽取性。产物目录�
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import shutil
@@ -43,6 +44,7 @@ class _HtmlIndex(HTMLParser):
         self.external_refs: list[str] = []
         self.classes: list[str] = []
         self.scripts: list[str] = []
+        self.visible_text: list[str] = []
         self._in_script = False
 
     def handle_starttag(
@@ -72,6 +74,8 @@ class _HtmlIndex(HTMLParser):
     def handle_data(self, data: str) -> None:
         if self._in_script:
             self.scripts[-1] += data
+        else:
+            self.visible_text.append(data)
 
 
 @unittest.skipUnless(
@@ -114,6 +118,20 @@ class HtmlGateTests(unittest.TestCase):
             len(self.catalog.inventory),
         )
 
+    def test_code_cards_declare_cpp20(self) -> None:
+        self.assertEqual(
+            self.index.classes.count("code-lang"),
+            len(self.catalog.inventory),
+        )
+        self.assertEqual(
+            self.html.count('<span class="code-lang">C++20</span>'),
+            len(self.catalog.inventory),
+        )
+        self.assertNotIn(
+            '<span class="code-lang">C++17</span>',
+            self.html,
+        )
+
     def test_verified_badges_match_catalog(self) -> None:
         self.assertEqual(
             self.index.classes.count("code-verified"),
@@ -141,6 +159,88 @@ class HtmlGateTests(unittest.TestCase):
     def test_no_leaked_template_fragments(self) -> None:
         for fragment in ("#let ", ".dedup()", "sys.inputs", "html.elem"):
             self.assertNotIn(fragment, self.html)
+
+    def test_bitmask_reference_and_four_sos_transforms_are_rendered(self) -> None:
+        text = "".join(self.index.visible_text)
+        for expected in (
+            "Bitmask 集合枚举",
+            "非空真子集",
+            "无序二分去重",
+            "固定 popcount（Gosper）",
+            "SubsetZeta",
+            "SubsetMobius",
+            "SupersetZeta",
+            "SupersetMobius",
+            "BitsetLinearBasis",
+        ):
+            self.assertIn(expected, text)
+        self.assertNotIn("inverse = true", text)
+
+    def test_search_catalog_contains_algorithm_names_and_aliases(self) -> None:
+        script = next(
+            script
+            for script in self.index.scripts
+            if "const searchCatalog = " in script
+        )
+        encoded = script.split("const searchCatalog = ", maxsplit=1)[1].split(
+            ";\n",
+            maxsplit=1,
+        )[0]
+        records = {
+            record["title"]: record["keywords"]
+            for record in json.loads(encoded)
+        }
+        self.assertIn("fenwick", records["树状数组"])
+        self.assertIn("BIT", records["树状数组"])
+        self.assertIn("segtree", records["线段树"])
+        self.assertIn("Segment Tree", records["线段树"])
+        self.assertIn("Bitset Linear Basis", records["线性基"])
+        self.assertIn("Divisor Sieve", records["批量筛因子"])
+        self.assertIn("Euler Phi", records["欧拉函数"])
+
+    @unittest.skipUnless(shutil.which("node"), "node 不可用")
+    def test_search_ranks_names_above_incidental_code_matches(self) -> None:
+        script = next(
+            script
+            for script in self.index.scripts
+            if "const searchCatalog = " in script
+        )
+        harness = """
+const entryFor = (title, content = "") => {
+  const record = searchCatalog.find((item) => item.title === title);
+  const keywords = [title, ...record.keywords].map(normalizeSearchText);
+  return {
+    keywords,
+    primary: keywords.join(" "),
+    content: normalizeSearchText(content),
+  };
+};
+const fenwick = entryFor("树状数组");
+const segtree = entryFor("线段树");
+const incidentalBit = entryFor("FFT", "int bit = n >> 1");
+if (scoreSearchEntry(fenwick, "fenwick") !== 0
+    || scoreSearchEntry(fenwick, "BIT") !== 0
+    || scoreSearchEntry(segtree, "segtree") !== 0
+    || scoreSearchEntry(segtree, "segment tree") !== 0
+    || scoreSearchEntry(incidentalBit, "bit") !== 2) {
+  process.exitCode = 1;
+}
+"""
+        path = PREVIEW / ".gate-search.js"
+        path.write_text(
+            "globalThis.document = { addEventListener() {} };\n"
+            + script
+            + harness,
+            encoding="utf-8",
+        )
+        try:
+            subprocess.run(
+                ["node", str(path)],
+                capture_output=True,
+                check=True,
+            )
+        finally:
+            path.unlink(missing_ok=True)
 
     @unittest.skipUnless(shutil.which("node"), "node 不可用")
     def test_inline_scripts_are_valid_javascript(self) -> None:
@@ -203,7 +303,7 @@ class PdfGateTests(unittest.TestCase):
             )
             with self.subTest(pdf=name):
                 self.assertIn("莫号模板库", text)
-                self.assertIn("GNU++17", text)
+                self.assertIn("GNU++20", text)
                 # 打印版不携带线上验证信息
                 self.assertNotIn("Library Checker", text)
 

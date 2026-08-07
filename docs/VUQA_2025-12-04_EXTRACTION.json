@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "source_id": "vuqa:2025-12-04",
+  "source": {
+    "title": "U 群常见问题速查",
+    "repository": "https://github.com/Wallbreaker5th/vuqa",
+    "document_version": "2025-12-04",
+    "commit": "c74b9a525cfe1c16cd851a9d0d43c442e10b37ef",
+    "commit_url": "https://github.com/Wallbreaker5th/vuqa/commit/c74b9a525cfe1c16cd851a9d0d43c442e10b37ef",
+    "source_path": "vuqa.typ",
+    "source_permalink": "https://github.com/Wallbreaker5th/vuqa/blob/c74b9a525cfe1c16cd851a9d0d43c442e10b37ef/vuqa.typ",
+    "image_permalink": "https://github.com/Wallbreaker5th/vuqa/blob/c74b9a525cfe1c16cd851a9d0d43c442e10b37ef/vuqa.png",
+    "license": "not_declared",
+    "license_note": "Repository metadata and the commit tree contain no declared license. This file therefore stores a compact factual extraction and links back to the canonical source; it does not vendor the chart or its Typst source."
+  },
+  "capture": {
+    "captured_on": "2026-08-05",
+    "input": "user-provided image",
+    "input_sha256": "51e6cb18d42cb9766070d614e51c44ab3d90cef814d80d283673eb824826206a",
+    "verified_against_source_commit": true
+  },
+  "note": "The eight units below are a classification-oriented paraphrase. Claims marked source_reported are pointers for later research, not verified theorems. Numerical divisor-table data was independently checked as described in its verification field.",
+  "unit_count": 8,
+  "units": [
+    {
+      "id": "vuqa:fine-grained-complexity-map",
+      "section": "图灵奖 / 多项式复杂度",
+      "title": "精细复杂性问题族速查",
+      "kind": "reference",
+      "summary": "把 OV、LCS、链 MEX、min-plus 卷积、3SUM/3XOR、APSP、矩阵运算和若干计数问题按二次、矩阵乘法指数或其插值指数组织成检索表。它适合指向归约与条件下界资料，不是可直接粘贴的算法模板。",
+      "status": "source_reported",
+      "quality_flags": [
+        "原文把 ω < 2.372 称为矩阵乘法复杂度指数的“下界”；这里方向应为上界语境。",
+        "表中混合了算法上界、问题间归约和条件下界语境；使用任何一行前都应回到原论文或权威综述核验模型与随机化假设。"
+      ],
+      "links": [
+        "https://github.com/Wallbreaker5th/vuqa/blob/c74b9a525cfe1c16cd851a9d0d43c442e10b37ef/vuqa.typ"
+      ]
+    },
+    {
+      "id": "vuqa:bounded-arithmetic-function-table",
+      "section": "约数个数/不同质因子个数表",
+      "title": "10^k 范围内的最大 ω(n) 与 d(n)",
+      "kind": "reference",
+      "summary": "给出 n ≤ 10^k（1 ≤ k ≤ 18）时不同质因子个数 ω(n) 和约数个数 d(n) 的最大值，并给出一个达到最大 d(n) 的见证值。",
+      "status": "independently_checked",
+      "data": {
+        "powers_k": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "max_distinct_prime_factor_count": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          8,
+          9,
+          10,
+          10,
+          11,
+          12,
+          12,
+          13,
+          13,
+          14,
+          15
+        ],
+        "max_divisor_count": [
+          4,
+          12,
+          32,
+          64,
+          128,
+          240,
+          448,
+          768,
+          1344,
+          2304,
+          4032,
+          6720,
+          10752,
+          17280,
+          26880,
+          41472,
+          64512,
+          103680
+        ],
+        "argmax_witness_for_divisor_count": [
+          "8",
+          "96",
+          "840",
+          "9240",
+          "83160",
+          "997920",
+          "8648640",
+          "98017920",
+          "931170240",
+          "9311702400",
+          "97772875200",
+          "963761198400",
+          "9316358251200",
+          "97821761637600",
+          "978217616376000",
+          "9097423832296800",
+          "96172766227137600",
+          "897612484786617600"
+        ]
+      },
+      "verification": {
+        "verified_on": "2026-08-05",
+        "result": "passed_all_18_rows",
+        "method": "For ω(n), compare 10^k with successive primorials. For d(n), exhaust nonincreasing prime-exponent vectors by DFS; also factor every reported witness and check its divisor count and range.",
+        "caveat": "Each argmax value is one witness, not necessarily the smallest witness."
+      },
+      "links": [
+        "https://github.com/Wallbreaker5th/vuqa/blob/c74b9a525cfe1c16cd851a9d0d43c442e10b37ef/vuqa.typ"
+      ]
+    },
+    {
+      "id": "vuqa:hardness-reference",
+      "section": "图灵奖 / NP-Hard",
+      "title": "难解问题速查入口",
+      "kind": "reference",
+      "summary": "收集 Karp 的 21 个 NP 完全问题、等容多背包可行性，以及若干图、SAT 和拓扑序的计数问题，适合作为计算复杂性检索入口。",
+      "status": "source_reported",
+      "quality_flags": [
+        "章节标题 NP-Hard 过于宽泛；简单环、完美匹配、2-SAT、拓扑序和欧拉结构的“计数”版本通常需要在 #P-hard/#P-complete 语境下精确陈述。",
+        "判定、计数、输出与近似版本的复杂度可能不同，不能仅凭本表迁移结论。"
+      ],
+      "links": [
+        "https://github.com/Wallbreaker5th/vuqa/blob/c74b9a525cfe1c16cd851a9d0d43c442e10b37ef/vuqa.typ"
+      ]
+    },
+    {
+      "id": "vuqa:dynamic-range-mex-occurrence-gaps",
+      "section": "问题与做法",
+      "title": "动态区间 MEX 转相邻出现间隙与二维矩形最小值",
+      "kind": "trick",
+      "summary": "对每个候选值 v 维护其出现位置的有序集合并加入 0、n+1 哨兵。v 不在 [l,r] 中，当且仅当存在 v 的一对相邻出现位置 i<j 满足 i<l 且 r<j；把该间隙记为带权点 (i,j,v)，区间 MEX 就是矩形 x<l、y>r 内的最小权值。",
+      "candidate_grade": "A",
+      "conditions": [
+        "MEX 按非负整数定义；长度至多 n 的区间只需维护候选值 0..n。",
+        "每个值的出现位置集合必须含边界哨兵 0 和 n+1。",
+        "二维结构必须支持带删除的点更新；不同值可能产生同坐标点，因此节点聚合需保留重数或等价的可删除最小值结构。"
+      ],
+      "update_delta": "一次 a[p]: old→new 的修改，只会让 old 的两个相邻间隙合并、让 new 的一个间隙拆成两个；因此仅有 O(1) 个二维点发生增删（old=new 时不变）。",
+      "query_rectangle": "x ∈ [0,l-1], y ∈ [r+1,n+1]，求权值 v 的最小值。",
+      "implementation_note": "这是动态带权二维正交矩形最小值；源图建议树套树。具体复杂度取决于所选二维结构与删除实现。",
+      "links": [
+        "https://github.com/Wallbreaker5th/vuqa/blob/c74b9a525cfe1c16cd851a9d0d43c442e10b37ef/vuqa.typ"
+      ]
+    },
+    {
+      "id": "vuqa:static-range-lis-polylog",
+      "section": "问题与做法",
+      "title": "静态区间 LIS 的 polylog 查询",
+      "kind": "technique",
+      "summary": "记录静态区间 LIS 可借助 Monge/蒙日矩阵相关结构做到 polylog 查询的资料入口；源图没有给出足以独立复现的命题、预处理复杂度或模板。",
+      "status": "reading_pointer",
+      "links": [
+        "https://codeforces.com/blog/entry/111625",
+        "https://github.com/Wallbreaker5th/vuqa/blob/c74b9a525cfe1c16cd851a9d0d43c442e10b37ef/vuqa.typ"
+      ]
+    },
+    {
+      "id": "vuqa:contest-tool-index",
+      "section": "网站 / 题面排版",
+      "title": "竞赛工具与网站索引",
+      "kind": "setup",
+      "summary": "图编辑、原题检索、AtCoder 评分、Codeforces 题单、比赛聚合、Compiler Explorer、C 声明解释、LaTeX 符号识别、KaTeX 支持表、AtCoder 测试数据与题面排版工具的入口。",
+      "links": [
+        "https://csacademy.com/app/graph_editor/",
+        "https://anacc22.github.io/another_graph_editor/",
+        "https://www.yuantiji.ac/zh",
+        "https://kenkoooo.com/atcoder/#/table/",
+        "https://cftracker.netlify.app/contests",
+        "https://clist.by",
+        "https://godbolt.org",
+        "https://cdecl.org",
+        "https://detexify.kirelabs.org/classify.html",
+        "https://katex.org/docs/supported",
+        "https://github.com/conlacda/atcoder-testcases/branches/all",
+        "https://github.com/Wallbreaker5th/fuzzy-cnoi-statement",
+        "https://github.com/Wallbreaker5th/OI-statement-LaTeX",
+        "https://cnoi.mrpython.top",
+        "https://hull.aberter0x3f.top"
+      ]
+    },
+    {
+      "id": "vuqa:cpp-evaluation-and-vector-invalidation",
+      "section": "其他 / UB",
+      "title": "求值顺序与 vector 扩容导致的失效",
+      "kind": "setup",
+      "summary": "在 C++17 之前，形如 tr[x].child = insert() 的赋值两侧求值顺序可能先形成左侧引用，再由右侧插入触发 vector 扩容，使左侧引用失效。C++17 对赋值两侧增加了顺序保证，但一般的 vector 扩容仍会使既有引用、指针和迭代器失效。",
+      "quality_flags": [
+        "求值顺序不等于运算符结合性。",
+        "不要把这个 C++17 特例推广成“扩容后引用仍有效”。"
+      ],
+      "links": [
+        "https://en.cppreference.com/w/cpp/language/ub",
+        "https://en.cppreference.com/w/cpp/language/eval_order"
+      ]
+    },
+    {
+      "id": "vuqa:linux-memory-measurement",
+      "section": "其他 / GNU/Linux 如何测程序空间",
+      "title": "Linux 程序空间测量速查",
+      "kind": "setup",
+      "summary": "区分最大常驻集、峰值虚拟内存和静态段大小：GNU time 的 %M、/proc/<pid>/status 的 VmPeak，以及 size 分别观察不同口径；用两个静态对象的地址差推断总静态空间不可靠。",
+      "quality_flags": [
+        "RSS、VmPeak 与可执行文件静态段不是同一指标，报告时必须注明口径。",
+        "命令可用性和输出单位依赖平台与 time 实现。"
+      ],
+      "links": [
+        "https://github.com/Wallbreaker5th/vuqa/blob/c74b9a525cfe1c16cd851a9d0d43c442e10b37ef/vuqa.typ"
+      ]
+    }
+  ]
+}

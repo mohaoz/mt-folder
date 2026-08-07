@@ -116,7 +116,7 @@ class VerifyOrchestrationTests(unittest.TestCase):
                 )
 
         self.assertIn(
-            ("unionfind", "本地编译", "gnu++17", "passed"),
+            ("unionfind", "本地编译", "gnu++20", "passed"),
             events,
         )
 

@@ -40,7 +40,7 @@ int main() {
         node.size = 1;
     }
 
-    mtf::LazySegTree<Node, Tag> tree(init.begin(), init.end());
+    mtf::LazySegTree<Node, Tag> tree(n, std::move(init));
     while (q--) {
         int type, l, r;
         std::cin >> type >> l >> r;

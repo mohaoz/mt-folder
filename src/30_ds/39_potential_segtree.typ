@@ -1,6 +1,8 @@
 #import "../../template.typ": snippet, web-only
 
 == 势能线段树
+本节属于 Trick；Trick 分区建立前暂存于数据结构。
+
 处理不满足结合律、但会让元素快速收敛的区间修改
 （区间开方、区间取模等）：额外维护区间最大值，
 整段已收敛则直接跳过。
@@ -25,14 +27,12 @@ struct PotSegTree {
     int n;
     std::vector<Node> tr;
 
-    template <class It>
-    PotSegTree(It first, It last)
+    PotSegTree(auto first, auto last)
         : n(last - first), tr(4 * n) {
         build(first, 1, 0, n - 1);
     }
 
-    template <class It>
-    void build(It a, int p, int l, int r) {
+    void build(auto a, int p, int l, int r) {
         if (l == r) {
             tr[p] = {a[l], a[l]};
             return;

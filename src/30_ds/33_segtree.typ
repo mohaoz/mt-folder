@@ -3,6 +3,11 @@
 == 线段树
 维护单点修改、区间查询。
 
+- 数组下标为 `0..n - 1`；
+- `Set(p, x)`、`Get(p)` 操作单点 `p`；
+- `Query(l, r)` 查询左闭右开区间 `[l, r)`；
+- `SegTree(m, arr)` 使用 `arr[0..m)` 初始化，`arr` 可以是左值或右值。
+
 - 单次操作复杂度 `O(log n)`。
 
 关于 `S` 的约束：
@@ -10,10 +15,10 @@
 - 存在满足封闭性结合律的 `operator+` 运算；
 - 存在单位元 `{}` （具有默认构造函数，且满足和单位元运算后不改变原值）
 
-关于初始区间：
+关于初始序列：
 
-- 使用随机访问迭代器；
-- 若元素类型 ≠ `S`，则必须保证 `S` 存在对应构造函数。
+- `arr` 支持随机访问，且至少有 `m` 个元素；
+- 若元素类型 ≠ `S`，则必须能赋值给 `S`。
 
 #let segtree = ```cpp
 template <class S>
@@ -22,17 +27,7 @@ struct SegTree {
     int n;
     std::vector<S> tr;
 
-    SegTree(int n, const S& e) {
-        build(n, std::vector<S>(n, e));
-    }
-
-    template <class It>
-    SegTree(It l, It r) {
-        build(r - l, l);
-    }
-
-    template <class Arr>
-    void build(int m, const Arr& arr) {
+    SegTree(int m, auto&& arr) {
         for (n = 1; n < m; n <<= 1)
             ;
         tr.resize(n << 1);

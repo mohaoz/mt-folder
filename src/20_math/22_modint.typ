@@ -3,20 +3,26 @@
 #web-only[
 
 == ModInt
-固定模数整数，支持四则运算、输入输出和比较。
+固定或动态模数整数，支持四则运算、输入输出和比较。
 
-- `ModInt<P>` 使用 `unsigned` 模数；
-- 除法要求除数可逆；
-- 乘法对 `u64` 模数使用长双精度近似规避溢出。
+- `ModInt<P>` 使用 `u32` 模数，`ModInt64<P>` 使用 `u64` 模数；
+- `DynModInt<Id>::setMod(P)` 设置动态模数，不同 `Id` 维护不同模数；
+- `ModInt<P>` 与动态模数要求 `0 < P <= INT_MAX`，
+  `ModInt64<P>` 要求 `0 < P <= INT64_MAX`；
+- 除法要求除数与模数互质；
+- `ModInt64` 使用长双精度近似规避乘法溢出。
 ]
 
 #let modint = ```cpp
-using u32 = unsigned;
 using i64 = int64_t;
 using u64 = uint64_t;
+using u32 = unsigned;
 
-template <class T>
-constexpr auto power(T a, u64 b, T res = 1) {
+using u128 = unsigned __int128;
+using i128 = __int128;
+
+template<class T>
+constexpr T power(T a, u64 b, T res = 1) {
     for (; b != 0; b /= 2, a *= a) {
         if (b & 1) {
             res *= a;
@@ -25,20 +31,20 @@ constexpr auto power(T a, u64 b, T res = 1) {
     return res;
 }
 
-template <u32 P>
-constexpr auto mulMod(u32 a, u32 b) {
-    return u32(u64(a) * b % P);
+template<u32 P>
+constexpr u32 mulMod(u32 a, u32 b) {
+    return u64(a) * b % P;
 }
 
-template <u64 P>
-constexpr auto mulMod(u64 a, u64 b) {
-    u64 res =
-        a * b - u64(1.L * a * b / P - 0.5L) * P;
+template<u64 P>
+constexpr u64 mulMod(u64 a, u64 b) {
+    u64 res = a * b -
+        u64(1.L * a * b / P - 0.5L) * P;
     res %= P;
     return res;
 }
 
-constexpr auto safeMod(i64 x, i64 m) {
+constexpr i64 safeMod(i64 x, i64 m) {
     x %= m;
     if (x < 0) {
         x += m;
@@ -71,16 +77,15 @@ constexpr std::pair<i64, i64> invGcd(i64 a, i64 b) {
     return {s, m0};
 }
 
-template <class U, U P>
+template<std::unsigned_integral U, U P>
 struct ModIntBase {
-    static_assert(std::is_unsigned<U>::value);
-
+public:
     constexpr ModIntBase() : x(0) {}
-    template <class T, std::enable_if_t<std::is_unsigned<T>::value,
-                                       int> = 0>
+
+    template<std::unsigned_integral T>
     constexpr ModIntBase(T x_) : x(x_ % mod()) {}
-    template <class T, std::enable_if_t<std::is_signed<T>::value,
-                                       int> = 0>
+
+    template<std::signed_integral T>
     constexpr ModIntBase(T x_) {
         using S = std::make_signed_t<U>;
         S v = x_ % S(mod());
@@ -90,122 +95,264 @@ struct ModIntBase {
         x = v;
     }
 
-    constexpr static auto mod() { return P; }
+    constexpr static U mod() {
+        return P;
+    }
 
-    constexpr auto val() const { return x; }
+    constexpr U val() const {
+        return x;
+    }
 
-    constexpr auto operator-() const {
+    constexpr ModIntBase operator-() const {
         ModIntBase res;
         res.x = (x == 0 ? 0 : mod() - x);
         return res;
     }
 
-    constexpr auto inv() const {
-        return power(*this, mod() - 2);
+    constexpr ModIntBase inv() const {
+        auto v = invGcd(x, mod());
+        assert(v.first == 1);
+        return v.second;
     }
 
-    constexpr auto&
-    operator*=(const ModIntBase& rhs) & {
+    constexpr ModIntBase &operator*=(
+        const ModIntBase &rhs) & {
         x = mulMod<mod()>(x, rhs.val());
         return *this;
     }
-    constexpr auto&
-    operator+=(const ModIntBase& rhs) & {
+
+    constexpr ModIntBase &operator+=(
+        const ModIntBase &rhs) & {
         x += rhs.val();
         if (x >= mod()) {
             x -= mod();
         }
         return *this;
     }
-    constexpr auto&
-    operator-=(const ModIntBase& rhs) & {
+
+    constexpr ModIntBase &operator-=(
+        const ModIntBase &rhs) & {
         x -= rhs.val();
         if (x >= mod()) {
             x += mod();
         }
         return *this;
     }
-    constexpr auto&
-    operator/=(const ModIntBase& rhs) & {
+
+    constexpr ModIntBase &operator/=(
+        const ModIntBase &rhs) & {
         return *this *= rhs.inv();
     }
 
-    friend constexpr auto
-    operator*(ModIntBase lhs,
-              const ModIntBase& rhs) {
+    friend constexpr ModIntBase operator*(
+        ModIntBase lhs, const ModIntBase &rhs) {
         lhs *= rhs;
         return lhs;
     }
-    friend constexpr auto
-    operator+(ModIntBase lhs,
-              const ModIntBase& rhs) {
+
+    friend constexpr ModIntBase operator+(
+        ModIntBase lhs, const ModIntBase &rhs) {
         lhs += rhs;
         return lhs;
     }
-    friend constexpr auto
-    operator-(ModIntBase lhs,
-              const ModIntBase& rhs) {
+
+    friend constexpr ModIntBase operator-(
+        ModIntBase lhs, const ModIntBase &rhs) {
         lhs -= rhs;
         return lhs;
     }
-    friend constexpr auto
-    operator/(ModIntBase lhs,
-              const ModIntBase& rhs) {
+
+    friend constexpr ModIntBase operator/(
+        ModIntBase lhs, const ModIntBase &rhs) {
         lhs /= rhs;
         return lhs;
     }
 
-    friend constexpr auto&
-    operator>>(std::istream& is, ModIntBase& a) {
+    friend constexpr std::istream &operator>>(
+        std::istream &is, ModIntBase &a) {
         i64 i;
         is >> i;
         a = i;
         return is;
     }
-    friend constexpr auto&
-    operator<<(std::ostream& os,
-               const ModIntBase& a) {
+
+    friend constexpr std::ostream &operator<<(
+        std::ostream &os, const ModIntBase &a) {
         return os << a.val();
     }
 
-    friend constexpr bool
-    operator==(const ModIntBase& lhs,
-               const ModIntBase& rhs) {
+    friend constexpr bool operator==(
+        const ModIntBase &lhs, const ModIntBase &rhs) {
         return lhs.val() == rhs.val();
     }
-    friend constexpr bool
-    operator!=(const ModIntBase& lhs,
-               const ModIntBase& rhs) {
-        return !(lhs == rhs);
-    }
-    friend constexpr bool
-    operator<(const ModIntBase& lhs,
-              const ModIntBase& rhs) {
-        return lhs.val() < rhs.val();
-    }
-    friend constexpr bool
-    operator>(const ModIntBase& lhs,
-              const ModIntBase& rhs) {
-        return rhs < lhs;
-    }
-    friend constexpr bool
-    operator<=(const ModIntBase& lhs,
-               const ModIntBase& rhs) {
-        return !(rhs < lhs);
-    }
-    friend constexpr bool
-    operator>=(const ModIntBase& lhs,
-               const ModIntBase& rhs) {
-        return !(lhs < rhs);
+
+    friend constexpr std::strong_ordering operator<=>(
+        const ModIntBase &lhs, const ModIntBase &rhs) {
+        return lhs.val() <=> rhs.val();
     }
 
+private:
     U x;
 };
 
-template <u32 P>
+template<u32 P>
 using ModInt = ModIntBase<u32, P>;
-template <u64 P>
+
+template<u64 P>
 using ModInt64 = ModIntBase<u64, P>;
+
+struct Barrett {
+public:
+    Barrett(u32 m_) : m(m_), im((u64)(-1) / m_ + 1) {}
+
+    constexpr u32 mod() const {
+        return m;
+    }
+
+    constexpr u32 mul(u32 a, u32 b) const {
+        u64 z = a;
+        z *= b;
+
+        u64 x = u64((u128(z) * im) >> 64);
+
+        u32 v = u32(z - x * m);
+        if (m <= v) {
+            v += m;
+        }
+        return v;
+    }
+
+private:
+    u32 m;
+    u64 im;
+};
+
+template<u32 Id>
+struct DynModInt {
+public:
+    constexpr DynModInt() : x(0) {}
+
+    template<std::unsigned_integral T>
+    constexpr DynModInt(T x_) : x(x_ % mod()) {}
+
+    template<std::signed_integral T>
+    constexpr DynModInt(T x_) {
+        i64 v = x_ % i64(mod());
+        if (v < 0) {
+            v += mod();
+        }
+        x = v;
+    }
+
+    constexpr static void setMod(u32 m) {
+        bt = m;
+    }
+
+    static u32 mod() {
+        return bt.mod();
+    }
+
+    constexpr u32 val() const {
+        return x;
+    }
+
+    constexpr DynModInt operator-() const {
+        DynModInt res;
+        res.x = (x == 0 ? 0 : mod() - x);
+        return res;
+    }
+
+    constexpr DynModInt inv() const {
+        auto v = invGcd(x, mod());
+        assert(v.first == 1);
+        return v.second;
+    }
+
+    constexpr DynModInt &operator*=(
+        const DynModInt &rhs) & {
+        x = bt.mul(x, rhs.val());
+        return *this;
+    }
+
+    constexpr DynModInt &operator+=(
+        const DynModInt &rhs) & {
+        x += rhs.val();
+        if (x >= mod()) {
+            x -= mod();
+        }
+        return *this;
+    }
+
+    constexpr DynModInt &operator-=(
+        const DynModInt &rhs) & {
+        x -= rhs.val();
+        if (x >= mod()) {
+            x += mod();
+        }
+        return *this;
+    }
+
+    constexpr DynModInt &operator/=(
+        const DynModInt &rhs) & {
+        return *this *= rhs.inv();
+    }
+
+    friend constexpr DynModInt operator*(
+        DynModInt lhs, const DynModInt &rhs) {
+        lhs *= rhs;
+        return lhs;
+    }
+
+    friend constexpr DynModInt operator+(
+        DynModInt lhs, const DynModInt &rhs) {
+        lhs += rhs;
+        return lhs;
+    }
+
+    friend constexpr DynModInt operator-(
+        DynModInt lhs, const DynModInt &rhs) {
+        lhs -= rhs;
+        return lhs;
+    }
+
+    friend constexpr DynModInt operator/(
+        DynModInt lhs, const DynModInt &rhs) {
+        lhs /= rhs;
+        return lhs;
+    }
+
+    friend constexpr std::istream &operator>>(
+        std::istream &is, DynModInt &a) {
+        i64 i;
+        is >> i;
+        a = i;
+        return is;
+    }
+
+    friend constexpr std::ostream &operator<<(
+        std::ostream &os, const DynModInt &a) {
+        return os << a.val();
+    }
+
+    friend constexpr bool operator==(
+        const DynModInt &lhs, const DynModInt &rhs) {
+        return lhs.val() == rhs.val();
+    }
+
+    friend constexpr std::strong_ordering operator<=>(
+        const DynModInt &lhs, const DynModInt &rhs) {
+        return lhs.val() <=> rhs.val();
+    }
+
+private:
+    u32 x;
+    static Barrett bt;
+};
+
+template<u32 Id>
+Barrett DynModInt<Id>::bt = 998244353;
+
+using Z = ModInt<998244353>;
 ```
 
 // 这是有意的输出差异：ModInt 只进入 HTML，不进入 PDF。

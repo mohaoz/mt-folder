@@ -160,11 +160,9 @@ class SubmissionTests(unittest.TestCase):
                 "verify/unionfind.test.cpp",
                 (ExportRef("src/dsu.typ", "dsu"),),
             )
-            with (
-                mock.patch(
-                    "mtf.verification.submission.run_checked",
-                ),
-            ):
+            with mock.patch(
+                "mtf.verification.submission.run_checked",
+            ) as run_checked:
                 prepare_submission(
                     options,
                     (),
@@ -177,10 +175,15 @@ class SubmissionTests(unittest.TestCase):
                     RecordingBoard(),
                 )
 
+        commands = [call.args[0] for call in run_checked.call_args_list]
+        self.assertEqual(len(commands), 2)
+        self.assertTrue(
+            all("-std=gnu++20" in command for command in commands)
+        )
         self.assertEqual(events[-1], (
             "unionfind",
             "本地接口",
-            "gnu++17",
+            "gnu++20",
             "running",
         ))
 

@@ -78,7 +78,7 @@ class ParallelPreparationTests(unittest.TestCase):
                 progress.update(
                     check.id,
                     "本地接口",
-                    "gnu++17",
+                    "gnu++20",
                     "running",
                 )
             finally:
@@ -159,6 +159,7 @@ class InventorySyntaxTests(unittest.TestCase):
         )
 
         compiled: list[str] = []
+        standards: list[str] = []
 
         def load_export(
             root: Path,
@@ -170,6 +171,7 @@ class InventorySyntaxTests(unittest.TestCase):
         def run_checked(command: list[str], **kwargs: object) -> None:
             source = Path(command[-1]).read_text(encoding="utf-8")
             compiled.append(command[-1])
+            standards.extend(arg for arg in command if arg.startswith("-std="))
             if "src/bad.typ" in source:
                 raise MtfError("inventory template bad failed")
 
@@ -210,6 +212,7 @@ class InventorySyntaxTests(unittest.TestCase):
         # 全部三个模板都独立编译（不注入 common 前置），
         # 另有一次全书合并编译（包含 bad → 同样失败）
         self.assertEqual(len(compiled), 4)
+        self.assertEqual(standards, ["-std=gnu++20"] * 4)
         self.assertEqual(statuses["dsu"], "passed")
         self.assertEqual(statuses["good"], "passed")
         self.assertIn("failed", statuses["bad"])

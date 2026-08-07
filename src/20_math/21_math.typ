@@ -73,15 +73,63 @@ inline auto Divisor(int n) {
 
 #snippet(factorization)
 
+=== 批量筛因子
+
+`Divisors(n)[x]` 存储 `x` 的全部正因子，时间与空间复杂度均为
+`O(n log n)`。
+
+#let divisors = ```cpp
+inline auto Divisors(int n) {
+    std::vector<std::vector<int>> res(n + 1);
+    for (int d = 1; d <= n; d++)
+        for (int x = d; x <= n; x += d)
+            res[x].emplace_back(d);
+    return res;
+}
+```
+
+#snippet(divisors)
+
+=== 欧拉函数
+
+线性筛求出 `phi[1..n]`，其中 `phi[x]` 表示 `[1, x]` 中与 `x` 互质的
+整数个数。要求 `n >= 1`，复杂度为 `O(n)`。
+
+#let euler-phi = ```cpp
+inline auto EulerPhi(int n) {
+    std::vector<int> phi(n + 1), pri;
+    std::vector<bool> np(n + 1);
+    phi[1] = 1;
+    for (int i = 2; i <= n; i++) {
+        if (!np[i]) {
+            pri.emplace_back(i);
+            phi[i] = i - 1;
+        }
+        for (int p : pri) {
+            if (p > n / i)
+                break;
+            np[i * p] = true;
+            if (i % p == 0) {
+                phi[i * p] = phi[i] * p;
+                break;
+            }
+            phi[i * p] = phi[i] * (p - 1);
+        }
+    }
+    return phi;
+}
+```
+
+#snippet(euler-phi)
+
 == 扩展欧几里得
 返回 `gcd(a, b)`，并求出 `ax + by = gcd(a, b)` 的一组解。
 
-- 参数可以是整数类型；
+- 参数可以使用整数类型；
 - 复杂度 `O(log min(a, b))`。
 
 #let exgcd = ```cpp
-template <class T>
-inline T ExGCD(T a, T b, T& x, T& y) {
+inline auto ExGCD(auto a, auto b, auto& x, auto& y) {
     if (b == 0) {
         x = 1, y = 0;
         return a;

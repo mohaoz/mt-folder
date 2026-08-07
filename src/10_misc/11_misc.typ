@@ -3,9 +3,7 @@
 = 杂项
 == 约定
 
-+ C++ 版本：
-   + 最低支持版本：`c++17`；
-   + 默认版本：`gnu++17`；
++ C++ 版本：`gnu++20`
 + 格式：
    + 缩进宽度为 4 个空格；
    + 大括号换行；
@@ -13,16 +11,12 @@
 + 命名：
    + 遵循 `GoLang` 的命名规范；
 + 其他：
-   + 使用邻接表存图；
    + 使用 `0-indexed` 的左闭右开区间；
    + 使用解绑同步流的 `std::cin` 和 `std::cout` 输入输出；
    + 使用 `using namespace std;`；
    + 使用局部变量而非全局变量，局部 `lambda` 而非全局函数；
-   + 使用 `emplace` 而非 `push`，集合查重使用 `count`；
+   + 使用 `emplace` 而非 `push`，集合查重使用 `contains`；
    + 若键值较小，使用 `vector` 而非 `map`；不要求顺序的情况下可以用 `unordered_` 系列，但在 Codeforces 上记得使用随机模数；
-   + 每个模板自包含：自带所需类型别名与 `include`，独立作用域、
-     零前置依赖，抄哪段就只用哪段（验证器对每个模板做独立编译
-     门禁）；任意组合可拼入同一编译单元（合并编译门禁保证）；
 
 == 初始代码
 
@@ -122,7 +116,7 @@ auto dfs1 = [&](auto&& self, int x,
     }
 };
 dfs1(dfs1, 0, 0);
-// C++17
+// std::function 版本
 std::function<void(int, int)> dfs2 =
     [&](int x, int p) {
         for (auto y : adj[x]) {

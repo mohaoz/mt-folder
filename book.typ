@@ -27,6 +27,7 @@
 #include "src/40_graph/47_dinic.typ"
 #include "src/40_graph/48_bipartite_matching.typ"
 #include "src/40_graph/49_hopcroft_karp.typ"
+#include "src/40_graph/50_euler_circuit.typ"
 #include "src/45_tree/48_lca.typ"
 #include "src/45_tree/49_tree_difference.typ"
 #include "src/45_tree/52_kruskal_tree.typ"

@@ -20,7 +20,7 @@ struct LCA {
 
     LCA(const vector<vector<int>>& adj, int root = 1) {
         n = adj.size() - 1;
-        LOG = __lg(n) + 1;
+        LOG = std::bit_width((unsigned)n);
         dep.assign(n + 1, 0);
         siz.assign(n + 1, 1);
         up.assign(LOG, vector<int>(n + 1, root));

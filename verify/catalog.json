@@ -34,9 +34,19 @@
     },
     {
       "id": "sos-dp",
-      "title": "高维前缀和",
+      "title": "SOS DP",
       "source": "src/10_misc/12_sos_dp.typ",
-      "export": "sos-dp"
+      "export": "sos-dp",
+      "aliases": [
+        "高维前缀和",
+        "Sum over Subsets",
+        "Subset Zeta",
+        "Subset Mobius",
+        "Subset Möbius",
+        "Superset Zeta",
+        "Superset Mobius",
+        "Superset Möbius"
+      ]
     },
     {
       "id": "sieve",
@@ -49,6 +59,28 @@
       "title": "因数/约数分解",
       "source": "src/20_math/21_math.typ",
       "export": "factorization"
+    },
+    {
+      "id": "divisors",
+      "title": "批量筛因子",
+      "source": "src/20_math/21_math.typ",
+      "export": "divisors",
+      "aliases": [
+        "因子筛",
+        "约数筛",
+        "Divisor Sieve"
+      ]
+    },
+    {
+      "id": "euler-phi",
+      "title": "欧拉函数",
+      "source": "src/20_math/21_math.typ",
+      "export": "euler-phi",
+      "aliases": [
+        "phi",
+        "Euler Phi",
+        "Euler Totient"
+      ]
     },
     {
       "id": "exgcd",
@@ -78,7 +110,21 @@
       "id": "linear-basis",
       "title": "线性基",
       "source": "src/20_math/24_linear_basis.typ",
-      "export": "linear-basis"
+      "export": "linear-basis",
+      "aliases": [
+        "XOR Basis",
+        "Bitset Linear Basis"
+      ]
+    },
+    {
+      "id": "bitset-linear-basis",
+      "title": "线性基 (bitset)",
+      "source": "src/20_math/24_linear_basis.typ",
+      "export": "bitset-linear-basis",
+      "aliases": [
+        "Bitset Linear Basis",
+        "XOR Basis"
+      ]
     },
     {
       "id": "matrix",
@@ -96,19 +142,30 @@
       "id": "fenwick",
       "title": "树状数组",
       "source": "src/30_ds/32_fenwick.typ",
-      "export": "fenwick"
+      "export": "fenwick",
+      "aliases": [
+        "BIT",
+        "Binary Indexed Tree"
+      ]
     },
     {
       "id": "segtree",
       "title": "线段树",
       "source": "src/30_ds/33_segtree.typ",
-      "export": "segtree"
+      "export": "segtree",
+      "aliases": [
+        "Segment Tree"
+      ]
     },
     {
       "id": "lzseg",
       "title": "懒标记线段树",
       "source": "src/30_ds/34_lazysegtree.typ",
-      "export": "lzseg"
+      "export": "lzseg",
+      "aliases": [
+        "Lazy SegTree",
+        "Lazy Segment Tree"
+      ]
     },
     {
       "id": "xor-trie",
@@ -193,6 +250,12 @@
       "title": "Hopcroft-Karp",
       "source": "src/40_graph/49_hopcroft_karp.typ",
       "export": "hopcroft-karp"
+    },
+    {
+      "id": "euler-circuit",
+      "title": "无向图欧拉回路",
+      "source": "src/40_graph/50_euler_circuit.typ",
+      "export": "euler-circuit"
     },
     {
       "id": "lca",
@@ -410,6 +473,20 @@
       ]
     },
     {
+      "id": "matrix_rank_mod_2",
+      "problem": "matrix_rank_mod_2",
+      "driver": "verify/library-checker/matrix_rank_mod_2.test.cpp",
+      "covers": [
+        "bitset-linear-basis"
+      ],
+      "snippets": [
+        {
+          "source": "src/20_math/24_linear_basis.typ",
+          "export": "bitset-linear-basis"
+        }
+      ]
+    },
+    {
       "id": "range_kth_smallest",
       "problem": "range_kth_smallest",
       "driver": "verify/library-checker/range_kth_smallest.test.cpp",
@@ -438,6 +515,20 @@
         {
           "source": "src/10_misc/12_sos_dp.typ",
           "export": "sos-dp"
+        }
+      ]
+    },
+    {
+      "id": "eulerian_trail_undirected",
+      "problem": "eulerian_trail_undirected",
+      "driver": "verify/library-checker/eulerian_trail_undirected.test.cpp",
+      "covers": [
+        "euler-circuit"
+      ],
+      "snippets": [
+        {
+          "source": "src/40_graph/50_euler_circuit.typ",
+          "export": "euler-circuit"
         }
       ]
     }

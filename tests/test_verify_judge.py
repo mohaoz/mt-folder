@@ -26,6 +26,31 @@ class RecordingBoard:
 
 
 class JudgeTests(unittest.TestCase):
+    def test_final_submission_compile_uses_gnu_cpp20(self) -> None:
+        board = RecordingBoard()
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            options = _options(base, jobs=1)
+            check = Check(
+                "unionfind",
+                "unionfind",
+                "verify/unionfind.cpp",
+                (),
+            )
+            with mock.patch.object(judge, "run_checked") as run_checked:
+                executable = judge.compile_submission(
+                    options,
+                    check,
+                    base / "temporary",
+                    base / "logs",
+                    board,
+                )
+
+        command = run_checked.call_args.args[0]
+        self.assertIn("-std=gnu++20", command)
+        self.assertIn("-O2", command)
+        self.assertEqual(executable, base / "temporary" / "unionfind.bin")
+
     def test_compiles_overlap_and_cases_run_serially_on_main_thread(
         self,
     ) -> None:

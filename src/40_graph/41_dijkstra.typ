@@ -1,6 +1,19 @@
 #import "../../template.typ": snippet, web-only
 
 = 图论
+== 图论通用约束
+
++ 使用 `vector<vector<int>> adj` 存储点编号为 `1..n` 的无权图；
+  有向边只加入一个方向，无向边同时加入两个方向；
++ 使用 `vector<vector<pair<int, int>>> adj` 存储带权图，
+  `pair.first` 为终点，`pair.second` 为边权；
++ 使用 `vector<pair<int, int>> es` 存储边，使用
+  `vector<array<int, 3>> es` 存储带权边；根据语义也可以命名为
+  `uv` 或 `uvw`；
++ 使用 `deg` 存储度数；只使用入度或出度之一时也可使用 `deg`，
+  同时使用时分别命名为 `indeg` 和 `outdeg`；
++ 使用 `fa[u]` 表示点 `u` 的父亲节点。
+
 == 单源最短路
 适用于非负边权图。
 
@@ -12,8 +25,9 @@
 using i64 = int64_t;
 constexpr i64 INF = 4'000'000'000'000'000'000LL;
 
-template <class Adj>
-auto dijkstra(const Adj& adj, int n, int s) {
+auto dijkstra(
+    const vector<vector<pair<int, int>>>& adj,
+    int n, int s) {
     vector<i64> dis(n + 1, INF);
     vector<bool> vis(n + 1, false);
     priority_queue<pair<i64, int>> pq;

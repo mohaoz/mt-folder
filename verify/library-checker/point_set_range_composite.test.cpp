@@ -23,7 +23,7 @@ int main() {
     for (auto& f : functions)
         std::cin >> f.a >> f.b;
 
-    mtf::SegTree<Affine> tree(functions.begin(), functions.end());
+    mtf::SegTree<Affine> tree(n, std::move(functions));
     while (q--) {
         int type;
         std::cin >> type;

@@ -25,6 +25,7 @@ class CatalogTests(unittest.TestCase):
                                 "title": "并查集",
                                 "source": "src/dsu.typ",
                                 "export": "dsu",
+                                "aliases": ["Union-Find"],
                             }
                         ],
                         "common": [
@@ -55,6 +56,46 @@ class CatalogTests(unittest.TestCase):
 
         self.assertEqual(catalog.checks[0].problem, "unionfind")
         self.assertEqual(catalog.checks[0].covers, ("dsu",))
+        self.assertEqual(catalog.inventory[0].aliases, ("Union-Find",))
+
+    def test_inventory_rejects_duplicate_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "verify"
+            path.mkdir()
+            (path / "catalog.json").write_text(
+                json.dumps(
+                    {
+                        "inventory": [
+                            {
+                                "id": "fenwick",
+                                "title": "树状数组",
+                                "source": "src/fenwick.typ",
+                                "export": "fenwick",
+                                "aliases": ["BIT", "bit"],
+                            }
+                        ],
+                        "common": [],
+                        "checks": [
+                            {
+                                "id": "point_add_range_sum",
+                                "problem": "point_add_range_sum",
+                                "driver": "verify/fenwick.test.cpp",
+                                "covers": ["fenwick"],
+                                "snippets": [
+                                    {
+                                        "source": "src/fenwick.typ",
+                                        "export": "fenwick",
+                                    }
+                                ],
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(MtfError, "duplicate alias"):
+                load_catalog(root)
 
     def test_unknown_selection_is_rejected(self) -> None:
         check = Check("unionfind", "unionfind", "driver.cpp", ())
@@ -114,9 +155,9 @@ class CatalogTests(unittest.TestCase):
         unverified = [
             item for item in catalog.inventory if item.id not in covered
         ]
-        self.assertEqual(len(catalog.inventory), 37)
-        self.assertEqual(len(covered), 15)
-        self.assertEqual(len(unverified), 22)
+        self.assertEqual(len(catalog.inventory), 41)
+        self.assertEqual(len(covered), 17)
+        self.assertEqual(len(unverified), 24)
 
     def test_project_inventory_matches_rendered_typst_snippets(self) -> None:
         root = Path(__file__).resolve().parents[1]

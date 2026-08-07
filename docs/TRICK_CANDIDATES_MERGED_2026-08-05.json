@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "merged_on": "2026-08-05",
+  "base": {
+    "snapshot": "docs/ALGOWIKI_TRICKS_2026-08-04.json",
+    "grading": "docs/ALGOWIKI_TRICKS_GRADING.json",
+    "record_count": 172,
+    "grade_counts": {
+      "S": 32,
+      "A": 71,
+      "B": 47,
+      "C": 17,
+      "D": 5
+    }
+  },
+  "additional_sources": [
+    {
+      "source_id": "vuqa:2025-12-04",
+      "extraction": "docs/VUQA_2025-12-04_EXTRACTION.json",
+      "unit_count": 8
+    }
+  ],
+  "merge_policy": [
+    "The 172-record AlgoWiki snapshot and its grading remain immutable source-specific artifacts.",
+    "Canonical IDs are namespaced; only genuinely independent Trick statements add a graded record.",
+    "Technique, Reference and Setup units remain searchable merge decisions but do not inflate Trick counts.",
+    "A topical relation is not treated as a duplicate."
+  ],
+  "counts": {
+    "base_records": 172,
+    "extracted_source_units": 8,
+    "new_trick_candidates": 1,
+    "enriched_existing": 1,
+    "technique_related": 1,
+    "reference_or_setup_only": 5,
+    "merged_candidate_records": 173,
+    "merged_grade_counts": {
+      "S": 32,
+      "A": 72,
+      "B": 47,
+      "C": 17,
+      "D": 5
+    }
+  },
+  "decisions": [
+    {
+      "canonical_id": "trick:dynamic-range-mex-occurrence-gaps",
+      "title": "动态区间 MEX 转相邻出现间隙与二维矩形最小值",
+      "kind": "trick",
+      "grade": "A",
+      "action": "add",
+      "source_refs": [
+        "vuqa:dynamic-range-mex-occurrence-gaps"
+      ],
+      "statement": "值 v 在 [l,r] 中缺失，当且仅当某对含边界哨兵的相邻出现位置 i<j 满足 i<l 且 r<j；因此把间隙映成带权点 (i,j,v)，区间 MEX 就是相应二维矩形内的最小权值。",
+      "conditions": [
+        "候选值限制为 0..n，并为每个候选值加入 0、n+1 哨兵。",
+        "单点修改只增删 O(1) 个间隙点。",
+        "二维最小值结构必须正确处理删除、重数和同坐标不同权值。"
+      ],
+      "relations": [
+        {
+          "type": "technique_related",
+          "target": "algowiki:171",
+          "reason": "都把二维存在性/最值查询压成正交区域上的极值维护；命题本身不同。"
+        },
+        {
+          "type": "not_duplicate",
+          "target": "algowiki:38",
+          "reason": "#38 是排列前缀 MEX 与后缀最小值的静态等价；本条处理可修改数组的任意区间 MEX。"
+        }
+      ],
+      "promotion_requirement": "补一份经验证的动态二维矩形最小值实现、复杂度和边界测试后，可从 A 复核为 S。"
+    },
+    {
+      "canonical_id": "reference:bounded-arithmetic-function-table",
+      "title": "10^k 范围内的最大 ω(n) 与 d(n)",
+      "kind": "reference",
+      "grade": null,
+      "action": "enrich",
+      "source_refs": [
+        "vuqa:bounded-arithmetic-function-table"
+      ],
+      "relations": [
+        {
+          "type": "enriches",
+          "target": "algowiki:20",
+          "reason": "#20 是 n<10^5 时 d(n)≤128 的单行特例；VUQA 给出 10^1..10^18 的完整范围表。"
+        },
+        {
+          "type": "possibly_related",
+          "target": "algowiki:30",
+          "reason": "#30 只有目录标题“约数小诈骗”，未持久化正文，不能据标题判重。"
+        }
+      ],
+      "notes": "18 行数值已独立核验，但它仍是范围 Reference 而非解题转化；algowiki:20 作为 Trick 的 D 级判定不变。"
+    },
+    {
+      "canonical_id": "technique:static-range-lis-polylog",
+      "title": "静态区间 LIS 的 polylog 查询",
+      "kind": "technique",
+      "grade": null,
+      "action": "related",
+      "source_refs": [
+        "vuqa:static-range-lis-polylog"
+      ],
+      "relations": [
+        {
+          "type": "topic_related",
+          "target": "algowiki:41",
+          "reason": "同属 LIS，但 #41 的核心是 Dilworth 关系。"
+        },
+        {
+          "type": "topic_related",
+          "target": "algowiki:189",
+          "reason": "同属 LIS 优化，但 #189 的核心是 LCS 到 LIS 的转化。"
+        }
+      ],
+      "notes": "当前只有阅读入口，没有可独立入库的精确接口、预处理复杂度、查询复杂度与实现。"
+    },
+    {
+      "canonical_id": "reference:fine-grained-complexity-map",
+      "title": "精细复杂性问题族速查",
+      "kind": "reference",
+      "grade": null,
+      "action": "reference_only",
+      "source_refs": [
+        "vuqa:fine-grained-complexity-map"
+      ],
+      "relations": [
+        {
+          "type": "topic_related",
+          "target": "algowiki:80",
+          "reason": "矩阵乘法语境相关，但不是固定边数 Floyd 的做法。"
+        },
+        {
+          "type": "topic_related",
+          "target": "algowiki:189",
+          "reason": "表中出现 LCS，但不提供 LCS→LIS 转化。"
+        }
+      ],
+      "notes": "保留为知识地图，并附 ω 上下界方向与表格语义勘误。"
+    },
+    {
+      "canonical_id": "reference:hardness-quick-index",
+      "title": "难解问题速查入口",
+      "kind": "reference",
+      "grade": null,
+      "action": "reference_only",
+      "source_refs": [
+        "vuqa:hardness-reference"
+      ],
+      "relations": [],
+      "notes": "不把宽泛的 NP-Hard 小节标题当成各计数问题的精确分类；后续引用必须区分判定与 #P 计数版本。"
+    },
+    {
+      "canonical_id": "setup:contest-tool-index",
+      "title": "竞赛工具与网站索引",
+      "kind": "setup",
+      "grade": null,
+      "action": "reference_only",
+      "source_refs": [
+        "vuqa:contest-tool-index"
+      ],
+      "relations": [],
+      "notes": "进入 Setup/Reference 索引，不进入 Trick 分级。"
+    },
+    {
+      "canonical_id": "setup:cpp-evaluation-and-vector-invalidation",
+      "title": "求值顺序与 vector 扩容导致的失效",
+      "kind": "setup",
+      "grade": null,
+      "action": "reference_only",
+      "source_refs": [
+        "vuqa:cpp-evaluation-and-vector-invalidation"
+      ],
+      "relations": [],
+      "notes": "属于语言语义与调试坑点；可搜索，但不属于算法 Trick。"
+    },
+    {
+      "canonical_id": "setup:linux-memory-measurement",
+      "title": "Linux 程序空间测量速查",
+      "kind": "setup",
+      "grade": null,
+      "action": "reference_only",
+      "source_refs": [
+        "vuqa:linux-memory-measurement"
+      ],
+      "relations": [],
+      "notes": "属于本地评测/工程 Setup；RSS、VmPeak 与静态段大小必须分口径记录。"
+    }
+  ]
+}

@@ -15,7 +15,7 @@
 ```
 mt-folder/
 ├── book.typ, template.typ      Typst 入口、样式与代码导出机制
-├── src/                        手册正文（7 类分章，37 个代码模板）
+├── src/                        手册正文（7 类分章，39 个代码模板）
 ├── mtf/                        Python 工具链：render / verify / TUI
 │   └── verification/           验证子系统（导出、编译、判题、报告）
 ├── verify/catalog.json         模板 ↔ 官方题目的映射表
@@ -31,7 +31,7 @@ mt-folder/
 
 | 章 | 内容 | 参考依据 |
 | --- | --- | --- |
-| 杂项 | 约定、初始代码、语言惯用法、高维前缀和 | OI Wiki 杂项（高维前缀和归杂项即从其例） |
+| 杂项 | 约定、初始代码、语言惯用法、Bitmask 与 SOS DP | OI Wiki 杂项（高维前缀和归杂项即从其例） |
 | 数学 | 数论、ModInt、组合数、线性基、矩阵 | OI Wiki 数学；覆盖 yosupo 的 Number Theory / Enumerative Combinatorics / Linear Algebra |
 | 数据结构 | DSU、树状数组、线段树家族、Trie、堆 | 两站同名分类 |
 | 图论 | 最短路 → DAG → 连通性 → 流与匹配 | 两站同名分类 |
@@ -57,7 +57,7 @@ mt-folder/
 - Python 3.11+
 - [Typst](https://github.com/typst/typst) 0.15.1+
 - Git
-- 支持 GNU++17 的 `g++`
+- 支持 GNU++20 模式的 `g++`
 
 安装 Python 环境：
 
@@ -121,7 +121,7 @@ uv run mtf verify
 1. 用 `typst eval` 从 `.typ` 导出算法代码（与书中内容逐字节一致）；
 2. 生成临时 `mtf_verify.hpp`，编译独立 C++ driver 做接口检查；
 3. 内联头文件，产出可直接提交的单文件 `<check>.cpp`；
-4. 以 GNU++17 `-O2` 编译；
+4. 以 GNU++20 `-O2` 编译；
 5. 对每份官方输入运行，再交给官方 checker 判定。
 
 ### 计时与可靠性
@@ -159,7 +159,7 @@ summary: 7/7 passed, 0 failed, 24 unverified
 ### 常用选项
 
 ```console
-# 只检查接口和 GNU++17 语法，不拉数据（约 10 秒）
+# 只检查接口和 GNU++20 语法，不拉数据（约 10 秒）
 uv run mtf verify --syntax-only
 
 # 只验证指定 catalog 项（可重复；注意会重写 manifest）
@@ -180,7 +180,7 @@ uv run mtf verify --ui plain
 ### 新增验证项
 
 验证映射集中在 [`verify/catalog.json`](verify/catalog.json)，算法正文不
-含任何验证 metadata。当前 37 个模板中 15 个有正式验证，22 个在面板与
+含任何验证 metadata。当前 41 个模板中 17 个有正式验证，24 个在面板与
 manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
 
 1. **确认 `inventory` 条目**：`{id, title, source, export}` 指向 `.typ`

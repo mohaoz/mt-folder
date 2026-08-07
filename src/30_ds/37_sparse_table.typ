@@ -24,14 +24,12 @@ struct SparseTable {
         Build(a.begin(), a.end());
     }
 
-    template <class It>
-    SparseTable(It l, It r, Op op)
+    SparseTable(auto l, auto r, Op op)
         : op(std::move(op)) {
         Build(l, r);
     }
 
-    template <class It>
-    void Build(It l, It r) {
+    void Build(auto l, auto r) {
         n = int(r - l);
         lg.assign(n + 1, 0);
         for (int i = 2; i <= n; i++)

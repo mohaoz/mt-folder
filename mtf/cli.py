@@ -11,6 +11,7 @@ from pathlib import Path
 import colorlog
 
 from .render import run_render
+from .verification.models import CPP_STANDARD
 
 LOGGER = logging.getLogger("mtf")
 
@@ -89,8 +90,8 @@ def build_parser() -> argparse.ArgumentParser:
         "verify",
         help="run official Library Checker tests",
         description=(
-            "Generate GNU++17 submissions and verify them against official "
-            "Library Checker data."
+            f"Generate {CPP_STANDARD.upper()} submissions and verify them "
+            "against official Library Checker data."
         ),
     )
     verify.add_argument(
@@ -117,7 +118,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--compiler",
         default="g++",
         metavar="CXX",
-        help="GNU++17-compatible compiler (default: g++)",
+        help=f"{CPP_STANDARD.upper()}-compatible compiler (default: g++)",
     )
     verify.add_argument(
         "--library-checker-dir",

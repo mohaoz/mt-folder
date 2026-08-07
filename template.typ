@@ -5,6 +5,8 @@
 // 验证徽章的数据直接来自 verify/catalog.json，与 `mtf verify` 同源。
 
 #let catalog = json("/verify/catalog.json")
+#let cpp-standard = "C++20"
+#let gnu-cpp-standard = "GNU++20"
 
 // inventory id -> Library Checker problem（仅含被 checks.covers 覆盖的模板）
 #let verified-problems = {
@@ -472,7 +474,39 @@ h1, h2, h3, h4 {
 })();
 ```.text
 
-#let html-js = ```js
+#let search-catalog = catalog.inventory.map(item => (
+  title: item.title,
+  keywords: (
+    (item.id, item.at("export"))
+    + item.at("aliases", default: ())
+  ).dedup(),
+))
+
+#let html-js = (
+  "const searchCatalog = " + json.encode(search-catalog) + ";\n"
+  + ```js
+const normalizeSearchText = (value) => String(value ?? "")
+  .normalize("NFKC")
+  .toLocaleLowerCase()
+  .replace(/[_-]+/g, " ")
+  .replace(/\s+/g, " ")
+  .trim();
+
+const scoreSearchEntry = (entry, rawQuery) => {
+  const query = normalizeSearchText(rawQuery);
+  if (!query) {
+    return Number.POSITIVE_INFINITY;
+  }
+  const terms = query.split(" ");
+  if (terms.every((term) => entry.primary.includes(term))) {
+    return entry.keywords.includes(query) ? 0 : 1;
+  }
+  const searchable = `${entry.primary} ${entry.content}`;
+  return terms.every((term) => searchable.includes(term))
+    ? 2
+    : Number.POSITIVE_INFINITY;
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   const fallbackCopy = (text) => {
     const textarea = document.createElement("textarea");
@@ -551,13 +585,65 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 侧栏搜索：过滤目录项并统计命中，Enter 跳转第一个匹配
+  // 侧栏搜索：中英文标题、模板 ID/别名和章节正文统一建索引。
+  // 标题/ID/别名命中优先，避免代码中的偶然单词淹没精确结果。
   const search = document.querySelector(".nav-search");
   const searchCount = document.querySelector(".search-count");
   const navItems = [...document.querySelectorAll(".sidebar nav li")];
+  const catalogByTitle = new Map(
+    searchCatalog.map((record) => [normalizeSearchText(record.title), record])
+  );
+
+  const sectionText = (heading) => {
+    if (!heading) {
+      return "";
+    }
+    const level = Number(heading.tagName.slice(1));
+    const chunks = [];
+    for (
+      let node = heading.nextElementSibling;
+      node;
+      node = node.nextElementSibling
+    ) {
+      const match = /^H([1-6])$/.exec(node.tagName);
+      if (match && Number(match[1]) <= level) {
+        break;
+      }
+      chunks.push(node.textContent ?? "");
+    }
+    return normalizeSearchText(chunks.join(" "));
+  };
+
+  const searchEntries = [
+    ...document.querySelectorAll(".sidebar nav a[href^='#']"),
+  ].map((link, order) => {
+    const prefix = link.querySelector(":scope > .prefix")?.textContent ?? "";
+    const label = link.textContent.slice(prefix.length).trim();
+    const normalizedLabel = normalizeSearchText(label);
+    const catalogRecord = catalogByTitle.get(normalizedLabel)
+      ?? searchCatalog.find((record) =>
+        normalizedLabel.startsWith(`${normalizeSearchText(record.title)} `)
+      );
+    const keywords = [
+      normalizedLabel,
+      ...(catalogRecord?.keywords ?? []).map(normalizeSearchText),
+    ];
+    const item = link.closest("li");
+    const isParent = Boolean(item?.querySelector(":scope > ol"));
+    const fragment = decodeURIComponent(link.getAttribute("href").slice(1));
+    const heading = document.getElementById(fragment);
+    return {
+      link,
+      order,
+      keywords,
+      primary: keywords.join(" "),
+      content: isParent ? "" : sectionText(heading),
+    };
+  });
+
   let hitLinks = [];
   const applyFilter = () => {
-    const query = search.value.trim().toLowerCase();
+    const query = normalizeSearchText(search.value);
     for (const item of navItems) {
       item.classList.remove("is-hidden");
     }
@@ -569,22 +655,29 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       return;
     }
+
+    const ranked = searchEntries
+      .map((entry) => ({ entry, score: scoreSearchEntry(entry, query) }))
+      .filter(({ score }) => Number.isFinite(score));
+    const hasPrimaryHit = ranked.some(({ score }) => score < 2);
+    const matches = ranked
+      .filter(({ score }) => !hasPrimaryHit || score < 2)
+      .sort((left, right) =>
+        left.score - right.score || left.entry.order - right.entry.order
+      );
+    const matchedLinks = new Set(matches.map(({ entry }) => entry.link));
+
     for (const item of navItems) {
-      const text =
-        item.querySelector(":scope > a, :scope > div > a")?.textContent ?? "";
-      const selfHit = text.toLowerCase().includes(query);
-      const childHit = [...item.querySelectorAll("ol a")].some((a) =>
-        a.textContent.toLowerCase().includes(query)
+      const ownLink = item.querySelector(":scope > a, :scope > div > a");
+      const selfHit = matchedLinks.has(ownLink);
+      const childHit = [...item.querySelectorAll("ol a")].some((link) =>
+        matchedLinks.has(link)
       );
       if (!selfHit && !childHit) {
         item.classList.add("is-hidden");
       }
     }
-    hitLinks = [
-      ...document.querySelectorAll(
-        ".sidebar nav li:not(.is-hidden) a[href^='#']"
-      ),
-    ].filter((a) => a.textContent.toLowerCase().includes(query));
+    hitLinks = matches.map(({ entry }) => entry.link);
     if (searchCount) {
       searchCount.textContent = hitLinks.length
         ? `${hitLinks.length} 个匹配 · Enter 跳转`
@@ -684,6 +777,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 ```.text
+)
 
 // ---- 内容级工具 ----
 
@@ -698,7 +792,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if output == "web" {
     html.elem("figure", attrs: (class: "code-card"))[
       #html.elem("figcaption", attrs: (class: "code-head"))[
-        #html.elem("span", attrs: (class: "code-lang"))[C++17]
+        #html.elem("span", attrs: (class: "code-lang"))[#cpp-standard]
         #if problem != none {
           html.elem(
             "a",
@@ -748,7 +842,7 @@ document.addEventListener("DOMContentLoaded", () => {
         grid(
           columns: (1fr, auto),
           text(6.5pt, font: mono-fonts, fill: muted)[
-            莫号模板库 · GNU++17
+            莫号模板库 · #gnu-cpp-standard
           ],
           text(
             6.5pt,
@@ -815,7 +909,7 @@ document.addEventListener("DOMContentLoaded", () => {
         #text(16pt, weight: "bold", font: mono-fonts)[莫号模板库]
       ],
       text(7pt, font: mono-fonts, fill: muted)[
-        算法竞赛速查 · GNU++17 · #template-count 模板
+        算法竞赛速查 · #gnu-cpp-standard · #template-count 模板
       ],
     )
     #v(3pt)

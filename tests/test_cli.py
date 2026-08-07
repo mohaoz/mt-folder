@@ -18,6 +18,16 @@ class CliTests(unittest.TestCase):
             Path.cwd() / ".mtf" / "library-checker-problems",
         )
 
+    def test_verify_help_declares_gnu_cpp20(self) -> None:
+        output = io.StringIO()
+        with (
+            contextlib.redirect_stdout(output),
+            self.assertRaises(SystemExit) as raised,
+        ):
+            build_parser().parse_args(["verify", "--help"])
+        self.assertEqual(raised.exception.code, 0)
+        self.assertIn("GNU++20", output.getvalue())
+
     def test_check_option_is_repeatable(self) -> None:
         args = build_parser().parse_args(
             ["verify", "--check", "unionfind", "--check", "scc"]

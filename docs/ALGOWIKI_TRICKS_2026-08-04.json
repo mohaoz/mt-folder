@@ -1,0 +1,2956 @@
+{
+  "source": "https://www.algowiki.cn/competitions?tab=tricks",
+  "api": "https://www.algowiki.cn/api/tricks/",
+  "captured_on": "2026-08-04",
+  "entry_count": 172,
+  "note": "Catalog snapshot only. External Markdown bodies and user profile data are intentionally not vendored; source_url remains canonical.",
+  "entries": [
+    {
+      "id": 8,
+      "title": "$1\\sim n$ 的连续按位异或和的规律",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "异或"
+      ],
+      "like_count_at_capture": 16,
+      "created_at": "2026-04-09T20:26:38.430128+08:00",
+      "updated_at": "2026-04-22T13:54:45.896232+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=8"
+    },
+    {
+      "id": 11,
+      "title": "Ferrers 转化",
+      "terms": [
+        "其他"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 1,
+      "created_at": "2026-04-13T15:16:34.617828+08:00",
+      "updated_at": "2026-04-13T15:20:52.386386+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=11"
+    },
+    {
+      "id": 13,
+      "title": "同余 $a \\equiv b \\pmod m$ 的数学等价条件就是 $m$ 能整除 $a-b$。换句话说，$m$ 就是 $|a-b|$ 的因数。",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 2,
+      "created_at": "2026-04-13T15:26:43.506829+08:00",
+      "updated_at": "2026-04-13T15:27:48.158644+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=13"
+    },
+    {
+      "id": 14,
+      "title": "需要对 $q(q \\leq 10^5)$ 个小于等于 $V(V \\leq 10^7)$ 的数进行质因数分解，可使用线性筛求出 $minp$，对 $x$ 质因数分解时只需不断将 $x$ 除以 $minp_x$，相较于朴素分解的 $O(q\\sqrt{V})$，该做法可将复杂度降至 $O(V+q \\log V)$",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 2,
+      "created_at": "2026-04-13T15:33:25.317333+08:00",
+      "updated_at": "2026-04-13T15:43:52.445911+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=14"
+    },
+    {
+      "id": 15,
+      "title": "$\\left\\lfloor \\frac{N}{M} \\right\\rfloor \\bmod 10007 = \\left\\lfloor \\frac{N \\bmod (10007 \\times M)}{M} \\right\\rfloor$",
+      "terms": [
+        "其他"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 3,
+      "created_at": "2026-04-13T15:37:51.281879+08:00",
+      "updated_at": "2026-04-13T15:43:54.846417+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=15"
+    },
+    {
+      "id": 17,
+      "title": "一个数如果可以不断加k，然后模m，可以到达的数的集合该如何表示呢？",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 1,
+      "created_at": "2026-04-13T15:41:23.896077+08:00",
+      "updated_at": "2026-04-13T15:43:47.587384+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=17"
+    },
+    {
+      "id": 18,
+      "title": "令 $(x, y) \\to (x + y, x - y)$。 则$|x_1 - x_2| + |y_1 - y_2| = \\max(|x'_1 - x'_2|, |y'_1 - y'_2|)$",
+      "terms": [
+        "其他"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 3,
+      "created_at": "2026-04-13T15:47:07.142181+08:00",
+      "updated_at": "2026-04-13T15:48:34.344219+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=18"
+    },
+    {
+      "id": 19,
+      "title": "枚举区间gcd或按位与的种类数",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "区间gcd"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-04-13T16:53:07.725528+08:00",
+      "updated_at": "2026-04-23T19:03:32.106366+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=19"
+    },
+    {
+      "id": 20,
+      "title": "在小于 $ 10^5 $ 的数中，一个数最多有128个因子。",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 4,
+      "created_at": "2026-04-13T21:31:46.095470+08:00",
+      "updated_at": "2026-04-15T15:08:52.112569+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=20"
+    },
+    {
+      "id": 23,
+      "title": "当你在做迷宫一类的题目时，肯定会遇到偏移的问题，建议直接把以下部分加入自己的火车头里，在需要的时候直接取消注释即可（也有人喜欢用二维数组的没有关系，因人而异，自己习惯就好）",
+      "terms": [
+        "其他"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 4,
+      "created_at": "2026-04-14T10:28:40.092237+08:00",
+      "updated_at": "2026-04-14T10:37:37.784320+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=23"
+    },
+    {
+      "id": 24,
+      "title": "图上边权的Trick",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 2,
+      "created_at": "2026-04-14T10:43:12.201981+08:00",
+      "updated_at": "2026-04-14T11:14:14.342638+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=24"
+    },
+    {
+      "id": 25,
+      "title": "关于二分图最小点覆盖的一种建图方式，以及其操作方式",
+      "terms": [
+        "图论",
+        "数据结构",
+        "计算几何"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 2,
+      "created_at": "2026-04-14T12:29:35.080527+08:00",
+      "updated_at": "2026-04-14T14:57:32.433094+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=25"
+    },
+    {
+      "id": 26,
+      "title": "与质数相关的复杂度欺骗问题",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 1,
+      "created_at": "2026-04-14T12:35:27.289705+08:00",
+      "updated_at": "2026-04-14T14:57:30.445030+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=26"
+    },
+    {
+      "id": 28,
+      "title": "图上度数的trick",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 4,
+      "created_at": "2026-04-14T14:47:42.408936+08:00",
+      "updated_at": "2026-04-14T14:57:25.744655+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=28"
+    },
+    {
+      "id": 30,
+      "title": "约数小诈骗",
+      "terms": [
+        "其他"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 3,
+      "created_at": "2026-04-14T16:41:49.890414+08:00",
+      "updated_at": "2026-04-14T18:38:52.561309+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=30"
+    },
+    {
+      "id": 32,
+      "title": "计算圆周率",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "数学",
+        "圆周率"
+      ],
+      "like_count_at_capture": 10,
+      "created_at": "2026-04-14T20:57:24.135900+08:00",
+      "updated_at": "2026-04-20T23:14:13.698791+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=32"
+    },
+    {
+      "id": 33,
+      "title": "**竞赛图**：基图为无向完全图的有向简单图。",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [],
+      "like_count_at_capture": 1,
+      "created_at": "2026-04-15T10:32:49.305850+08:00",
+      "updated_at": "2026-04-15T11:29:30.380552+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=33"
+    },
+    {
+      "id": 34,
+      "title": "Bit Tricks",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "位运算",
+        "数学"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-04-15T10:58:52.796378+08:00",
+      "updated_at": "2026-04-16T21:00:10.808497+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=34"
+    },
+    {
+      "id": 36,
+      "title": "二元最大值/最小值计数转化为长度 + 前缀差分",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "计数"
+      ],
+      "like_count_at_capture": 5,
+      "created_at": "2026-04-15T22:33:00.508215+08:00",
+      "updated_at": "2026-04-22T13:52:57.052645+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=36"
+    },
+    {
+      "id": 38,
+      "title": "排列中 mex 与 min 的转化",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "mex",
+        "min",
+        "排列"
+      ],
+      "like_count_at_capture": 7,
+      "created_at": "2026-04-15T23:37:22.762276+08:00",
+      "updated_at": "2026-04-16T00:05:05.236953+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=38"
+    },
+    {
+      "id": 39,
+      "title": "一个整数如果是11的倍数那么一定满足奇数位偶数位交替相减得到的结果是11的倍数",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "数学"
+      ],
+      "like_count_at_capture": 2,
+      "created_at": "2026-04-16T09:55:47.210302+08:00",
+      "updated_at": "2026-04-16T20:58:22.272239+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=39"
+    },
+    {
+      "id": 40,
+      "title": "判断可重集合是否相等",
+      "terms": [
+        "其他"
+      ],
+      "keywords": [
+        "可重集合",
+        "随机",
+        "哈希"
+      ],
+      "like_count_at_capture": 9,
+      "created_at": "2026-04-16T11:59:53.703668+08:00",
+      "updated_at": "2026-04-16T11:59:53.703701+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=40"
+    },
+    {
+      "id": 41,
+      "title": "Dilworth 定理：关于最长上升子序列（LIS）",
+      "terms": [
+        "动态规划",
+        "数据结构"
+      ],
+      "keywords": [
+        "Dilworth",
+        "最长上升子序列",
+        "LIS"
+      ],
+      "like_count_at_capture": 7,
+      "created_at": "2026-04-16T14:37:04.595793+08:00",
+      "updated_at": "2026-04-16T20:59:08.791614+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=41"
+    },
+    {
+      "id": 44,
+      "title": "计算n!的末尾0的个数",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "数学"
+      ],
+      "like_count_at_capture": 6,
+      "created_at": "2026-04-17T17:33:30.381205+08:00",
+      "updated_at": "2026-04-17T19:01:15.220326+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=44"
+    },
+    {
+      "id": 45,
+      "title": "构建三角形",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "构造",
+        "数学"
+      ],
+      "like_count_at_capture": 3,
+      "created_at": "2026-04-20T16:10:24.180079+08:00",
+      "updated_at": "2026-04-20T23:16:59.455861+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=45"
+    },
+    {
+      "id": 49,
+      "title": "平方和展开恒等式",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "降次",
+        "数学"
+      ],
+      "like_count_at_capture": 6,
+      "created_at": "2026-04-22T01:07:33.935267+08:00",
+      "updated_at": "2026-04-22T13:04:47.745908+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=49"
+    },
+    {
+      "id": 53,
+      "title": "快速求 n个数的 popcount 和",
+      "terms": [
+        "其他",
+        "数学"
+      ],
+      "keywords": [
+        "位运算"
+      ],
+      "like_count_at_capture": 2,
+      "created_at": "2026-04-22T17:26:44.197851+08:00",
+      "updated_at": "2026-04-24T15:33:41.770304+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=53"
+    },
+    {
+      "id": 56,
+      "title": "关于三个数字两两做差的绝对值的最大值转化的小方法",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "数学，绝对值"
+      ],
+      "like_count_at_capture": 1,
+      "created_at": "2026-04-23T16:39:00.214606+08:00",
+      "updated_at": "2026-04-23T19:01:58.637864+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=56"
+    },
+    {
+      "id": 57,
+      "title": "再一个矩形统计覆盖特定单元格的子正方形数量",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "贡献法"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-04-23T16:51:33.812333+08:00",
+      "updated_at": "2026-04-23T19:01:51.384722+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=57"
+    },
+    {
+      "id": 59,
+      "title": "n个点组成的多边形面积",
+      "terms": [
+        "数学",
+        "计算几何"
+      ],
+      "keywords": [
+        "向量",
+        "计算几何"
+      ],
+      "like_count_at_capture": 1,
+      "created_at": "2026-04-23T23:13:30.142225+08:00",
+      "updated_at": "2026-04-24T15:11:02.072396+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=59"
+    },
+    {
+      "id": 60,
+      "title": "构造相邻二进制数仅相差一位的数组",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "格雷码",
+        "位运算"
+      ],
+      "like_count_at_capture": 1,
+      "created_at": "2026-04-24T08:57:58.036642+08:00",
+      "updated_at": "2026-04-24T15:31:34.671468+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=60"
+    },
+    {
+      "id": 61,
+      "title": "无精度误差判断线段穿过圆",
+      "terms": [
+        "其他",
+        "计算几何"
+      ],
+      "keywords": [
+        "计算几何"
+      ],
+      "like_count_at_capture": 1,
+      "created_at": "2026-04-24T11:26:29.458587+08:00",
+      "updated_at": "2026-04-24T15:31:20.616973+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=61"
+    },
+    {
+      "id": 67,
+      "title": "O(1)判断组合数奇偶性",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "组合数，奇偶"
+      ],
+      "like_count_at_capture": 2,
+      "created_at": "2026-05-08T21:45:51.246158+08:00",
+      "updated_at": "2026-05-10T20:20:49.086063+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=67"
+    },
+    {
+      "id": 68,
+      "title": "最远点性质",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "树"
+      ],
+      "like_count_at_capture": 2,
+      "created_at": "2026-05-08T21:48:18.059451+08:00",
+      "updated_at": "2026-05-10T20:20:34.226034+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=68"
+    },
+    {
+      "id": 70,
+      "title": "数组区间加等差数列",
+      "terms": [
+        "其他"
+      ],
+      "keywords": [
+        "等差数列"
+      ],
+      "like_count_at_capture": 1,
+      "created_at": "2026-05-08T22:01:32.646819+08:00",
+      "updated_at": "2026-05-10T20:21:32.892858+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=70"
+    },
+    {
+      "id": 74,
+      "title": "动态确定节点带权树的重心",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "线段树二分，倍增"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-18T11:24:09.644790+08:00",
+      "updated_at": "2026-05-19T14:45:11.534281+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=74"
+    },
+    {
+      "id": 77,
+      "title": "换根后求两点的lca",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "lca"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-28T19:14:25.750543+08:00",
+      "updated_at": "2026-05-28T23:37:47.534025+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=77"
+    },
+    {
+      "id": 78,
+      "title": "树上多点 LCA",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "图论",
+        "lca",
+        "dfn序"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-28T23:32:42.618664+08:00",
+      "updated_at": "2026-05-28T23:38:55.261254+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=78"
+    },
+    {
+      "id": 79,
+      "title": "奇偶位取反转化相邻同项操作",
+      "terms": [
+        "其他",
+        "字符串"
+      ],
+      "keywords": [
+        "奇偶位取反",
+        "01串",
+        "相邻同项",
+        "相邻异项",
+        "相邻交换"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T03:14:50.810598+08:00",
+      "updated_at": "2026-05-30T11:41:10.776745+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=79"
+    },
+    {
+      "id": 80,
+      "title": "用矩阵快速幂加速固定边数 Floyd",
+      "terms": [
+        "动态规划",
+        "图论"
+      ],
+      "keywords": [
+        "Floyd",
+        "矩阵快速幂",
+        "min-plus",
+        "恰好k条边",
+        "最短路"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:26:53.129576+08:00",
+      "updated_at": "2026-05-30T15:38:15.477854+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=80"
+    },
+    {
+      "id": 81,
+      "title": "倍增优化区间并查集合并",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "并查集",
+        "倍增",
+        "ST表",
+        "区间相等",
+        "区间合并"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:26:55.120135+08:00",
+      "updated_at": "2026-05-30T15:37:52.181742+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=81"
+    },
+    {
+      "id": 82,
+      "title": "将无向图问题转到生成树上处理",
+      "terms": [
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "生成树",
+        "非树边",
+        "树上差分",
+        "桥",
+        "环",
+        "操作图转树"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:26:57.111968+08:00",
+      "updated_at": "2026-05-30T15:38:06.897322+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=82"
+    },
+    {
+      "id": 83,
+      "title": "将二元组约束转化为图上连边",
+      "terms": [
+        "其他",
+        "图论"
+      ],
+      "keywords": [
+        "二元组",
+        "连边",
+        "差分",
+        "图建模",
+        "约束转图"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:26:58.934846+08:00",
+      "updated_at": "2026-05-30T15:38:11.025975+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=83"
+    },
+    {
+      "id": 84,
+      "title": "图上分治避免重复计算未受影响部分",
+      "terms": [
+        "动态规划",
+        "图论"
+      ],
+      "keywords": [
+        "图上分治",
+        "分治",
+        "Floyd",
+        "可撤销并查集",
+        "删除点",
+        "重复计算"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:27:00.706581+08:00",
+      "updated_at": "2026-05-30T15:38:13.400447+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=84"
+    },
+    {
+      "id": 85,
+      "title": "DAG 的分层图仍可按 DAG 处理",
+      "terms": [
+        "动态规划",
+        "图论"
+      ],
+      "keywords": [
+        "DAG",
+        "分层图",
+        "缩点",
+        "拓扑序",
+        "反悔一次"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:43:29.321334+08:00",
+      "updated_at": "2026-05-30T20:57:43.720312+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=85"
+    },
+    {
+      "id": 86,
+      "title": "合法括号串拼接产生 `)(` 断点",
+      "terms": [
+        "其他",
+        "字符串"
+      ],
+      "keywords": [
+        "括号串",
+        "合法括号串",
+        "拼接",
+        "连通块",
+        "断点"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:43:31.251491+08:00",
+      "updated_at": "2026-05-30T20:57:42.462007+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=86"
+    },
+    {
+      "id": 87,
+      "title": "用质因数虚点优化 gcd 连边图",
+      "terms": [
+        "图论",
+        "数学"
+      ],
+      "keywords": [
+        "质因数",
+        "虚点",
+        "gcd建图",
+        "BFS",
+        "最短路"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:43:33.326100+08:00",
+      "updated_at": "2026-05-30T20:57:41.096008+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=87"
+    },
+    {
+      "id": 88,
+      "title": "单侧递归线段树处理区间可见性",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "线段树",
+        "单侧递归",
+        "区间合并",
+        "可见楼房",
+        "最大斜率"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:43:35.176139+08:00",
+      "updated_at": "2026-05-30T20:57:39.695419+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=88"
+    },
+    {
+      "id": 89,
+      "title": "将直方图横向分解为笛卡尔树",
+      "terms": [
+        "动态规划",
+        "数据结构"
+      ],
+      "keywords": [
+        "直方图",
+        "笛卡尔树",
+        "横向分解",
+        "树形DP"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:43:37.158116+08:00",
+      "updated_at": "2026-05-30T20:57:38.457947+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=89"
+    },
+    {
+      "id": 90,
+      "title": "用耳分解处理强连通或边双连通子图",
+      "terms": [
+        "动态规划",
+        "图论"
+      ],
+      "keywords": [
+        "耳分解",
+        "强连通",
+        "边双连通",
+        "状压DP"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:44:29.775336+08:00",
+      "updated_at": "2026-05-30T20:57:36.943297+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=90"
+    },
+    {
+      "id": 91,
+      "title": "BIT 倍增替代二分套树状数组",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "树状数组",
+        "BIT倍增",
+        "二分",
+        "前缀和",
+        "单峰"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:44:35.712165+08:00",
+      "updated_at": "2026-05-30T20:57:34.858567+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=91"
+    },
+    {
+      "id": 92,
+      "title": "用生成树基本环表示无向图任意环",
+      "terms": [
+        "图论",
+        "数学"
+      ],
+      "keywords": [
+        "生成树",
+        "基本环",
+        "异或环",
+        "线性基",
+        "奇环覆盖"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:44:37.647516+08:00",
+      "updated_at": "2026-05-30T20:57:33.048367+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=92"
+    },
+    {
+      "id": 93,
+      "title": "用强制性描述 DP 状态",
+      "terms": [
+        "动态规划"
+      ],
+      "keywords": [
+        "DP状态",
+        "强制选择",
+        "强制不选",
+        "状态设计"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:44:39.368723+08:00",
+      "updated_at": "2026-05-30T20:57:30.668279+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=93"
+    },
+    {
+      "id": 94,
+      "title": "用补集转化子集限制",
+      "terms": [
+        "其他",
+        "图论",
+        "数学"
+      ],
+      "keywords": [
+        "补集",
+        "独立集",
+        "点覆盖",
+        "子集计数",
+        "参数化"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:44:41.105388+08:00",
+      "updated_at": "2026-05-30T20:57:28.270798+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=94"
+    },
+    {
+      "id": 95,
+      "title": "给无向边定向优化枚举",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "无向边定向",
+        "三元环",
+        "度数",
+        "根号分治",
+        "枚举优化"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:45:28.528041+08:00",
+      "updated_at": "2026-05-30T20:57:27.440619+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=95"
+    },
+    {
+      "id": 96,
+      "title": "以主环为基准求有向环交",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "有向环",
+        "环交",
+        "主环",
+        "差分",
+        "DFS"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:45:30.465556+08:00",
+      "updated_at": "2026-05-30T20:57:25.865633+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=96"
+    },
+    {
+      "id": 97,
+      "title": "多个无向简单环点集交至多为二",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "无向图",
+        "简单环",
+        "环交",
+        "点集交",
+        "性质"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:45:38.321686+08:00",
+      "updated_at": "2026-05-30T20:57:24.629302+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=97"
+    },
+    {
+      "id": 98,
+      "title": "按阈值将序列值域转为 01",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "值域转01",
+        "二分答案",
+        "区间排序",
+        "线段树",
+        "阈值"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:45:41.340674+08:00",
+      "updated_at": "2026-05-30T20:57:23.214870+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=98"
+    },
+    {
+      "id": 99,
+      "title": "无向图边可拆成双向边跑网络流",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "网络流",
+        "无向图",
+        "双向边",
+        "最大流",
+        "最小割"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:46:30.108175+08:00",
+      "updated_at": "2026-05-30T20:57:22.044610+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=99"
+    },
+    {
+      "id": 100,
+      "title": "循环区间滑动时用连续性保证取等",
+      "terms": [
+        "其他",
+        "数学"
+      ],
+      "keywords": [
+        "循环区间",
+        "滑动窗口",
+        "连续性",
+        "01串",
+        "构造"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:46:31.984656+08:00",
+      "updated_at": "2026-05-30T20:57:20.580374+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=100"
+    },
+    {
+      "id": 101,
+      "title": "树上操作从叶子向根构造",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "树",
+        "从叶向根",
+        "构造",
+        "奇偶度",
+        "欧拉回路"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:46:38.796602+08:00",
+      "updated_at": "2026-05-30T20:57:18.943608+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=101"
+    },
+    {
+      "id": 102,
+      "title": "分块 ST 表降低 RMQ 空间",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "ST表",
+        "分块",
+        "RMQ",
+        "区间最值",
+        "空间优化"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:46:40.741160+08:00",
+      "updated_at": "2026-05-30T20:57:17.572609+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=102"
+    },
+    {
+      "id": 103,
+      "title": "将操作离线倒序处理",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "离线",
+        "倒序",
+        "并查集",
+        "区间覆盖",
+        "删点变加点"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:46:42.614621+08:00",
+      "updated_at": "2026-05-30T20:57:16.188035+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=103"
+    },
+    {
+      "id": 104,
+      "title": "将权值减下标消去连续递增限制",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "权值减下标",
+        "连续递增",
+        "等差",
+        "区间覆盖"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:46:44.486291+08:00",
+      "updated_at": "2026-05-30T20:57:14.659162+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=104"
+    },
+    {
+      "id": 105,
+      "title": "先模拟到稳定阶段再换做法",
+      "terms": [
+        "其他",
+        "动态规划"
+      ],
+      "keywords": [
+        "分阶段",
+        "模拟",
+        "稳定性质",
+        "DAG",
+        "DP",
+        "阈值"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:47:31.169602+08:00",
+      "updated_at": "2026-05-30T20:57:13.178527+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=105"
+    },
+    {
+      "id": 106,
+      "title": "枚举区间最值时只枚举较短一侧",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "最值分治",
+        "单调栈",
+        "区间最大值",
+        "枚举较短侧"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:47:32.985511+08:00",
+      "updated_at": "2026-05-30T20:57:11.109874+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=106"
+    },
+    {
+      "id": 107,
+      "title": "在精度允许时舍弃高阶小贡献",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "精度",
+        "舍弃贡献",
+        "期望",
+        "DP",
+        "矩阵快速幂"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:47:42.752098+08:00",
+      "updated_at": "2026-05-30T20:57:09.473445+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=107"
+    },
+    {
+      "id": 108,
+      "title": "用一次项系数统计贡献和",
+      "terms": [
+        "图论",
+        "数学"
+      ],
+      "keywords": [
+        "一次项系数",
+        "多项式",
+        "贡献和",
+        "生成树",
+        "矩阵树定理"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:47:44.685758+08:00",
+      "updated_at": "2026-05-30T20:57:07.436616+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=108"
+    },
+    {
+      "id": 109,
+      "title": "个数和值域小但答案大时做数位 DP",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "数位DP",
+        "进位",
+        "小值域",
+        "大答案",
+        "计数"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:47:46.570677+08:00",
+      "updated_at": "2026-05-30T20:57:05.261063+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=109"
+    },
+    {
+      "id": 110,
+      "title": "用抽屉原理转化比例上界构造",
+      "terms": [
+        "其他",
+        "数学"
+      ],
+      "keywords": [
+        "抽屉原理",
+        "构造",
+        "比例上界",
+        "染色",
+        "支配集"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:47:48.438112+08:00",
+      "updated_at": "2026-05-30T20:57:03.024362+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=110"
+    },
+    {
+      "id": 111,
+      "title": "用前缀和或差分重解释操作",
+      "terms": [
+        "其他",
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "前缀和",
+        "差分",
+        "操作转化",
+        "异或前缀",
+        "交换相邻"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:48:32.049697+08:00",
+      "updated_at": "2026-05-30T20:57:00.627380+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=111"
+    },
+    {
+      "id": 112,
+      "title": "按操作对二进制位的影响划分过程",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "二进制",
+        "位运算",
+        "进位",
+        "状态划分",
+        "操作过程"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:48:42.658414+08:00",
+      "updated_at": "2026-05-30T20:56:58.764552+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=112"
+    },
+    {
+      "id": 113,
+      "title": "Trie 上交换子树实现值域操作",
+      "terms": [
+        "字符串",
+        "数据结构"
+      ],
+      "keywords": [
+        "Trie",
+        "01Trie",
+        "交换子树",
+        "xor",
+        "or",
+        "and",
+        "值域线段树"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:48:44.704174+08:00",
+      "updated_at": "2026-05-30T20:56:56.251497+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=113"
+    },
+    {
+      "id": 114,
+      "title": "用圆上弦端点交错判断圆内直线交点",
+      "terms": [
+        "数据结构",
+        "计算几何"
+      ],
+      "keywords": [
+        "弦交错",
+        "圆",
+        "直线交点",
+        "极角排序",
+        "BIT",
+        "扫描线"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:48:48.650623+08:00",
+      "updated_at": "2026-05-30T20:56:53.413547+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=114"
+    },
+    {
+      "id": 115,
+      "title": "钦定不再操作的元素简化序列过程",
+      "terms": [
+        "其他",
+        "动态规划"
+      ],
+      "keywords": [
+        "钦定",
+        "不操作元素",
+        "排列DP",
+        "后缀",
+        "状态压缩"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:48:50.500683+08:00",
+      "updated_at": "2026-05-30T20:56:51.295496+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=115"
+    },
+    {
+      "id": 116,
+      "title": "模糊答案可按二的幂压缩值域",
+      "terms": [
+        "其他",
+        "数学"
+      ],
+      "keywords": [
+        "近似答案",
+        "二进制",
+        "值域压缩",
+        "二倍限制"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:49:32.279106+08:00",
+      "updated_at": "2026-05-30T20:56:48.806813+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=116"
+    },
+    {
+      "id": 117,
+      "title": "绝对众数可用摩尔投票信息维护",
+      "terms": [
+        "数学",
+        "数据结构"
+      ],
+      "keywords": [
+        "绝对众数",
+        "摩尔投票",
+        "结合律",
+        "区间众数"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:49:34.071444+08:00",
+      "updated_at": "2026-05-30T20:56:46.397425+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=117"
+    },
+    {
+      "id": 118,
+      "title": "延迟贡献处理暂时无法确定的决策",
+      "terms": [
+        "动态规划"
+      ],
+      "keywords": [
+        "延迟贡献",
+        "DP",
+        "组合计数",
+        "暂不统计"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:49:43.144708+08:00",
+      "updated_at": "2026-05-30T20:56:43.410395+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=118"
+    },
+    {
+      "id": 119,
+      "title": "将动态可行决策转为随机排列决策",
+      "terms": [
+        "其他",
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "随机排列",
+        "期望",
+        "可行决策",
+        "线性性"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:49:49.036093+08:00",
+      "updated_at": "2026-05-30T20:56:40.392596+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=119"
+    },
+    {
+      "id": 120,
+      "title": "斐波那契数列常用二级结论",
+      "terms": [
+        "数学",
+        "数据结构"
+      ],
+      "keywords": [
+        "斐波那契",
+        "gcd",
+        "广义斐波那契",
+        "区间加",
+        "线段树"
+      ],
+      "like_count_at_capture": 1,
+      "created_at": "2026-05-30T15:49:50.924839+08:00",
+      "updated_at": "2026-05-30T20:56:37.773942+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=120"
+    },
+    {
+      "id": 121,
+      "title": "三维偏序判定降为二维偏序",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "三维偏序",
+        "二维偏序",
+        "排序",
+        "支配关系"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:49:52.867944+08:00",
+      "updated_at": "2026-05-30T20:56:34.541151+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=121"
+    },
+    {
+      "id": 122,
+      "title": "区间形态合法性转区间 DP",
+      "terms": [
+        "动态规划"
+      ],
+      "keywords": [
+        "区间DP",
+        "合法区间",
+        "合并",
+        "区间结构"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:50:34.690733+08:00",
+      "updated_at": "2026-05-30T20:56:31.197244+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=122"
+    },
+    {
+      "id": 123,
+      "title": "镜像法消除 DP 边界限制",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "镜像法",
+        "边界",
+        "DP",
+        "反射",
+        "容斥"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:50:49.292337+08:00",
+      "updated_at": "2026-05-30T20:56:28.463677+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=123"
+    },
+    {
+      "id": 124,
+      "title": "交换值域与状态",
+      "terms": [
+        "动态规划",
+        "数据结构"
+      ],
+      "keywords": [
+        "值域",
+        "状态",
+        "交换维度",
+        "DP",
+        "优化"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:50:51.179553+08:00",
+      "updated_at": "2026-05-30T20:56:25.031416+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=124"
+    },
+    {
+      "id": 125,
+      "title": "差分贡献使 DP 转移单调",
+      "terms": [
+        "动态规划"
+      ],
+      "keywords": [
+        "差分贡献",
+        "DP",
+        "单调性",
+        "贡献不降"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:50:53.023436+08:00",
+      "updated_at": "2026-05-30T20:56:21.951969+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=125"
+    },
+    {
+      "id": 126,
+      "title": "大值域互异限制映射到小值域",
+      "terms": [
+        "其他",
+        "数学"
+      ],
+      "keywords": [
+        "值域压缩",
+        "互异",
+        "鸽巢原理",
+        "小值域",
+        "映射"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:51:50.299799+08:00",
+      "updated_at": "2026-05-30T20:56:18.681542+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=126"
+    },
+    {
+      "id": 127,
+      "title": "不少于一半类条件用随机候选",
+      "terms": [
+        "其他",
+        "数学"
+      ],
+      "keywords": [
+        "随机化",
+        "多数元素",
+        "不少于一半",
+        "候选",
+        "检验"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:51:52.109541+08:00",
+      "updated_at": "2026-05-30T20:56:15.181913+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=127"
+    },
+    {
+      "id": 128,
+      "title": "NFA 状态集合转 DFA 计数",
+      "terms": [
+        "其他",
+        "动态规划",
+        "字符串"
+      ],
+      "keywords": [
+        "NFA",
+        "DFA",
+        "自动机",
+        "状态集合",
+        "计数"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:51:54.039367+08:00",
+      "updated_at": "2026-05-30T20:56:11.937370+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=128"
+    },
+    {
+      "id": 129,
+      "title": "合法性判定同时维护增减方向",
+      "terms": [
+        "其他",
+        "数学"
+      ],
+      "keywords": [
+        "二分答案",
+        "合法区间",
+        "单调方向",
+        "判定"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:51:56.088625+08:00",
+      "updated_at": "2026-05-30T20:56:08.320647+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=129"
+    },
+    {
+      "id": 130,
+      "title": "树拓扑序最优化用邻项交换",
+      "terms": [
+        "其他",
+        "图论"
+      ],
+      "keywords": [
+        "树",
+        "拓扑序",
+        "邻项交换",
+        "贪心",
+        "排序"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:52:50.459968+08:00",
+      "updated_at": "2026-05-30T20:56:04.953381+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=130"
+    },
+    {
+      "id": 131,
+      "title": "Dijkstra 出队顺序定向成 DAG",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "Dijkstra",
+        "DAG",
+        "最短路",
+        "偏序",
+        "出队顺序"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:52:52.468673+08:00",
+      "updated_at": "2026-05-30T20:56:01.333321+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=131"
+    },
+    {
+      "id": 132,
+      "title": "次数限制拆点转网络流",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "网络流",
+        "拆点",
+        "次数限制",
+        "容量"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:52:54.297468+08:00",
+      "updated_at": "2026-05-30T20:55:58.127438+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=132"
+    },
+    {
+      "id": 133,
+      "title": "时间信息转分层图",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "分层图",
+        "时间",
+        "状态图",
+        "最短路",
+        "DP"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:52:56.131996+08:00",
+      "updated_at": "2026-05-30T20:55:54.744295+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=133"
+    },
+    {
+      "id": 134,
+      "title": "树形 DP 反向保存祖先信息",
+      "terms": [
+        "动态规划",
+        "图论"
+      ],
+      "keywords": [
+        "树形DP",
+        "祖先信息",
+        "换根",
+        "反向状态"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:52:58.096986+08:00",
+      "updated_at": "2026-05-30T20:55:51.187856+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=134"
+    },
+    {
+      "id": 135,
+      "title": "点权边权互相转化",
+      "terms": [
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "点权",
+        "边权",
+        "拆点",
+        "树链",
+        "路径查询"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:53:00.097961+08:00",
+      "updated_at": "2026-05-30T20:55:47.878581+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=135"
+    },
+    {
+      "id": 136,
+      "title": "完全图特殊边权用 Boruvka 优化 MST",
+      "terms": [
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "完全图",
+        "最小生成树",
+        "Boruvka",
+        "Trie",
+        "异或"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:53:53.553885+08:00",
+      "updated_at": "2026-05-30T20:55:43.976208+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=136"
+    },
+    {
+      "id": 137,
+      "title": "边至少或恰好经过一次考虑欧拉路",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "欧拉路",
+        "边覆盖",
+        "至少一次",
+        "恰好一次"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:53:55.430997+08:00",
+      "updated_at": "2026-05-30T20:55:40.005936+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=137"
+    },
+    {
+      "id": 138,
+      "title": "LCA 路径拆成向上和向下两段",
+      "terms": [
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "LCA",
+        "路径拆分",
+        "上行",
+        "下行",
+        "树上统计"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:53:57.305146+08:00",
+      "updated_at": "2026-05-30T20:55:36.440421+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=138"
+    },
+    {
+      "id": 139,
+      "title": "图直径限制所有点最远距离范围",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "图直径",
+        "最远距离",
+        "半径",
+        "距离界"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:54:53.640404+08:00",
+      "updated_at": "2026-05-30T20:55:32.950773+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=139"
+    },
+    {
+      "id": 140,
+      "title": "树剖边权转点权",
+      "terms": [
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "树链剖分",
+        "边权转点权",
+        "dfn",
+        "路径查询"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:54:55.509944+08:00",
+      "updated_at": "2026-05-30T20:55:27.274647+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=140"
+    },
+    {
+      "id": 141,
+      "title": "主席树视作静态树套树",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "主席树",
+        "静态树套树",
+        "可持久化",
+        "权值线段树"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:54:57.446173+08:00",
+      "updated_at": "2026-05-30T20:55:24.708841+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=141"
+    },
+    {
+      "id": 142,
+      "title": "二维限制排序后一维维护",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "二维偏序",
+        "排序",
+        "扫描线",
+        "一维维护"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:54:59.185545+08:00",
+      "updated_at": "2026-05-30T20:55:18.855691+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=142"
+    },
+    {
+      "id": 143,
+      "title": "复杂区间修改用矩阵维护",
+      "terms": [
+        "数学",
+        "数据结构"
+      ],
+      "keywords": [
+        "矩阵",
+        "线段树",
+        "区间修改",
+        "线性变换"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:55:00.946627+08:00",
+      "updated_at": "2026-05-30T20:55:17.113595+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=143"
+    },
+    {
+      "id": 144,
+      "title": "链加单点与单点加链对偶转化",
+      "terms": [
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "树上差分",
+        "链加",
+        "单点查",
+        "子树和",
+        "对偶"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:55:03.314292+08:00",
+      "updated_at": "2026-05-30T20:55:12.271629+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=144"
+    },
+    {
+      "id": 145,
+      "title": "出现次数问题优先考虑根号分治",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "出现次数",
+        "根号分治",
+        "大小分类",
+        "高频",
+        "低频"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:55:55.958805+08:00",
+      "updated_at": "2026-05-30T20:55:08.082421+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=145"
+    },
+    {
+      "id": 146,
+      "title": "数颜色转为统计前驱位置",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "数颜色",
+        "pre",
+        "前驱",
+        "莫队",
+        "主席树",
+        "树状数组"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:55:57.842332+08:00",
+      "updated_at": "2026-05-30T20:55:03.601859+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=146"
+    },
+    {
+      "id": 147,
+      "title": "删除操作用时间线段树分治",
+      "terms": [
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "线段树分治",
+        "删除操作",
+        "动态连通",
+        "回滚"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:55:59.729727+08:00",
+      "updated_at": "2026-05-30T20:54:59.375299+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=147"
+    },
+    {
+      "id": 148,
+      "title": "最值比较问题放到笛卡尔树上",
+      "terms": [
+        "动态规划",
+        "数据结构"
+      ],
+      "keywords": [
+        "笛卡尔树",
+        "RMQ",
+        "最值",
+        "分治",
+        "区间"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:56:54.751138+08:00",
+      "updated_at": "2026-05-30T20:54:55.565025+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=148"
+    },
+    {
+      "id": 149,
+      "title": "大 k 的第 k 小查询用随机二分",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "第k小",
+        "随机二分",
+        "排名",
+        "查询"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:56:56.587775+08:00",
+      "updated_at": "2026-05-30T20:54:51.093450+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=149"
+    },
+    {
+      "id": 150,
+      "title": "强制选或禁用询问用前后缀 DP",
+      "terms": [
+        "动态规划"
+      ],
+      "keywords": [
+        "前后缀DP",
+        "强制选择",
+        "禁用物品",
+        "查询合并"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:56:58.335966+08:00",
+      "updated_at": "2026-05-30T20:54:46.877204+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=150"
+    },
+    {
+      "id": 151,
+      "title": "因数倍数 DP 写成迪利克雷卷积",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "迪利克雷卷积",
+        "因数",
+        "倍数",
+        "DP",
+        "反演",
+        "积性"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:57:53.527972+08:00",
+      "updated_at": "2026-05-30T20:54:42.078444+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=151"
+    },
+    {
+      "id": 152,
+      "title": "反悔贪心处理动态选择",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "反悔贪心",
+        "优先队列",
+        "动态选择",
+        "后悔"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:57:55.417686+08:00",
+      "updated_at": "2026-05-30T20:54:37.223335+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=152"
+    },
+    {
+      "id": 153,
+      "title": "删除困难时维护前后缀结构",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "前缀",
+        "后缀",
+        "删除",
+        "线性基",
+        "除法"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:57:57.171467+08:00",
+      "updated_at": "2026-05-30T20:54:32.951471+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=153"
+    },
+    {
+      "id": 154,
+      "title": "减法变换尝试扩展为取模变换",
+      "terms": [
+        "其他",
+        "数学"
+      ],
+      "keywords": [
+        "取模",
+        "减法",
+        "欧几里得",
+        "操作优化"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:57:59.029400+08:00",
+      "updated_at": "2026-05-30T20:54:28.251732+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=154"
+    },
+    {
+      "id": 155,
+      "title": "存在性转为反面全不满足",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "存在性",
+        "补集",
+        "容斥",
+        "全不满足"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:58:00.963647+08:00",
+      "updated_at": "2026-05-30T20:54:21.861118+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=155"
+    },
+    {
+      "id": 156,
+      "title": "多维绝对值枚举符号展开",
+      "terms": [
+        "数学",
+        "数据结构"
+      ],
+      "keywords": [
+        "绝对值",
+        "曼哈顿距离",
+        "符号枚举",
+        "维度"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:58:02.893665+08:00",
+      "updated_at": "2026-05-30T20:54:14.551045+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=156"
+    },
+    {
+      "id": 157,
+      "title": "随意交换抽象成置换环",
+      "terms": [
+        "其他",
+        "数学"
+      ],
+      "keywords": [
+        "置换",
+        "环",
+        "交换",
+        "排列"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:58:56.075289+08:00",
+      "updated_at": "2026-05-30T20:54:12.589050+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=157"
+    },
+    {
+      "id": 158,
+      "title": "01 序列 LNDS 转最大前缀和",
+      "terms": [
+        "动态规划",
+        "字符串"
+      ],
+      "keywords": [
+        "01序列",
+        "LNDS",
+        "最大前缀和",
+        "转化"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:58:57.969905+08:00",
+      "updated_at": "2026-05-30T20:54:07.586708+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=158"
+    },
+    {
+      "id": 159,
+      "title": "最大子段和的局部最优性质",
+      "terms": [
+        "动态规划"
+      ],
+      "keywords": [
+        "最大子段和",
+        "局部性质",
+        "前缀",
+        "后缀"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:58:59.822882+08:00",
+      "updated_at": "2026-05-30T20:54:02.737979+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=159"
+    },
+    {
+      "id": 160,
+      "title": "恰好 k 转钦定 k 后容斥",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "恰好k",
+        "容斥",
+        "钦定",
+        "至少k"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:59:01.656816+08:00",
+      "updated_at": "2026-05-30T20:53:55.880351+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=160"
+    },
+    {
+      "id": 161,
+      "title": "平均数等于目标转和为零",
+      "terms": [
+        "数学",
+        "数据结构"
+      ],
+      "keywords": [
+        "平均数",
+        "减目标",
+        "前缀和",
+        "子数组"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:59:03.715814+08:00",
+      "updated_at": "2026-05-30T20:53:50.938966+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=161"
+    },
+    {
+      "id": 162,
+      "title": "连续上取整可以合并分母",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "上取整",
+        "连续取整",
+        "分母合并"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:59:05.623183+08:00",
+      "updated_at": "2026-05-30T20:53:45.651477+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=162"
+    },
+    {
+      "id": 163,
+      "title": "奇怪幂贡献考虑组合意义",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "幂",
+        "组合意义",
+        "贡献转化",
+        "计数"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T15:59:59.949931+08:00",
+      "updated_at": "2026-05-30T20:53:40.309978+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=163"
+    },
+    {
+      "id": 164,
+      "title": "整数拍扁成 01 前缀表示差值",
+      "terms": [
+        "字符串",
+        "数学"
+      ],
+      "keywords": [
+        "01表示",
+        "popcount",
+        "绝对值",
+        "拍扁"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:00:04.287019+08:00",
+      "updated_at": "2026-05-30T20:53:32.392328+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=164"
+    },
+    {
+      "id": 165,
+      "title": "Trie 上两串 LCP 等于 LCA 深度",
+      "terms": [
+        "字符串",
+        "数据结构"
+      ],
+      "keywords": [
+        "Trie",
+        "LCP",
+        "LCA",
+        "字符串",
+        "前缀"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:00:06.181170+08:00",
+      "updated_at": "2026-05-30T20:53:27.680220+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=165"
+    },
+    {
+      "id": 166,
+      "title": "并查集维护集合和支持单点改权",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "并查集",
+        "集合和",
+        "单点修改",
+        "权值"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:00:08.083439+08:00",
+      "updated_at": "2026-05-30T20:53:25.336822+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=166"
+    },
+    {
+      "id": 167,
+      "title": "光速幂用平方根分块预处理",
+      "terms": [
+        "数学",
+        "数据结构"
+      ],
+      "keywords": [
+        "快速幂",
+        "光速幂",
+        "根号分块",
+        "预处理"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:01:00.545851+08:00",
+      "updated_at": "2026-05-30T20:53:19.631437+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=167"
+    },
+    {
+      "id": 168,
+      "title": "完全平方数用质因数奇偶性表示",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "完全平方数",
+        "质因数",
+        "奇偶性",
+        "唯一分解"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:01:05.116226+08:00",
+      "updated_at": "2026-05-30T20:53:13.989080+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=168"
+    },
+    {
+      "id": 169,
+      "title": "逆序对奇偶性由置换环数决定",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "逆序对",
+        "奇偶性",
+        "置换",
+        "环",
+        "排列"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:01:06.956288+08:00",
+      "updated_at": "2026-05-30T20:53:02.423931+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=169"
+    },
+    {
+      "id": 170,
+      "title": "方案数平方和转同类有序对计数",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "平方和",
+        "有序对",
+        "方案计数",
+        "同类"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:01:09.133902+08:00",
+      "updated_at": "2026-05-30T20:52:56.795076+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=170"
+    },
+    {
+      "id": 171,
+      "title": "存在性二维数点只维护另一维最值",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "二维数点",
+        "存在性",
+        "区间最值",
+        "扫描线"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:01:10.949497+08:00",
+      "updated_at": "2026-05-30T20:52:51.155767+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=171"
+    },
+    {
+      "id": 172,
+      "title": "静态区间单调栈用倍增处理",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "单调栈",
+        "倍增",
+        "静态区间",
+        "跳表"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:01:12.882068+08:00",
+      "updated_at": "2026-05-30T20:52:45.511200+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=172"
+    },
+    {
+      "id": 173,
+      "title": "前 k 大方案用堆维护后继状态",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "前k大",
+        "优先队列",
+        "后继状态",
+        "堆"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:02:05.488746+08:00",
+      "updated_at": "2026-05-30T20:52:39.544482+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=173"
+    },
+    {
+      "id": 174,
+      "title": "摩尔投票维护区间高频候选",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "摩尔投票",
+        "区间众数",
+        "高频候选",
+        "线段树"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:02:07.305920+08:00",
+      "updated_at": "2026-05-30T20:52:33.364239+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=174"
+    },
+    {
+      "id": 175,
+      "title": "虚树贡献用 dfn 相邻距离维护",
+      "terms": [
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "虚树",
+        "dfn",
+        "相邻距离",
+        "set",
+        "动态点集"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:02:09.091289+08:00",
+      "updated_at": "2026-05-30T20:52:24.691371+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=175"
+    },
+    {
+      "id": 176,
+      "title": "决策单调性可用整体分治找决策点",
+      "terms": [
+        "动态规划"
+      ],
+      "keywords": [
+        "决策单调性",
+        "整体分治",
+        "DP优化"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:02:12.057227+08:00",
+      "updated_at": "2026-05-30T20:52:18.297290+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=176"
+    },
+    {
+      "id": 177,
+      "title": "CDQ 外套决策单调性手动分层",
+      "terms": [
+        "动态规划",
+        "数据结构"
+      ],
+      "keywords": [
+        "CDQ分治",
+        "决策单调性",
+        "莫队式贡献",
+        "DP"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:03:08.354376+08:00",
+      "updated_at": "2026-05-30T20:51:39.424228+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=177"
+    },
+    {
+      "id": 178,
+      "title": "势能法求期望步数",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "势能法",
+        "期望",
+        "随机过程",
+        "步数"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:03:10.261542+08:00",
+      "updated_at": "2026-05-30T20:51:33.851278+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=178"
+    },
+    {
+      "id": 179,
+      "title": "取整与按位运算的不同值常为对数级",
+      "terms": [
+        "数学",
+        "数据结构"
+      ],
+      "keywords": [
+        "整除分块",
+        "按位与",
+        "按位或",
+        "log",
+        "不同值"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:03:12.288171+08:00",
+      "updated_at": "2026-05-30T20:51:27.741700+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=179"
+    },
+    {
+      "id": 180,
+      "title": "WQS 二分处理带数量限制最优化",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "WQS二分",
+        "带权二分",
+        "数量限制",
+        "DP"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:03:14.112815+08:00",
+      "updated_at": "2026-05-30T20:51:21.515323+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=180"
+    },
+    {
+      "id": 181,
+      "title": "DP 取值少时只维护断点",
+      "terms": [
+        "动态规划",
+        "数据结构"
+      ],
+      "keywords": [
+        "DP",
+        "断点",
+        "分段函数",
+        "取值少"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:03:16.095468+08:00",
+      "updated_at": "2026-05-30T20:51:15.078142+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=181"
+    },
+    {
+      "id": 182,
+      "title": "期望用尾和公式改写",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "期望",
+        "尾和公式",
+        "概率",
+        "随机变量"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:04:07.435737+08:00",
+      "updated_at": "2026-05-30T20:51:05.613900+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=182"
+    },
+    {
+      "id": 183,
+      "title": "值域限制选数按值从小到大 DP",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "值域",
+        "DP",
+        "选数",
+        "单调",
+        "枚举值"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:04:09.354810+08:00",
+      "updated_at": "2026-05-30T20:51:02.624678+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=183"
+    },
+    {
+      "id": 184,
+      "title": "点到根距离权重和转子树权重和",
+      "terms": [
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "树",
+        "距离和",
+        "子树权重",
+        "换根"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:04:11.125042+08:00",
+      "updated_at": "2026-05-30T20:50:55.838930+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=184"
+    },
+    {
+      "id": 185,
+      "title": "启发式分裂保证总复杂度",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "启发式分裂",
+        "set",
+        "分裂",
+        "均摊复杂度"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:04:12.972827+08:00",
+      "updated_at": "2026-05-30T20:50:49.668683+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=185"
+    },
+    {
+      "id": 186,
+      "title": "最小乘积生成树用凸包分治",
+      "terms": [
+        "图论",
+        "数学"
+      ],
+      "keywords": [
+        "生成树",
+        "最小乘积",
+        "凸包",
+        "分治",
+        "MST"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:05:08.322451+08:00",
+      "updated_at": "2026-05-30T20:50:39.319938+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=186"
+    },
+    {
+      "id": 187,
+      "title": "点边容斥处理树上集合交",
+      "terms": [
+        "图论",
+        "数学"
+      ],
+      "keywords": [
+        "树",
+        "点边容斥",
+        "连通块",
+        "集合交"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:05:10.301520+08:00",
+      "updated_at": "2026-05-30T20:50:32.320333+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=187"
+    },
+    {
+      "id": 188,
+      "title": "最小割贡献拆成三类布尔项",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "最小割",
+        "网络流",
+        "布尔函数",
+        "建模"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:05:12.399335+08:00",
+      "updated_at": "2026-05-30T20:50:29.333211+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=188"
+    },
+    {
+      "id": 189,
+      "title": "LCS 转 LIS 优化匹配复杂度",
+      "terms": [
+        "动态规划",
+        "字符串"
+      ],
+      "keywords": [
+        "LCS",
+        "LIS",
+        "匹配位置",
+        "序列转化"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:05:14.262621+08:00",
+      "updated_at": "2026-05-30T20:50:22.313065+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=189"
+    },
+    {
+      "id": 190,
+      "title": "折半搜索处理 n 约 40 的状压",
+      "terms": [
+        "其他",
+        "数学"
+      ],
+      "keywords": [
+        "Meet",
+        "in",
+        "the",
+        "Middle",
+        "折半搜索",
+        "状压",
+        "枚举"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:06:08.744052+08:00",
+      "updated_at": "2026-05-30T20:50:15.540445+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=190"
+    },
+    {
+      "id": 191,
+      "title": "操作可逆时寻找标准中间状态",
+      "terms": [
+        "其他",
+        "图论"
+      ],
+      "keywords": [
+        "可逆操作",
+        "中间状态",
+        "双向",
+        "BFS",
+        "构造"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:06:10.531252+08:00",
+      "updated_at": "2026-05-30T20:50:06.892822+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=191"
+    },
+    {
+      "id": 192,
+      "title": "树上两条链交用四个 LCA 求",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "树链交",
+        "LCA",
+        "路径",
+        "相交判定"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:06:12.490873+08:00",
+      "updated_at": "2026-05-30T20:49:58.921647+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=192"
+    },
+    {
+      "id": 193,
+      "title": "LGV 引理处理不交路径计数",
+      "terms": [
+        "图论",
+        "数学"
+      ],
+      "keywords": [
+        "LGV",
+        "行列式",
+        "不交路径",
+        "计数"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:06:14.392529+08:00",
+      "updated_at": "2026-05-30T20:49:30.543581+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=193"
+    },
+    {
+      "id": 194,
+      "title": "BIT 可线性重构",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "树状数组",
+        "BIT",
+        "线性建树",
+        "重构"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:06:16.713339+08:00",
+      "updated_at": "2026-05-30T20:49:20.482393+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=194"
+    },
+    {
+      "id": 195,
+      "title": "二进制分组应对强制在线",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "二进制分组",
+        "强制在线",
+        "半动态",
+        "合并"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:07:09.000223+08:00",
+      "updated_at": "2026-05-30T20:49:12.673440+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=195"
+    },
+    {
+      "id": 196,
+      "title": "离线后动态维护当前状态",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "离线",
+        "扫描线",
+        "动态维护",
+        "降维"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:07:10.748853+08:00",
+      "updated_at": "2026-05-30T20:49:04.700817+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=196"
+    },
+    {
+      "id": 197,
+      "title": "尾部撤销用线段树分治维护",
+      "terms": [
+        "数据结构"
+      ],
+      "keywords": [
+        "线段树分治",
+        "撤销",
+        "回滚",
+        "尾部撤销"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:07:12.590520+08:00",
+      "updated_at": "2026-05-30T20:48:57.299097+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=197"
+    },
+    {
+      "id": 198,
+      "title": "最大化集合最小值时从大到小扫描",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "最大化最小值",
+        "扫描线",
+        "阈值",
+        "可行性"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:07:14.481924+08:00",
+      "updated_at": "2026-05-30T20:48:49.810629+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=198"
+    },
+    {
+      "id": 199,
+      "title": "区间翻转排列只影响少量断点",
+      "terms": [
+        "其他",
+        "数据结构"
+      ],
+      "keywords": [
+        "排列",
+        "区间翻转",
+        "断点",
+        "连续段"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:08:09.179151+08:00",
+      "updated_at": "2026-05-30T20:48:41.852856+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=199"
+    },
+    {
+      "id": 200,
+      "title": "传递闭包用 bitset 加速",
+      "terms": [
+        "图论",
+        "数据结构"
+      ],
+      "keywords": [
+        "传递闭包",
+        "bitset",
+        "Floyd",
+        "DAG",
+        "可达性"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:08:13.073093+08:00",
+      "updated_at": "2026-05-30T20:48:33.894157+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=200"
+    },
+    {
+      "id": 201,
+      "title": "子集求和使用高维前缀和",
+      "terms": [
+        "动态规划",
+        "数学"
+      ],
+      "keywords": [
+        "SOS",
+        "DP",
+        "高维前缀和",
+        "子集求和",
+        "状压"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:08:14.942374+08:00",
+      "updated_at": "2026-05-30T20:48:25.024987+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=201"
+    },
+    {
+      "id": 202,
+      "title": "区间加组合数用高阶差分",
+      "terms": [
+        "数学",
+        "数据结构"
+      ],
+      "keywords": [
+        "组合数",
+        "差分",
+        "高阶差分",
+        "区间加"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:08:16.868046+08:00",
+      "updated_at": "2026-05-30T20:48:16.568875+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=202"
+    },
+    {
+      "id": 203,
+      "title": "三项等差子序列类比回文处理",
+      "terms": [
+        "动态规划",
+        "字符串"
+      ],
+      "keywords": [
+        "等差子序列",
+        "回文",
+        "中心",
+        "枚举"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:08:18.625143+08:00",
+      "updated_at": "2026-05-30T20:46:08.306781+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=203"
+    },
+    {
+      "id": 204,
+      "title": "拓扑队列中的零入度点互不可达",
+      "terms": [
+        "图论"
+      ],
+      "keywords": [
+        "拓扑排序",
+        "零入度",
+        "可达性",
+        "DAG"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:08:20.427628+08:00",
+      "updated_at": "2026-05-30T20:45:54.468343+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=204"
+    },
+    {
+      "id": 205,
+      "title": "多项式整数根整除常数项",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "多项式",
+        "整数根",
+        "常数项",
+        "因数"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-05-30T16:09:13.761582+08:00",
+      "updated_at": "2026-05-30T20:45:44.273601+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=205"
+    },
+    {
+      "id": 206,
+      "title": "x和y位运算中1的个数",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "位运算"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-06-01T16:59:37.166939+08:00",
+      "updated_at": "2026-06-04T22:22:03.915835+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=206"
+    },
+    {
+      "id": 207,
+      "title": "树上点集直径合并",
+      "terms": [
+        "其他"
+      ],
+      "keywords": [
+        "线段树",
+        "lca"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-06-01T19:14:25.991151+08:00",
+      "updated_at": "2026-06-04T22:21:54.513870+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=207"
+    },
+    {
+      "id": 208,
+      "title": "凸多边形投影期望",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "投影",
+        "柯西表面积公式",
+        "微积分"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-06-16T20:04:40.099956+08:00",
+      "updated_at": "2026-06-16T20:54:02.247341+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=208"
+    },
+    {
+      "id": 209,
+      "title": "给定字符集和长度可以构建多少个回文串最长为1的字符串",
+      "terms": [
+        "字符串"
+      ],
+      "keywords": [
+        "字符串"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-07-14T19:02:57.592333+08:00",
+      "updated_at": "2026-07-15T18:50:17.955625+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=209"
+    },
+    {
+      "id": 210,
+      "title": "三个有关位运算的有用性质",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "位运算"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-07-16T18:55:00.844312+08:00",
+      "updated_at": "2026-07-18T13:17:30.436258+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=210"
+    },
+    {
+      "id": 211,
+      "title": "构造排列的和，对 n 取模",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "排列，取模"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-07-17T18:16:14.906543+08:00",
+      "updated_at": "2026-07-18T13:17:36.799321+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=211"
+    },
+    {
+      "id": 212,
+      "title": "最大化多重集异或和的求和",
+      "terms": [
+        "数学"
+      ],
+      "keywords": [
+        "线性基，异或"
+      ],
+      "like_count_at_capture": 0,
+      "created_at": "2026-07-22T18:59:48.431950+08:00",
+      "updated_at": "2026-07-24T21:20:25.202561+08:00",
+      "source_url": "https://www.algowiki.cn/competitions?tab=tricks&trick=212"
+    }
+  ]
+}

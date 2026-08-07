@@ -1,4 +1,4 @@
 CompileFlags:
   Compiler: g++
   Add:
-    - -std=gnu++17
+    - -std=gnu++20

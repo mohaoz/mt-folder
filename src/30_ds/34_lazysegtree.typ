@@ -3,6 +3,11 @@
 == 懒标记线段树
 使用非递归的实现方式。
 
+- 数组下标为 `0..n - 1`；
+- `Set(p, x)`、`Get(p)` 操作单点 `p`；
+- `Update(l, r, f)`、`Query(l, r)` 操作左闭右开区间 `[l, r)`；
+- `LazySegTree(m, arr)` 使用 `arr[0..m)` 初始化，`arr` 可以是左值或右值。
+
 - 单次操作复杂度 `O(log n)`。
 
 关于 `F` 的约束：
@@ -16,10 +21,10 @@
 - 存在单位元 `{}` （具有默认构造函数，且满足和单位元运算后不改变原值）
 - 存在 `operator*=` 运算满足将映射 `F` 应用于 `S` 返回一个 `S`，并且满足分配律。
 
-关于初始区间：
+关于初始序列：
 
-- 使用随机访问迭代器；
-- 若元素类型 ≠ `S`，则必须保证 `S` 存在对应构造函数。
+- `arr` 支持随机访问，且至少有 `m` 个元素；
+- 若元素类型 ≠ `S`，则必须能赋值给 `S`。
 
 #let lzseg = ```cpp
 template <class S, class F>
@@ -29,20 +34,10 @@ struct LazySegTree {
     std::vector<S> tr;
     std::vector<F> lz;
 
-    LazySegTree(int n, const S& e) {
-        build(n, std::vector<S>(n, e));
-    }
-
-    template <class It>
-    LazySegTree(It l, It r) {
-        build(r - l, l);
-    }
-
-    template <class Arr>
-    void build(int m, const Arr& arr) {
+    LazySegTree(int m, auto&& arr) {
         for (n = 1; n < m; n <<= 1)
             ;
-        h = __builtin_ctz(n);
+        h = std::countr_zero((unsigned)n);
         tr.resize(n << 1);
         lz.resize(n);
         for (int i = 0; i < m; i++)

@@ -10,16 +10,16 @@ int main() {
     std::cin >> n >> m >> s >> t;
     ++s, ++t;
 
-    std::vector<std::vector<std::pair<int, mtf::i64>>> adj(n + 1);
+    std::vector<std::vector<std::pair<int, int>>> adj(n + 1);
     struct Edge {
         int from, to;
-        mtf::i64 weight;
+        int weight;
     };
     std::vector<Edge> edges;
     edges.reserve(m);
     for (int i = 0; i < m; ++i) {
         int a, b;
-        mtf::i64 c;
+        int c;
         std::cin >> a >> b >> c;
         adj[a + 1].emplace_back(b + 1, c);
         edges.push_back({a + 1, b + 1, c});
@@ -39,23 +39,23 @@ int main() {
         if (dis[from] < mtf::INF && dis[from] + weight == dis[to])
             tight[from].push_back(to);
     }
-    std::vector<int> parent(n + 1, 0);
+    std::vector<int> fa(n + 1, 0);
     std::queue<int> queue;
-    parent[s] = s;
+    fa[s] = s;
     queue.push(s);
-    while (!queue.empty() && parent[t] == 0) {
+    while (!queue.empty() && fa[t] == 0) {
         int u = queue.front();
         queue.pop();
         for (int v : tight[u]) {
-            if (parent[v] == 0) {
-                parent[v] = u;
+            if (fa[v] == 0) {
+                fa[v] = u;
                 queue.push(v);
             }
         }
     }
 
     std::vector<int> path;
-    for (int u = t; u != s; u = parent[u])
+    for (int u = t; u != s; u = fa[u])
         path.push_back(u);
     path.push_back(s);
     std::reverse(path.begin(), path.end());

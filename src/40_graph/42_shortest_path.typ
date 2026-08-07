@@ -13,9 +13,9 @@
 复杂度 `O((n k + m k) log(n k))`。
 
 #let layered-dijkstra = ```cpp
-template <class Adj>
-auto LayeredDijkstra(const Adj& adj, int n, int s,
-                     int k) {
+auto LayeredDijkstra(
+    const vector<vector<pair<int, int>>>& adj,
+    int n, int s, int k) {
     using i64 = int64_t;
     constexpr i64 INF = 4'000'000'000'000'000'000LL;
     vector dist(n + 1, vector<i64>(k + 1, INF));

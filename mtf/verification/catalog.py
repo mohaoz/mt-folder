@@ -152,6 +152,7 @@ def _parse_inventory(raw: Any) -> tuple[InventoryItem, ...]:
             "title",
             "source",
             "export",
+            "aliases",
             "scope",
         }
         if unknown_keys:
@@ -165,6 +166,7 @@ def _parse_inventory(raw: Any) -> tuple[InventoryItem, ...]:
 
         item_id = _required_string(value, "id", context)
         title = _required_string(value, "title", context)
+        aliases = _parse_aliases(value.get("aliases"), context)
         if not SAFE_INVENTORY_ID.fullmatch(item_id):
             raise MtfError(f"{context}.id is not a safe inventory id")
         if item_id in ids:
@@ -187,10 +189,26 @@ def _parse_inventory(raw: Any) -> tuple[InventoryItem, ...]:
                 id=item_id,
                 title=title,
                 reference=reference,
+                aliases=aliases,
                 scope=scope,
             )
         )
     return tuple(items)
+
+
+def _parse_aliases(raw: Any, context: str) -> tuple[str, ...]:
+    if raw is None:
+        return ()
+    if (
+        not isinstance(raw, list)
+        or not raw
+        or not all(isinstance(alias, str) and alias.strip() for alias in raw)
+    ):
+        raise MtfError(f"{context}.aliases must be a non-empty string array")
+    aliases = tuple(alias.strip() for alias in raw)
+    if len({alias.casefold() for alias in aliases}) != len(aliases):
+        raise MtfError(f"{context}.aliases contains a duplicate alias")
+    return aliases
 
 
 def _parse_cover_ids(

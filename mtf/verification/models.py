@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ContextManager, Protocol
 
-CPP_STANDARD = "gnu++17"
+CPP_STANDARD = "gnu++20"
 
 # 最慢用例耗时达到时限的这个比例时，面板与 manifest 标记为临界。
 NEAR_LIMIT_RATIO = 0.6
@@ -48,6 +48,8 @@ class InventoryItem:
     # "namespace"：完整声明，可直接放进头文件；
     # "function"：函数体写法示意，语法检查时包进函数作用域。
     scope: str = "namespace"
+    # HTML 搜索使用的中英文别名；ID 和导出名会自动入索引。
+    aliases: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)

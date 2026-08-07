@@ -4,18 +4,18 @@
 Bellman-Ford 判负环并求一组可行解。
 
 - 约束形如 `x[v] <= x[u] + w`；
-- `edges` 存储 `(u, v, w)`；
+- `uvw` 存储 `(u, v, w)`；
 - 无解返回空数组。
 
 #let difference-constraints = ```cpp
 using i64 = int64_t;
 
 auto DifferenceConstraints(
-    int n, const vector<array<int, 3>>& edges) {
+    int n, const vector<array<int, 3>>& uvw) {
     vector<i64> d(n + 1);
     for (int i = 1; i <= n; i++) {
         bool changed = false;
-        for (auto [u, v, w] : edges) {
+        for (auto [u, v, w] : uvw) {
             if (d[v] > d[u] + w) {
                 d[v] = d[u] + w;
                 changed = true;

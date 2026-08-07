@@ -20,7 +20,8 @@ struct TreeDifference {
     TreeDifference(const vector<vector<int>>& adj,
                    int root = 1)
         : n(adj.size() - 1), adj(adj),
-          LOG(__lg(n) + 1), up(LOG, vector<int>(n + 1, root)),
+          LOG(std::bit_width((unsigned)n)),
+          up(LOG, vector<int>(n + 1, root)),
           dep(n + 1), diff(n + 1) {
         auto dfs = [&](auto&& self, int u,
                        int p) -> void {

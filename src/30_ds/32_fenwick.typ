@@ -16,14 +16,14 @@ struct Fenwick {
     Fenwick(int n) : n(n), a(n + 1) {}
 
     void Add(int x, T v) {
-        for (; x <= n; x += x & -x)
-            a[x] += v;
+        for (int i = x; i <= n; i += i & -i)
+            a[i] += v;
     }
 
     auto sum(int x) {
         T res = {};
-        for (; x; x -= x & -x)
-            res += a[x];
+        for (int i = x; i; i -= i & -i)
+            res += a[i];
         return res;
     }
 
