@@ -1,6 +1,5 @@
 #import "../../template.typ": snippet, web-only
 
-= 字符串
 == KMP
 求前缀函数，支持模式串匹配。
 

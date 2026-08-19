@@ -130,3 +130,71 @@ struct LazySegTree {
 ```
 
 #snippet(lzseg, id: "lzseg")
+
+`S` 和 `F` 的经典实例——#link("https://www.luogu.com.cn/problem/P1253")[
+P1253 扶苏的问题]：区间赋值、区间加法、区间最大值查询。
+
+`Info{}` 以负无穷为单位元；`Tag{}` 是恒等映射。`Tag::operator+=` 表示先执行
+当前标记、再执行 `rhs`，因此 `rhs` 中的赋值会覆盖已有标记，而加法会继续累加：
+
+```cpp
+using i64 = int64_t;
+
+struct Tag {
+    i64 assign{}, add{};
+    bool has_assign{};
+
+    static Tag Assign(i64 x) {
+        Tag f;
+        f.assign = x;
+        f.has_assign = true;
+        return f;
+    }
+
+    static Tag Add(i64 x) {
+        Tag f;
+        f.add = x;
+        return f;
+    }
+
+    Tag& operator+=(const Tag& rhs) {
+        if (rhs.has_assign) {
+            assign = rhs.assign;
+            add = rhs.add;
+            has_assign = true;
+        } else {
+            add += rhs.add;
+        }
+        return *this;
+    }
+};
+
+struct Info {
+    static constexpr i64 NEG_INF =
+        std::numeric_limits<i64>::lowest() / 4;
+    i64 mx;
+
+    Info(i64 mx = NEG_INF) : mx(mx) {}
+
+    friend Info operator+(const Info& lhs, const Info& rhs) {
+        return Info(std::max(lhs.mx, rhs.mx));
+    }
+
+    Info& operator*=(const Tag& f) {
+        if (mx == NEG_INF)
+            return *this;
+        if (f.has_assign)
+            mx = f.assign;
+        mx += f.add;
+        return *this;
+    }
+};
+
+std::vector<i64> a(n);
+LazySegTree<Info, Tag> seg(n, a);
+
+// 题目区间 [l, r] 对应模板的 [l - 1, r)。
+seg.Update(l - 1, r, Tag::Assign(x));  // op = 1
+seg.Update(l - 1, r, Tag::Add(x));     // op = 2
+i64 answer = seg.Query(l - 1, r).mx;   // op = 3
+```

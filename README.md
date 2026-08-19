@@ -15,14 +15,26 @@
 ```
 mt-folder/
 ├── book.typ, template.typ      Typst 入口、样式与代码导出机制
-├── src/                        手册正文（7 类分章，39 个代码模板）
+├── src/                        手册正文（7 类分章，43 个代码模板）
 ├── mtf/                        Python 工具链：render / verify / TUI
 │   └── verification/           验证子系统（导出、编译、判题、报告）
 ├── verify/catalog.json         模板 ↔ 官方题目的映射表
 ├── verify/library-checker/     每个验证项的 C++ driver
+├── docs/CONTENT_GUIDE.md       正文边界、章节和检查规则
+├── docs/research/              未进入手册的候选资料归档
 ├── tests/                      单元测试（unittest）
 └── yosupo/                     `mtf verify` 生成的提交与清单（git 忽略）
 ```
+
+## 内容边界
+
+本仓库只维护模板手册，不在正文中建设算法知识库或题解库。`src/` 收录稳定
+可复用的 Template、少量高频 Snippet，以及说明接口的最小 Usage；完整实现
+只保留一份，并由现有验证链直接导出。
+
+`book.typ` 唯一负责一级标题和全书顺序，正文文件从二级标题开始。尚未形成
+模板的外部候选资料统一放在 `docs/research/`，不参与渲染，也不代表后续一定
+收录。完整规则见 [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md)。
 
 ## 章节分组
 
@@ -31,12 +43,12 @@ mt-folder/
 
 | 章 | 内容 | 参考依据 |
 | --- | --- | --- |
-| 杂项 | 约定、初始代码、语言惯用法、Bitmask 与 SOS DP | OI Wiki 杂项（高维前缀和归杂项即从其例） |
+| 杂项 | 约定、语言惯用法、Gray Code、Bitmask 与 SOS 变换 | OI Wiki 杂项（高维前缀和归杂项即从其例） |
 | 数学 | 数论、ModInt、组合数、线性基、矩阵 | OI Wiki 数学；覆盖 yosupo 的 Number Theory / Enumerative Combinatorics / Linear Algebra |
 | 数据结构 | DSU、树状数组、线段树家族、Trie、堆 | 两站同名分类 |
 | 图论 | 最短路 → DAG → 连通性 → 流与匹配 | 两站同名分类 |
 | 树上问题 | LCA、树上差分、Kruskal 重构树 | yosupo Tree；OI Wiki 并入图论，取独立分类便于赛时检索 |
-| 字符串 | KMP | 两站同名分类 |
+| 字符串 | KMP、Z 函数（exKMP） | 两站同名分类 |
 | 多项式与卷积 | FFT | yosupo Polynomial + Convolution 合并 |
 
 分组原则：
@@ -45,7 +57,8 @@ mt-folder/
    （树上问题独立、SOS DP 留杂项）；
 2. 条目稀少的相邻类目先合并（数学暂不拆数论/组合/线代，
    多项式与卷积同章），条目变多后按 yosupo 细分；
-3. 杂项只收约定与语言惯用法，成型算法一律进主题章；
+3. 杂项只收约定、语言惯用法和暂不值得单开章节的高频 snippet；成型算法
+   一律进主题章；
 4. 章内排序：前置依赖在前（ModInt 在组合数之前）、
    主题相邻（网络流与匹配连排）；
 5. 计算几何为预留章（两站均设 Geometry），收录时新开
@@ -152,8 +165,8 @@ uv run mtf verify
 
 ```text
 [unionfind] 官方测试 · passed · AC 18/18 · 最慢 max_random_01 0.0s/5s
-[bipartitematching_dinic] 官方测试 · passed · AC 44/44 · ⚠ 最慢 augmented_cycle_02 4.2s/5s
-summary: 7/7 passed, 0 failed, 24 unverified
+[zalgorithm] 官方测试 · passed · AC 29/29 · 最慢 all_same_02 0.1s/5s
+summary: 2/2 passed, 0 failed, 25 unverified
 ```
 
 ### 常用选项
@@ -180,7 +193,7 @@ uv run mtf verify --ui plain
 ### 新增验证项
 
 验证映射集中在 [`verify/catalog.json`](verify/catalog.json)，算法正文不
-含任何验证 metadata。当前 41 个模板中 17 个有正式验证，24 个在面板与
+含任何验证 metadata。当前 43 个模板中 18 个有正式验证，25 个在面板与
 manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
 
 1. **确认 `inventory` 条目**：`{id, title, source, export}` 指向 `.typ`
@@ -196,10 +209,10 @@ manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
    `snippets` 列出注入的导出（`common` 中的 `types` 自动注入），`covers`
    声明该检查覆盖的 inventory id，且其导出必须出现在 `snippets` 中。
 
-尚未验证的模板多数缺少可直接对应的官方题目：KMP 无前缀函数题
-（zalgorithm 是不同算法）、浮点 FFT 做 convolution_mod 需拆系数（那测的
-是 driver 而非模板）、组合数需要运行时模数而 ModInt 是编译期模数。为它
-们补验证前先确认题目与模板契约真正一致。
+尚未验证的模板多数缺少可直接对应的官方题目：KMP 无前缀函数题，浮点 FFT
+做 convolution_mod 需拆系数（那测的是 driver 而非模板），组合数需要运行时
+模数而 ModInt 是编译期模数。Z 函数则直接使用 `zalgorithm` 官方数据验证。
+为其他模板补验证前先确认题目与模板契约真正一致。
 
 ## 部署
 

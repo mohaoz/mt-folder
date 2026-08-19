@@ -1,6 +1,5 @@
 #import "../../template.typ": snippet, web-only
 
-= 多项式与卷积
 == FFT
 复数 FFT 求整数多项式卷积。
 

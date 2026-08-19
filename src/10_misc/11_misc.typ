@@ -1,6 +1,5 @@
 #import "../../template.typ": snippet, web-only
 
-= 杂项
 == 约定
 
 + C++ 版本：`gnu++20`
@@ -83,6 +82,28 @@ struct custom_hash {
 ```
 
 #snippet(random-hash)
+
+== Gray Code
+
+二进制反射 Gray Code，相邻整数的编码恰好相差一个二进制位。
+
+- `GrayCode(x)` 把非负整数转成 Gray Code，复杂度 `O(1)`；
+- `InverseGrayCode(g)` 还原原整数，复杂度 `O(log g)`。
+
+#let gray-code = ```cpp
+inline uint64_t GrayCode(uint64_t x) {
+    return x ^ (x >> 1);
+}
+
+inline uint64_t InverseGrayCode(uint64_t g) {
+    uint64_t x = 0;
+    for (; g; g >>= 1)
+        x ^= g;
+    return x;
+}
+```
+
+#snippet(gray-code, id: "gray-code")
 
 == 二分答案
 

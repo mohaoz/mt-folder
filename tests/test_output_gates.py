@@ -197,6 +197,8 @@ class HtmlGateTests(unittest.TestCase):
         self.assertIn("Bitset Linear Basis", records["线性基"])
         self.assertIn("Divisor Sieve", records["批量筛因子"])
         self.assertIn("Euler Phi", records["欧拉函数"])
+        self.assertIn("GrayCode", records["Gray Code"])
+        self.assertIn("Z Algorithm", records["Z 函数 (exKMP)"])
 
     @unittest.skipUnless(shutil.which("node"), "node 不可用")
     def test_search_ranks_names_above_incidental_code_matches(self) -> None:

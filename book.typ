@@ -2,13 +2,18 @@
 
 #show: book
 
+= 杂项
 #include "src/10_misc/11_misc.typ"
 #include "src/10_misc/12_sos_dp.typ"
+
+= 数学
 #include "src/20_math/21_math.typ"
 #include "src/20_math/22_modint.typ"
 #include "src/20_math/23_comb.typ"
 #include "src/20_math/24_linear_basis.typ"
 #include "src/20_math/25_matrix.typ"
+
+= 数据结构
 #include "src/30_ds/31_dsu.typ"
 #include "src/30_ds/32_fenwick.typ"
 #include "src/30_ds/33_segtree.typ"
@@ -18,6 +23,8 @@
 #include "src/30_ds/38_meld_heap.typ"
 #include "src/30_ds/39_potential_segtree.typ"
 #include "src/30_ds/40_persistent_segtree.typ"
+
+= 图论
 #include "src/40_graph/41_dijkstra.typ"
 #include "src/40_graph/42_shortest_path.typ"
 #include "src/40_graph/43_difference_constraints.typ"
@@ -28,8 +35,15 @@
 #include "src/40_graph/48_bipartite_matching.typ"
 #include "src/40_graph/49_hopcroft_karp.typ"
 #include "src/40_graph/50_euler_circuit.typ"
+
+= 树上问题
 #include "src/45_tree/48_lca.typ"
 #include "src/45_tree/49_tree_difference.typ"
 #include "src/45_tree/52_kruskal_tree.typ"
+
+= 字符串
 #include "src/50_string/51_kmp.typ"
+#include "src/50_string/52_z_function.typ"
+
+= 多项式与卷积
 #include "src/60_poly/61_fft.typ"

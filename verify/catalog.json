@@ -19,6 +19,17 @@
       "export": "random-hash"
     },
     {
+      "id": "gray-code",
+      "title": "Gray Code",
+      "source": "src/10_misc/11_misc.typ",
+      "export": "gray-code",
+      "aliases": [
+        "格雷码",
+        "GrayCode",
+        "Inverse Gray Code"
+      ]
+    },
+    {
       "id": "binary-search",
       "title": "二分答案",
       "source": "src/10_misc/11_misc.typ",
@@ -282,6 +293,17 @@
       "export": "kmp"
     },
     {
+      "id": "z-function",
+      "title": "Z 函数 (exKMP)",
+      "source": "src/50_string/52_z_function.typ",
+      "export": "z-function",
+      "aliases": [
+        "Z Algorithm",
+        "Extended KMP",
+        "exKMP"
+      ]
+    },
+    {
       "id": "fft",
       "title": "FFT",
       "source": "src/60_poly/61_fft.typ",
@@ -529,6 +551,20 @@
         {
           "source": "src/40_graph/50_euler_circuit.typ",
           "export": "euler-circuit"
+        }
+      ]
+    },
+    {
+      "id": "zalgorithm",
+      "problem": "zalgorithm",
+      "driver": "verify/library-checker/zalgorithm.test.cpp",
+      "covers": [
+        "z-function"
+      ],
+      "snippets": [
+        {
+          "source": "src/50_string/52_z_function.typ",
+          "export": "z-function"
         }
       ]
     }

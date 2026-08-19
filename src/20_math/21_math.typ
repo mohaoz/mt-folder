@@ -1,6 +1,5 @@
 #import "../../template.typ": snippet, web-only
 
-= 数学
 == 线性筛
 初始化 `[2, N]` 内质数和非质数标记。
 

@@ -38,7 +38,7 @@ class ReportTests(unittest.TestCase):
         self.assertIn("| KMP |", manifest)
         self.assertIn("src/50_string/51_kmp.typ:kmp` |", manifest)
         self.assertNotIn("文档目标", manifest)
-        self.assertIn("另有 24 个模板未独立验证", manifest)
+        self.assertIn("另有 25 个模板未独立验证", manifest)
         self.assertIn("| GNU++20 | 官方数据 |", manifest)
         self.assertIn("编译标准：`gnu++20`", manifest)
         self.assertNotIn("GNU++17", manifest)

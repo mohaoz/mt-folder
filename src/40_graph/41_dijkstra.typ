@@ -1,6 +1,5 @@
 #import "../../template.typ": snippet, web-only
 
-= 图论
 == 图论通用约束
 
 + 使用 `vector<vector<int>> adj` 存储点编号为 `1..n` 的无权图；

@@ -1,6 +1,5 @@
 #import "../../template.typ": snippet, web-only
 
-= 数据结构
 == 并查集 (DSU)
 维护无向连通性和连通块大小，`Merge(x, y)` 返回是否真的合并成功。
 
