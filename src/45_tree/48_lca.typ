@@ -5,6 +5,7 @@
 
 - 默认点编号 `1..n`；
 - `adj` 是无向树；
+- `dfn[u]` 是点 `u` 从 `1` 开始的 DFS 先序编号；
 - `Get(u, v)` 返回 `u` 和 `v` 的 LCA；
 - `Dis(u, v)` 返回 `u` 和 `v` 的距离；
 - `Kth(u, v, k)` 返回从 `u` 到 `v` 路径上的第 `k` 个点，`k` 从 `0` 开始；
@@ -14,7 +15,7 @@
 #let lca = ```cpp
 struct LCA {
     int n, LOG;
-    vector<int> dep, siz;
+    vector<int> dep, siz, dfn;
     vector<vector<int>> up;
 
     LCA(const vector<vector<int>>& adj, int root = 1) {
@@ -22,10 +23,13 @@ struct LCA {
         LOG = std::bit_width((unsigned)n);
         dep.assign(n + 1, 0);
         siz.assign(n + 1, 1);
+        dfn.assign(n + 1, 0);
         up.assign(LOG, vector<int>(n + 1, root));
 
+        int now = 0;
         auto dfs = [&](auto&& self, int u,
                        int p) -> void {
+            dfn[u] = ++now;
             up[0][u] = p;
             for (int i = 1; i < LOG; i++)
                 up[i][u] = up[i - 1][up[i - 1][u]];
