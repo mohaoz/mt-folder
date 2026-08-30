@@ -113,9 +113,33 @@
     },
     {
       "id": "comb",
-      "title": "组合数",
+      "title": "组合数（ModInt）",
       "source": "src/20_math/23_comb.typ",
-      "export": "comb"
+      "export": "comb",
+      "aliases": [
+        "Comb",
+        "Binomial Coefficient"
+      ]
+    },
+    {
+      "id": "comb-all-in-one",
+      "title": "组合数（All in One）",
+      "source": "src/20_math/23_comb.typ",
+      "export": "comb-all-in-one",
+      "aliases": [
+        "All in One Comb",
+        "Static Comb"
+      ]
+    },
+    {
+      "id": "comb-large",
+      "title": "组合数（大 n、小 k）",
+      "source": "src/20_math/23_comb.typ",
+      "export": "comb-large",
+      "aliases": [
+        "Large N Combination",
+        "Multiplicative Formula"
+      ]
     },
     {
       "id": "linear-basis",
@@ -271,31 +295,43 @@
     {
       "id": "lca",
       "title": "LCA",
-      "source": "src/45_tree/48_lca.typ",
+      "source": "src/50_tree/51_lca.typ",
       "export": "lca"
     },
     {
       "id": "tree-difference",
       "title": "树上差分",
-      "source": "src/45_tree/49_tree_difference.typ",
+      "source": "src/50_tree/52_tree_difference.typ",
       "export": "tree-difference"
     },
     {
       "id": "kruskal-tree",
       "title": "Kruskal 重构树",
-      "source": "src/45_tree/52_kruskal_tree.typ",
+      "source": "src/50_tree/53_kruskal_tree.typ",
       "export": "kruskal-tree"
+    },
+    {
+      "id": "string-hash",
+      "title": "双模字符串哈希",
+      "source": "src/60_string/61_string_hash.typ",
+      "export": "string-hash",
+      "aliases": [
+        "双哈希",
+        "String Hash",
+        "Rolling Hash",
+        "Polynomial Hash"
+      ]
     },
     {
       "id": "kmp",
       "title": "KMP",
-      "source": "src/50_string/51_kmp.typ",
+      "source": "src/60_string/62_kmp.typ",
       "export": "kmp"
     },
     {
       "id": "z-function",
       "title": "Z 函数 (exKMP)",
-      "source": "src/50_string/52_z_function.typ",
+      "source": "src/60_string/63_z_function.typ",
       "export": "z-function",
       "aliases": [
         "Z Algorithm",
@@ -306,8 +342,18 @@
     {
       "id": "fft",
       "title": "FFT",
-      "source": "src/60_poly/61_fft.typ",
+      "source": "src/70_poly/71_convolution.typ",
       "export": "fft"
+    },
+    {
+      "id": "ntt",
+      "title": "NTT",
+      "source": "src/70_poly/71_convolution.typ",
+      "export": "ntt",
+      "aliases": [
+        "Number Theoretic Transform",
+        "数论变换"
+      ]
     }
   ],
   "common": [
@@ -382,7 +428,7 @@
       ],
       "snippets": [
         {
-          "source": "src/45_tree/48_lca.typ",
+          "source": "src/50_tree/51_lca.typ",
           "export": "lca"
         }
       ]
@@ -541,6 +587,20 @@
       ]
     },
     {
+      "id": "convolution_mod",
+      "problem": "convolution_mod",
+      "driver": "verify/library-checker/convolution_mod.test.cpp",
+      "covers": [
+        "ntt"
+      ],
+      "snippets": [
+        {
+          "source": "src/70_poly/71_convolution.typ",
+          "export": "ntt"
+        }
+      ]
+    },
+    {
       "id": "eulerian_trail_undirected",
       "problem": "eulerian_trail_undirected",
       "driver": "verify/library-checker/eulerian_trail_undirected.test.cpp",
@@ -563,7 +623,7 @@
       ],
       "snippets": [
         {
-          "source": "src/50_string/52_z_function.typ",
+          "source": "src/60_string/63_z_function.typ",
           "export": "z-function"
         }
       ]

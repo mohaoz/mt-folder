@@ -37,13 +37,14 @@
 #include "src/40_graph/50_euler_circuit.typ"
 
 = 树上问题
-#include "src/45_tree/48_lca.typ"
-#include "src/45_tree/49_tree_difference.typ"
-#include "src/45_tree/52_kruskal_tree.typ"
+#include "src/50_tree/51_lca.typ"
+#include "src/50_tree/52_tree_difference.typ"
+#include "src/50_tree/53_kruskal_tree.typ"
 
 = 字符串
-#include "src/50_string/51_kmp.typ"
-#include "src/50_string/52_z_function.typ"
+#include "src/60_string/61_string_hash.typ"
+#include "src/60_string/62_kmp.typ"
+#include "src/60_string/63_z_function.typ"
 
 = 多项式与卷积
-#include "src/60_poly/61_fft.typ"
+#include "src/70_poly/71_convolution.typ"

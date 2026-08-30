@@ -15,7 +15,7 @@
 ```
 mt-folder/
 ├── book.typ, template.typ      Typst 入口、样式与代码导出机制
-├── src/                        手册正文（7 类分章，43 个代码模板）
+├── src/                        手册正文（7 类分章，47 个代码模板）
 ├── mtf/                        Python 工具链：render / verify / TUI
 │   └── verification/           验证子系统（导出、编译、判题、报告）
 ├── verify/catalog.json         模板 ↔ 官方题目的映射表
@@ -48,8 +48,8 @@ mt-folder/
 | 数据结构 | DSU、树状数组、线段树家族、Trie、堆 | 两站同名分类 |
 | 图论 | 最短路 → DAG → 连通性 → 流与匹配 | 两站同名分类 |
 | 树上问题 | LCA、树上差分、Kruskal 重构树 | yosupo Tree；OI Wiki 并入图论，取独立分类便于赛时检索 |
-| 字符串 | KMP、Z 函数（exKMP） | 两站同名分类 |
-| 多项式与卷积 | FFT | yosupo Polynomial + Convolution 合并 |
+| 字符串 | 双模字符串哈希、KMP、Z 函数（exKMP） | 两站同名分类 |
+| 多项式与卷积 | FFT、NTT | yosupo Polynomial + Convolution 合并 |
 
 分组原则：
 
@@ -61,9 +61,11 @@ mt-folder/
    一律进主题章；
 4. 章内排序：前置依赖在前（ModInt 在组合数之前）、
    主题相邻（网络流与匹配连排）；
-5. 计算几何为预留章（两站均设 Geometry），收录时新开
-   `70_geometry`；
-6. 新模板入库先对照两站分类定章，再登记 catalog。
+5. 离线算法为预留章，后续收录莫队等稳定模板时新开 `80_offline`，
+   正文文件从 81 开始编号；
+6. 计算几何为预留章（两站均设 Geometry），收录时新开
+   `90_geometry`；
+7. 新模板入库先对照两站分类定章，再登记 catalog。
 
 ## 环境
 
@@ -166,7 +168,7 @@ uv run mtf verify
 ```text
 [unionfind] 官方测试 · passed · AC 18/18 · 最慢 max_random_01 0.0s/5s
 [zalgorithm] 官方测试 · passed · AC 29/29 · 最慢 all_same_02 0.1s/5s
-summary: 2/2 passed, 0 failed, 25 unverified
+summary: 2/2 passed, 0 failed, 28 unverified
 ```
 
 ### 常用选项
@@ -193,7 +195,7 @@ uv run mtf verify --ui plain
 ### 新增验证项
 
 验证映射集中在 [`verify/catalog.json`](verify/catalog.json)，算法正文不
-含任何验证 metadata。当前 43 个模板中 18 个有正式验证，25 个在面板与
+含任何验证 metadata。当前 47 个模板中 19 个有正式验证，28 个在面板与
 manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
 
 1. **确认 `inventory` 条目**：`{id, title, source, export}` 指向 `.typ`
@@ -211,8 +213,9 @@ manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
 
 尚未验证的模板多数缺少可直接对应的官方题目：KMP 无前缀函数题，浮点 FFT
 做 convolution_mod 需拆系数（那测的是 driver 而非模板），组合数需要运行时
-模数而 ModInt 是编译期模数。Z 函数则直接使用 `zalgorithm` 官方数据验证。
-为其他模板补验证前先确认题目与模板契约真正一致。
+模数而 ModInt 是编译期模数。NTT 使用 `convolution_mod` 官方数据验证，
+Z 函数使用 `zalgorithm` 官方数据验证。为其他模板补验证前先确认题目与模板
+契约真正一致。
 
 ## 部署
 
@@ -228,15 +231,13 @@ manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
 齐全，再产出 1 HTML + 4 PDF 到 `site/`。若构建镜像的 Python
 低于 3.11，在面板加环境变量 `PYTHON_VERSION=3.11`。
 
-GitHub Actions 另有两条流水：
+GitHub Actions 另有三条流水：
 
 - `check`：每次推送跑单元测试、渲染、产物质量门禁与
   `--syntax-only` 验证；
 - `release`：推 `main` 后把四个打印 PDF 与离线 HTML 挂到滚动
   Release `latest`；
 - `verify`：每周对 Library Checker 官方数据全量判题。
-
-当前线上仍是早期 pandoc 版本，CF 侧接到本仓库后即被替换。
 
 ## 开发检查
 
@@ -246,5 +247,6 @@ python -m unittest discover -s tests -v
 ```
 
 CI（`.github/workflows/check.yml`）运行单元测试、渲染冒烟与
-`verify --syntax-only`；官方数据判题目前只在本地执行。项目不使用
-shell 脚本。
+`verify --syntax-only`；官方数据判题由每周的 `verify` workflow 与本地
+全量验证承担。除 Cloudflare Pages 的四行 `build.sh` 入口外，构建与
+验证逻辑都在 Python 中。

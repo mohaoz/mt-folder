@@ -16,6 +16,19 @@ from mtf.verification.models import (
 
 
 class VerifyOrchestrationTests(unittest.TestCase):
+    def test_invalid_stack_limit_is_reported_as_warning(self) -> None:
+        with mock.patch.object(
+            verify_service.process,
+            "raise_stack_limit",
+            side_effect=ValueError("current limit exceeds maximum limit"),
+        ):
+            warning = verify_service._raise_stack_limit()
+
+        self.assertEqual(
+            warning,
+            "无法提高进程栈限制：current limit exceeds maximum limit",
+        )
+
     def test_syntax_only_finishes_with_passed_local_status(self) -> None:
         check = Check(
             "unionfind",
@@ -105,6 +118,11 @@ class VerifyOrchestrationTests(unittest.TestCase):
                     verify_service.preparation.submission,
                     "prepare_submission",
                     prepare,
+                ),
+                mock.patch.object(
+                    verify_service,
+                    "_raise_stack_limit",
+                    return_value=None,
                 ),
                 mock.patch.object(verify_service.report, "write_manifest"),
                 contextlib.redirect_stdout(io.StringIO()),

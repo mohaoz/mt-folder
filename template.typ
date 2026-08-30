@@ -200,7 +200,8 @@ a { color: var(--ac-ink); }
 
 .search-count.has-hits { color: var(--ac-ink); }
 
-.content h3:target::before {
+.content h3:target::before,
+.content h4:target::before {
   content: "▸ ";
   color: var(--ac);
 }
@@ -233,6 +234,11 @@ a { color: var(--ac-ink); }
 }
 
 .sidebar nav ol ol { margin: 0 0 0.35rem 0.9rem; }
+
+.sidebar nav ol ol ol {
+  margin-left: 0.75rem;
+  font-size: 11.5px;
+}
 
 .sidebar nav li.is-hidden { display: none; }
 
@@ -332,6 +338,13 @@ h1, h2, h3, h4 {
 .content h3 {
   margin: 2.4rem 0 0.7rem;
   font-size: 15.5px;
+}
+
+.content h4 {
+  margin: 1.8rem 0 0.6rem;
+  padding-left: 0.6rem;
+  border-left: 2px solid var(--line);
+  font-size: 14px;
 }
 
 .content p, .content li { max-width: 46rem; }
@@ -718,7 +731,9 @@ document.addEventListener("DOMContentLoaded", () => {
       a,
     ])
   );
-  const headings = [...document.querySelectorAll("main h2[id], main h3[id]")]
+  const headings = [
+    ...document.querySelectorAll("main h2[id], main h3[id], main h4[id]"),
+  ]
     .filter((h) => navLinks.has(h.id));
   if (headings.length > 0) {
     let currentLink = null;
@@ -897,6 +912,10 @@ document.addEventListener("DOMContentLoaded", () => {
     #v(2.5pt)
     #line(length: 100%, stroke: 0.35pt + line-color)
   ]
+  show heading.where(level: 3): it => block(above: 0.9em, below: 0.45em)[
+    #set text(size: 8pt, weight: "bold", fill: ink, font: mono-fonts)
+    #it
+  ]
 
   // 跨栏刊头
   place(top, scope: "parent", float: true)[
@@ -923,7 +942,7 @@ document.addEventListener("DOMContentLoaded", () => {
       weight: "bold",
     )
     show outline.entry: set text(size: 7pt)
-    outline(title: none, depth: 2)
+    outline(title: none, depth: 3)
   }
   v(0.6em)
   body
@@ -1010,7 +1029,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "aria-live": "polite",
       ))[]
       #html.elem("nav", attrs: ("aria-label": "目录"))[
-        #outline(title: none, depth: 2)
+        #outline(title: none, depth: 3)
       ]
       #html.elem("footer", attrs: (class: "side-foot"))[
         #html.elem("p", attrs: (

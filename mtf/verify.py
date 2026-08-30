@@ -172,7 +172,7 @@ def _validate_options(options: VerifyOptions) -> None:
 def _raise_stack_limit() -> str | None:
     try:
         process.raise_stack_limit()
-    except OSError as error:
+    except (OSError, ValueError) as error:
         return f"无法提高进程栈限制：{error}"
     return None
 
