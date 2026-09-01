@@ -1,6 +1,8 @@
 #import "../../template.typ": snippet, web-only
 
 == 懒标记线段树
+
+=== 普通懒标记线段树
 使用非递归的实现方式。
 
 - 数组下标为 `0..n - 1`；
@@ -198,3 +200,183 @@ seg.Update(l - 1, r, Tag::Assign(x));  // op = 1
 seg.Update(l - 1, r, Tag::Add(x));     // op = 2
 i64 answer = seg.Query(l - 1, r).mx;   // op = 3
 ```
+
+=== 动态开点懒标记线段树
+按需创建节点，同时支持单点赋值、区间修改和区间查询。
+
+- `DynLazySegTree<S, F>(n)` 维护下标范围 `[0, n)`，要求 `n > 0`；
+- `Set(p, x)`、`Get(p)` 操作单点，`Update(l, r, f)`、`Query(l, r)` 操作
+  左闭右开区间 `[l, r)`；
+- `S::Init(l, r)` 返回未修改区间 `[l, r)` 的初始聚合值，并满足按任意
+  中点拆分后仍可用 `operator+` 合并；
+- `S{}` 是查询结果的单位元，`S *= F` 应用映射；`F{}` 是恒等映射，
+  `tag += f` 表示在已有标记之后追加 `f`；
+- `Get` 和 `Query` 会下推懒标记，可能创建新节点，因此不是 `const` 操作；
+- 单次操作复杂度 `O(log n)`；执行 `q` 次操作后的空间复杂度上界为
+  `O(q log n)`。
+
+#let dynamic-lazy-segtree = ```cpp
+template <class S, class F>
+struct DynLazySegTree {
+    struct Node {
+        int ls{}, rs{};
+        S val{};
+        F tag{};
+        bool has{};
+    };
+
+    int n, root{};
+    std::vector<Node> tr;
+
+    DynLazySegTree(int n) : n(n), tr(1) {}
+
+    int newNode(int l, int r) {
+        tr.emplace_back();
+        int u = tr.size() - 1;
+        tr[u].val = S::Init(l, r);
+        return u;
+    }
+
+    auto val(int u, int l, int r) const {
+        return u ? tr[u].val : S::Init(l, r);
+    }
+
+    void apply(int u, const F& f) {
+        tr[u].val *= f;
+        tr[u].tag += f;
+        tr[u].has = true;
+    }
+
+    void pull(int u, int l, int r) {
+        int mid = l + (r - l) / 2;
+        tr[u].val =
+            val(tr[u].ls, l, mid) +
+            val(tr[u].rs, mid, r);
+    }
+
+    void push(int u, int l, int r) {
+        if (!tr[u].has or r - l == 1)
+            return;
+
+        int mid = l + (r - l) / 2;
+        int ls = tr[u].ls;
+        int rs = tr[u].rs;
+        F f = tr[u].tag;
+
+        if (!ls)
+            ls = newNode(l, mid);
+        if (!rs)
+            rs = newNode(mid, r);
+
+        tr[u].ls = ls;
+        tr[u].rs = rs;
+        tr[u].tag = {};
+        tr[u].has = false;
+
+        apply(ls, f);
+        apply(rs, f);
+    }
+
+    auto set(int u, int l, int r, int p, const S& x) {
+        if (!u)
+            u = newNode(l, r);
+
+        if (r - l == 1) {
+            tr[u].val = x;
+            tr[u].tag = {};
+            tr[u].has = false;
+            return u;
+        }
+
+        push(u, l, r);
+
+        int mid = l + (r - l) / 2;
+        if (p < mid)
+            tr[u].ls = set(tr[u].ls, l, mid, p, x);
+        else
+            tr[u].rs = set(tr[u].rs, mid, r, p, x);
+
+        pull(u, l, r);
+        return u;
+    }
+
+    auto get(int u, int l, int r, int p) {
+        if (!u)
+            return S::Init(p, p + 1);
+
+        if (r - l == 1)
+            return tr[u].val;
+
+        push(u, l, r);
+
+        int mid = l + (r - l) / 2;
+        if (p < mid)
+            return get(tr[u].ls, l, mid, p);
+        return get(tr[u].rs, mid, r, p);
+    }
+
+    auto update(int u, int l, int r,
+                int ql, int qr, const F& f) {
+        if (qr <= l or r <= ql)
+            return u;
+
+        if (!u)
+            u = newNode(l, r);
+
+        if (ql <= l and r <= qr) {
+            apply(u, f);
+            return u;
+        }
+
+        push(u, l, r);
+
+        int mid = l + (r - l) / 2;
+        tr[u].ls =
+            update(tr[u].ls, l, mid, ql, qr, f);
+        tr[u].rs =
+            update(tr[u].rs, mid, r, ql, qr, f);
+
+        pull(u, l, r);
+        return u;
+    }
+
+    auto query(int u, int l, int r,
+               int ql, int qr) {
+        if (qr <= l or r <= ql)
+            return S{};
+
+        if (!u)
+            return S::Init(
+                std::max(l, ql),
+                std::min(r, qr)
+            );
+
+        if (ql <= l and r <= qr)
+            return tr[u].val;
+
+        push(u, l, r);
+
+        int mid = l + (r - l) / 2;
+        return query(tr[u].ls, l, mid, ql, qr) +
+               query(tr[u].rs, mid, r, ql, qr);
+    }
+
+    void Set(int p, const S& x) {
+        root = set(root, 0, n, p, x);
+    }
+
+    auto Get(int p) {
+        return get(root, 0, n, p);
+    }
+
+    void Update(int l, int r, const F& f) {
+        root = update(root, 0, n, l, r, f);
+    }
+
+    auto Query(int l, int r) {
+        return query(root, 0, n, l, r);
+    }
+};
+```
+
+#snippet(dynamic-lazy-segtree)

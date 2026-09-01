@@ -168,6 +168,18 @@
       "export": "matrix"
     },
     {
+      "id": "linear-recurrence",
+      "title": "线性递推",
+      "source": "src/20_math/26_linear_recurrence.typ",
+      "export": "linear-recurrence",
+      "aliases": [
+        "Linear Recurrence",
+        "Kitamasa",
+        "Affine Recurrence",
+        "线性递推前缀和"
+      ]
+    },
+    {
       "id": "dsu",
       "title": "并查集 (DSU)",
       "source": "src/30_ds/31_dsu.typ",
@@ -193,6 +205,17 @@
       ]
     },
     {
+      "id": "dynamic-segtree",
+      "title": "动态开点线段树",
+      "source": "src/30_ds/33_segtree.typ",
+      "export": "dynamic-segtree",
+      "aliases": [
+        "Dynamic Segment Tree",
+        "Implicit Segment Tree",
+        "动态开点"
+      ]
+    },
+    {
       "id": "lzseg",
       "title": "懒标记线段树",
       "source": "src/30_ds/34_lazysegtree.typ",
@@ -200,6 +223,17 @@
       "aliases": [
         "Lazy SegTree",
         "Lazy Segment Tree"
+      ]
+    },
+    {
+      "id": "dynamic-lazy-segtree",
+      "title": "动态开点懒标记线段树",
+      "source": "src/30_ds/34_lazysegtree.typ",
+      "export": "dynamic-lazy-segtree",
+      "aliases": [
+        "Dynamic Lazy SegTree",
+        "Implicit Lazy Segment Tree",
+        "动态开点懒线段树"
       ]
     },
     {
@@ -326,7 +360,11 @@
       "id": "kmp",
       "title": "KMP",
       "source": "src/60_string/62_kmp.typ",
-      "export": "kmp"
+      "export": "kmp",
+      "aliases": [
+        "Prefix Function",
+        "前缀函数"
+      ]
     },
     {
       "id": "z-function",

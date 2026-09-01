@@ -12,6 +12,7 @@
 #include "src/20_math/23_comb.typ"
 #include "src/20_math/24_linear_basis.typ"
 #include "src/20_math/25_matrix.typ"
+#include "src/20_math/26_linear_recurrence.typ"
 
 = 数据结构
 #include "src/30_ds/31_dsu.typ"
