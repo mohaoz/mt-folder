@@ -3,9 +3,9 @@
 == 二分图最大匹配
 匈牙利算法。
 
-- 左部点 `1..n`，右部点 `1..m`；
+- 左部点 $1 dots n$，右部点 $1 dots m$；
 - `adj[u]` 存储左部点 `u` 能匹配的右部点；
-- 复杂度 `O(nm)`，稀疏图通常够用。
+- 复杂度 $O(n m)$，稀疏图通常够用。
 
 #let bipartite-matching = ```cpp
 auto BipartiteMatching(

@@ -1,16 +1,16 @@
 #import "../../template.typ": snippet, web-only
 
 == 线性递推
-使用特征多项式取模求常系数线性递推的第 `n` 项及其前缀和。
+使用特征多项式取模求常系数线性递推的第 $n$ 项及其前缀和。
 
-- 长度为 `k` 的 `f` 给出 `f[0..k)`，`b` 定义
-  `f[n] = b[0] f[n - 1] + ... + b[k - 1] f[n - k]`；
-- `LinearRec<MOD>::Get(f, b, n)` 求齐次递推的 `f[n]`；
+- 长度为 $k$ 的 `f` 给出初值 $f_0, f_1, dots, f_(k - 1)$，`b` 定义
+  $f_n = b_0 f_(n - 1) + dots + b_(k - 1) f_(n - k)$；
+- `LinearRec<MOD>::Get(f, b, n)` 求齐次递推的 $f_n$；
 - `LinearRec<MOD>::Affine(f, b, C, n)` 处理右侧额外加常数 `C` 的递推，
-  返回 `{f[n], f[0] + ... + f[n]}`；
-- 两个接口均要求 `n >= 0`、`f.size() >= b.size() > 0`；
-- `MOD` 必须为正，输入和返回值均会归一化到 `[0, MOD)`；
-- 时间复杂度 `O(k^2 log n)`，空间复杂度 `O(k)`。
+  返回 $(f_n, sum_(i = 0)^n f_i)$；
+- 两个接口均要求 $n >= 0$、$|f| >= |b| > 0$；
+- `MOD` 必须为正，输入和返回值均会归一化到 $[0, "MOD")$；
+- 时间复杂度 $O(k^2 log n)$，空间复杂度 $O(k)$。
 
 #let linear-recurrence = ```cpp
 template <int MOD>

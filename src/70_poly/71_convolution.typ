@@ -5,11 +5,11 @@
 === FFT
 复数 FFT 求整数多项式卷积。
 
-- `FFT::Convolution(a, b)` 返回长度为 `a.size() + b.size() - 1` 的结果，
+- `FFT::Convolution(a, b)` 返回长度为 $|a| + |b| - 1$ 的结果，
   任一输入为空时返回空数组；
 - 输入可以包含负数；
-- 设补齐后的变换长度为 `L`，复杂度 `O(L log L)`，空间复杂度 `O(L)`；
-- 依赖 `double` 精度：需保证 `L * max|a| * max|b|` 不超过约 `1e15`，
+- 设补齐后的变换长度为 $L$，复杂度 $O(L log L)$，空间复杂度 $O(L)$；
+- 依赖 `double` 精度：需保证 $L max(|a|) max(|b|)$ 不超过约 $10^15$，
   更大范围改用拆系数或 NTT。
 
 #let fft = ```cpp
@@ -75,10 +75,10 @@ struct FFT {
 数论变换在素数模数下求多项式卷积，不受浮点误差影响。
 
 - `MOD` 必须是素数；`NTT<MOD>::PrimitiveRoot()` 在编译期求原根；
-- `NTT<MOD>::Convolution(a, b)` 会把负数归一化到 `[0, MOD)`，任一输入
+- `NTT<MOD>::Convolution(a, b)` 会把负数归一化到 $[0, "MOD")$，任一输入
   为空时返回空数组；
-- 设补齐后的变换长度为 `L`，必须满足 `L | (MOD - 1)`；
-- 复杂度 `O(L log L)`，空间复杂度 `O(L)`；常用模数可直接写
+- 设补齐后的变换长度为 $L$，必须满足 $L divides ("MOD" - 1)$；
+- 复杂度 $O(L log L)$，空间复杂度 $O(L)$；常用模数可直接写
   `NTT<998244353>::Convolution(a, b)`。
 
 #let ntt = ```cpp

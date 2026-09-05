@@ -3,14 +3,15 @@
 == LCA
 倍增求树上最近公共祖先。
 
-- 默认点编号 `1..n`；
+- 默认点编号 $1 dots n$；
 - `adj` 是无向树；
-- `dfn[u]` 是点 `u` 从 `1` 开始的 DFS 先序编号；
+- `dfn[u]` 是点 $u$ 从 $1$ 开始的 DFS 先序编号；
+- `IsAncestor(u, v)` 判断 $u$ 是否为 $v$ 的祖先，包含 $u = v$；
 - `Get(u, v)` 返回 `u` 和 `v` 的 LCA；
 - `Dis(u, v)` 返回 `u` 和 `v` 的距离；
-- `Kth(u, v, k)` 返回从 `u` 到 `v` 路径上的第 `k` 个点，`k` 从 `0` 开始；
+- `Kth(u, v, k)` 返回从 $u$ 到 $v$ 路径上的第 $k$ 个点，$k$ 从 $0$ 开始；
 - `Component(u, v)` 返回删掉点 `u` 后 `v` 所在连通块的大小，要求 `u` 和 `v` 相邻；
-- 预处理复杂度 `O(n log n)`，单次查询 `O(log n)`。
+- 预处理复杂度 $O(n log n)$，单次查询 $O(log n)$。
 
 #let lca = ```cpp
 struct LCA {
@@ -57,6 +58,11 @@ struct LCA {
             }
         }
         return up[0][u];
+    }
+
+    bool IsAncestor(int u, int v) const {
+        return dfn[u] <= dfn[v] and
+               dfn[v] < dfn[u] + siz[u];
     }
 
     int Dis(int u, int v) const {

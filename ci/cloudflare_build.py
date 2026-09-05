@@ -27,13 +27,14 @@ TYPST_ARCHIVE = (
 )
 
 NOTO = "https://github.com/notofonts/noto-cjk/raw/main/Sans"
+LXGW_REV = "50f4b182415a8c33d9a456df220b66a284e2509b"
+LXGW = (
+    "https://raw.githubusercontent.com/lxgw/LxgwWenKai/"
+    f"{LXGW_REV}/fonts/TTF"
+)
 FONT_URLS = {
-    "NotoSansCJKsc-Regular.otf": (
-        f"{NOTO}/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf"
-    ),
-    "NotoSansCJKsc-Bold.otf": (
-        f"{NOTO}/OTF/SimplifiedChinese/NotoSansCJKsc-Bold.otf"
-    ),
+    "LXGWWenKai-Regular.ttf": f"{LXGW}/LXGWWenKai-Regular.ttf",
+    "LXGWWenKai-Medium.ttf": f"{LXGW}/LXGWWenKai-Medium.ttf",
     "NotoSansMonoCJKsc-Regular.otf": (
         f"{NOTO}/Mono/NotoSansMonoCJKsc-Regular.otf"
     ),
@@ -50,7 +51,7 @@ DEJAVU_MEMBERS = {
     ),
 }
 REQUIRED_FAMILIES = (
-    "Noto Sans CJK SC",
+    "LXGW WenKai",
     "Noto Sans Mono CJK SC",
     "DejaVu Sans Mono",
 )

@@ -26,6 +26,7 @@
 #include "src/30_ds/40_persistent_segtree.typ"
 
 = 图论
+#include "src/40_graph/40_mst.typ"
 #include "src/40_graph/41_dijkstra.typ"
 #include "src/40_graph/42_shortest_path.typ"
 #include "src/40_graph/43_difference_constraints.typ"
@@ -41,6 +42,8 @@
 #include "src/50_tree/51_lca.typ"
 #include "src/50_tree/52_tree_difference.typ"
 #include "src/50_tree/53_kruskal_tree.typ"
+#include "src/50_tree/54_virtual_tree.typ"
+#include "src/50_tree/55_dsu_on_tree.typ"
 
 = 字符串
 #include "src/60_string/61_string_hash.typ"

@@ -3,9 +3,9 @@
 == 拓扑排序
 Kahn 算法。
 
-- 默认点编号 `1..n`；
-- 若返回数量小于 `n`，则图中有环；
-- 复杂度 `O(n + m)`。
+- 默认点编号 $1 dots n$；
+- 若返回数量小于 $n$，则图中有环；
+- 复杂度 $O(n + m)$。
 
 #let toposort = ```cpp
 auto TopoSort(const vector<vector<int>>& adj,

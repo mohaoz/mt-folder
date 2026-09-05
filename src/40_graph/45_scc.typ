@@ -3,9 +3,9 @@
 == 强连通分量 (SCC)
 Tarjan 求有向图强连通分量。
 
-- 默认点编号 `1..n`；
+- 默认点编号 $1 dots n$；
 - `id[u]` 为 `u` 所在 SCC 编号；
-- 复杂度 `O(n + m)`。
+- 复杂度 $O(n + m)$。
 
 #let scc = ```cpp
 struct SCC {

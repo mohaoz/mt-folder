@@ -7,8 +7,8 @@
 
 - `ModInt<P>` 使用 `u32` 模数，`ModInt64<P>` 使用 `u64` 模数；
 - `DynModInt<Id>::setMod(P)` 设置动态模数，不同 `Id` 维护不同模数；
-- `ModInt<P>` 与动态模数要求 `0 < P <= INT_MAX`，
-  `ModInt64<P>` 要求 `0 < P <= INT64_MAX`；
+- `ModInt<P>` 与动态模数要求 $0 < P <= "INT_MAX"$，
+  `ModInt64<P>` 要求 $0 < P <= "INT64_MAX"$；
 - 除法要求除数与模数互质；
 - `ModInt64` 使用长双精度近似规避乘法溢出。
 ]

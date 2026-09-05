@@ -267,10 +267,43 @@
       "export": "persistent-segtree"
     },
     {
+      "id": "kruskal-mst",
+      "title": "Kruskal 最小生成树",
+      "source": "src/40_graph/40_mst.typ",
+      "export": "kruskal-mst",
+      "aliases": [
+        "Kruskal MST"
+      ]
+    },
+    {
+      "id": "prim-mst",
+      "title": "Prim 最小生成树",
+      "source": "src/40_graph/40_mst.typ",
+      "export": "prim-mst",
+      "aliases": [
+        "Prim MST"
+      ]
+    },
+    {
       "id": "dijkstra",
-      "title": "单源最短路",
+      "title": "Dijkstra",
       "source": "src/40_graph/41_dijkstra.typ",
-      "export": "dijkstra"
+      "export": "dijkstra",
+      "aliases": [
+        "单源最短路",
+        "Shortest Path"
+      ]
+    },
+    {
+      "id": "zero-one-bfs",
+      "title": "0-1 BFS",
+      "source": "src/40_graph/41_dijkstra.typ",
+      "export": "zero-one-bfs",
+      "aliases": [
+        "01 BFS",
+        "0/1 BFS",
+        "双端队列 BFS"
+      ]
     },
     {
       "id": "layered-dijkstra",
@@ -343,6 +376,27 @@
       "title": "Kruskal 重构树",
       "source": "src/50_tree/53_kruskal_tree.typ",
       "export": "kruskal-tree"
+    },
+    {
+      "id": "virtual-tree",
+      "title": "虚树",
+      "source": "src/50_tree/54_virtual_tree.typ",
+      "export": "virtual-tree",
+      "aliases": [
+        "Virtual Tree",
+        "Auxiliary Tree"
+      ]
+    },
+    {
+      "id": "dsu-on-tree",
+      "title": "DSU on Tree",
+      "source": "src/50_tree/55_dsu_on_tree.typ",
+      "export": "dsu-on-tree",
+      "aliases": [
+        "树上启发式合并",
+        "Sack",
+        "Small to Large"
+      ]
     },
     {
       "id": "string-hash",

@@ -3,9 +3,9 @@
 == 割点
 Tarjan 求无向图割点。
 
-- 默认点编号 `1..n`；
+- 默认点编号 $1 dots n$；
 - 返回所有割点；
-- 复杂度 `O(n + m)`。
+- 复杂度 $O(n + m)$。
 
 #let cut-vertex = ```cpp
 auto CutVertex(const vector<vector<int>>& adj,

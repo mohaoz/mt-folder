@@ -9,8 +9,8 @@
   `std::greater<int>`；
 - `push` 返回 `point_iterator` 句柄，句柄在 `join` 之后仍然有效，
   可用于 `modify(it, v)` 与 `erase(it)`；
-- `a.join(b)` 把 `b` 并入 `a` 并清空 `b`，均摊 `O(1)`；
-  `pop` 均摊 `O(log n)`；
+- `a.join(b)` 把 `b` 并入 `a` 并清空 `b`，均摊 $O(1)$；
+  `pop` 均摊 $O(log n)$；
 - 按集合合并时常配 DSU：以 DSU 的 `sz` 决定 `join` 方向，
   堆下标始终用 `Find` 后的代表元。
 

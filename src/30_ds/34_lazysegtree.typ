@@ -5,12 +5,12 @@
 === 普通懒标记线段树
 使用非递归的实现方式。
 
-- 数组下标为 `0..n - 1`；
+- 数组下标为 $0 dots n - 1$；
 - `Set(p, x)`、`Get(p)` 操作单点 `p`；
-- `Update(l, r, f)`、`Query(l, r)` 操作左闭右开区间 `[l, r)`；
-- `LazySegTree(m, arr)` 使用 `arr[0..m)` 初始化，`arr` 可以是左值或右值。
+- `Update(l, r, f)`、`Query(l, r)` 操作左闭右开区间 $[l, r)$；
+- `LazySegTree(m, arr)` 使用 `arr` 的前 $m$ 个元素初始化，`arr` 可以是左值或右值。
 
-- 单次操作复杂度 `O(log n)`。
+- 单次操作复杂度 $O(log n)$。
 
 关于 `F` 的约束：
 
@@ -25,7 +25,7 @@
 
 关于初始序列：
 
-- `arr` 支持随机访问，且至少有 `m` 个元素；
+- `arr` 支持随机访问，且至少有 $m$ 个元素；
 - 若元素类型 ≠ `S`，则必须能赋值给 `S`。
 
 #let lzseg = ```cpp
@@ -204,16 +204,16 @@ i64 answer = seg.Query(l - 1, r).mx;   // op = 3
 === 动态开点懒标记线段树
 按需创建节点，同时支持单点赋值、区间修改和区间查询。
 
-- `DynLazySegTree<S, F>(n)` 维护下标范围 `[0, n)`，要求 `n > 0`；
+- `DynLazySegTree<S, F>(n)` 维护下标范围 $[0, n)$，要求 $n > 0$；
 - `Set(p, x)`、`Get(p)` 操作单点，`Update(l, r, f)`、`Query(l, r)` 操作
-  左闭右开区间 `[l, r)`；
-- `S::Init(l, r)` 返回未修改区间 `[l, r)` 的初始聚合值，并满足按任意
+  左闭右开区间 $[l, r)$；
+- `S::Init(l, r)` 返回未修改区间 $[l, r)$ 的初始聚合值，并满足按任意
   中点拆分后仍可用 `operator+` 合并；
 - `S{}` 是查询结果的单位元，`S *= F` 应用映射；`F{}` 是恒等映射，
   `tag += f` 表示在已有标记之后追加 `f`；
 - `Get` 和 `Query` 会下推懒标记，可能创建新节点，因此不是 `const` 操作；
-- 单次操作复杂度 `O(log n)`；执行 `q` 次操作后的空间复杂度上界为
-  `O(q log n)`。
+- 单次操作复杂度 $O(log n)$；执行 $q$ 次操作后的空间复杂度上界为
+  $O(q log n)$。
 
 #let dynamic-lazy-segtree = ```cpp
 template <class S, class F>

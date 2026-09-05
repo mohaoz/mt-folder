@@ -3,10 +3,10 @@
 == KMP
 求前缀函数，支持模式串匹配。
 
-- `PrefixFunction(s)` 返回长度为 `s.size() + 1` 的数组，`f[i]` 表示
-  `s[0..i)` 的 border 长度；
+- `PrefixFunction(s)` 返回长度为 $|s| + 1$ 的数组，$f[i]$ 表示
+  子串 $s[0, i)$ 的 border 长度；
 - `KMP(s, p)` 返回非空模式串 `p` 在文本串 `s` 中所有匹配的起始下标；
-- 前缀函数复杂度 `O(|s|)`，模式匹配复杂度 `O(|s| + |p|)`。
+- 前缀函数复杂度 $O(|s|)$，模式匹配复杂度 $O(|s| + |p|)$。
 
 #let kmp = ```cpp
 auto PrefixFunction(const std::string& s) {

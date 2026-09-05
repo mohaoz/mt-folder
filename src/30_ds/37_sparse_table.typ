@@ -3,11 +3,11 @@
 == ST 表
 维护静态区间查询。
 
-- 查询区间为左闭右开 `[l, r)`；
-- `SparseTable(m, arr)` 使用 `arr[0..m)` 初始化，`arr` 可以是左值或右值；
-- `MaxRight(l, f)` 返回最大的 `r in [l, n]`，使得 `r == l` 或 `f(Query(l, r))`；
-- `MinLeft(r, f)` 返回最小的 `l in [0, r]`，使得 `l == r` 或 `f(Query(l, r))`；
-- 预处理复杂度 `O(n log n)`，单次查询 `O(1)`，单次二分 `O(log n)`。
+- 查询区间为左闭右开 $[l, r)$；
+- `SparseTable(m, arr)` 使用 `arr` 的前 $m$ 个元素初始化，`arr` 可以是左值或右值；
+- `MaxRight(l, f)` 返回满足 $r in [l, n]$ 且 $r = l$ 或 `f(Query(l, r))` 的最大 $r$；
+- `MinLeft(r, f)` 返回满足 $l in [0, r]$ 且 $l = r$ 或 `f(Query(l, r))` 的最小 $l$；
+- 预处理复杂度 $O(n log n)$，单次查询 $O(1)$，单次二分 $O(log n)$。
 
 关于 `Op` 的约束：
 
@@ -16,7 +16,7 @@
 
 关于初始序列：
 
-- `arr` 支持随机访问，且至少有 `m` 个元素；
+- `arr` 支持随机访问，且至少有 $m$ 个元素；
 - 若元素类型 ≠ `T`，则必须能赋值给 `T`。
 
 关于二分谓词 `f` 的约束：

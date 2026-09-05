@@ -8,7 +8,7 @@
 - `MaxXor(x)` 返回 `x` 与线性空间中某个元素异或后的最大值。
 
 === `u64` 版本
-位数不超过 64 时使用，最高位默认为 `63`。
+位数不超过 $64$ 时使用，最高位默认为 $63$。
 
 #let linear-basis = ```cpp
 using u64 = uint64_t;
@@ -63,7 +63,7 @@ struct LinearBasis {
 #snippet(linear-basis)
 
 === `bitset` 版本
-位数超过 64 且编译期已知时使用；`N` 是总位数，最高位为 `N - 1`。
+位数超过 $64$ 且编译期已知时使用；`N` 是总位数，最高位为 $N - 1$。
 
 #let bitset-linear-basis = ```cpp
 template <int N>

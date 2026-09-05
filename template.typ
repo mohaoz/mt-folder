@@ -25,6 +25,7 @@
   catalog.inventory.map(item => item.source.split("/").at(1)).dedup().len()
 }
 
+#let pdf-body-font = "LXGW WenKai"
 #let mono-fonts = ("DejaVu Sans Mono", "Noto Sans Mono CJK SC")
 #let ac-green = rgb("#0e7a44")
 
@@ -46,8 +47,9 @@
   --ac-soft: #e5f5ec;
   --code-bg: #f4f6f8;
   --code-head: #eceff2;
-  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas,
-    "DejaVu Sans Mono", "Noto Sans Mono CJK SC", monospace;
+  /* HTML 使用系统代码字体；Noto Mono 只参与 PDF 的 CJK 字形回退。 */
+  --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Mono",
+    Consolas, "DejaVu Sans Mono", "PingFang SC", monospace;
   --font-body: "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei",
     system-ui, sans-serif;
   color-scheme: light;
@@ -870,7 +872,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   )
   set columns(gutter: 0.75cm)
-  set text(font: "Noto Sans CJK SC", size: 8pt, lang: "zh", fill: ink)
+  set text(font: pdf-body-font, size: 8pt, lang: "zh", fill: ink)
   set par(justify: true, leading: 0.62em, spacing: 0.85em)
   set heading(numbering: "1.1")
   // 黑白打印时关闭语法高亮：彩色 token 在灰阶下深浅不一，可读性反而差

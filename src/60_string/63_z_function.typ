@@ -4,9 +4,9 @@
 
 求串内或两个串之间的最长公共前缀。
 
-- `ZFunction(s)[i]` 是 `s` 与 `s[i..n)` 的 LCP 长度，约定
-  `ZFunction(s)[0] = n`；
-- `ExKMP(s, p)[i]` 是 `s[i..n)` 与 `p` 的 LCP 长度；
+- `ZFunction(s)[i]` 是 $s$ 与子串 $s[i, n)$ 的 LCP 长度，约定
+  $Z[0] = n$；
+- `ExKMP(s, p)[i]` 是子串 $s[i, n)$ 与 $p$ 的 LCP 长度；
 - 时间复杂度均为线性，返回数组使用 `0-indexed`。
 
 #let z-function = ```cpp

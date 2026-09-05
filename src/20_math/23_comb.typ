@@ -8,7 +8,7 @@
 
 - `Z` 需要支持乘法、除法；
 - `C(n, k)` 返回组合数；
-- 预处理 `O(n)`，单次查询 `O(1)`。
+- 预处理 $O(n)$，单次查询 $O(1)$。
 
 #let comb = ```cpp
 template <class Z>
@@ -43,9 +43,9 @@ struct Comb {
 === 组合数（All in One）
 不依赖 `ModInt` 的定模版本，与上一份模板二选一。
 
-- 模板参数 `N` 是预处理上界，`MOD` 必须是素数且 `N < MOD`；
+- 模板参数 `N` 是预处理上界，`MOD` 必须是素数且 $N < "MOD"$；
 - `C(n, k)` 返回组合数，参数越界时返回 `0`；
-- 预处理 `O(N)`，单次查询 `O(1)`。
+- 预处理 $O(N)$，单次查询 $O(1)$。
 
 #let comb-all-in-one = ```cpp
 template <int N, int MOD>
@@ -84,11 +84,11 @@ struct CombInt {
 #snippet(comb-all-in-one)
 
 === 组合数（大 n、小 k）
-不预处理阶乘，适合 `n` 很大、`k` 较小且查询次数不多的场景。
+不预处理阶乘，适合 $n$ 很大、$k$ 较小且查询次数不多的场景。
 
-- `MOD` 必须是素数，要求 `0 <= n < MOD`；
+- `MOD` 必须是素数，要求 $0 <= n < "MOD"$；
 - `CombLarge<MOD>(n, k)` 返回组合数，参数越界时返回 `0`；
-- 单次查询复杂度 `O(min(k, n - k) + log MOD)`，空间复杂度 `O(1)`。
+- 单次查询复杂度 $O(min(k, n - k) + log "MOD")$，空间复杂度 $O(1)$。
 
 #let comb-large = ```cpp
 template <int MOD>

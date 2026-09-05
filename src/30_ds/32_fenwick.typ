@@ -4,8 +4,8 @@
 维护单点加、前缀和、区间和。
 
 - 使用 `1-indexed`；
-- `Sum(l, r)` 查询闭区间 `[l, r]`；
-- 单次操作复杂度 `O(log n)`。
+- `Sum(l, r)` 查询闭区间 $[l, r]$；
+- 单次操作复杂度 $O(log n)$。
 
 #let fenwick = ```cpp
 template <typename T>

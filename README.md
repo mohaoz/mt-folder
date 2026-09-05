@@ -15,7 +15,7 @@
 ```
 mt-folder/
 ├── book.typ, template.typ      Typst 入口、样式与代码导出机制
-├── src/                        手册正文（7 类分章，50 个代码模板）
+├── src/                        手册正文（7 类分章，55 个代码模板）
 ├── mtf/                        Python 工具链：render / verify / TUI
 │   └── verification/           验证子系统（导出、编译、判题、报告）
 ├── verify/catalog.json         模板 ↔ 官方题目的映射表
@@ -46,8 +46,8 @@ mt-folder/
 | 杂项 | 约定、语言惯用法、Gray Code、Bitmask 与 SOS 变换 | OI Wiki 杂项（高维前缀和归杂项即从其例） |
 | 数学 | 数论、ModInt、组合数、线性基、矩阵、线性递推 | OI Wiki 数学；覆盖 yosupo 的 Number Theory / Enumerative Combinatorics / Linear Algebra |
 | 数据结构 | DSU、树状数组、线段树家族、Trie、堆 | 两站同名分类 |
-| 图论 | 最短路 → DAG → 连通性 → 流与匹配 | 两站同名分类 |
-| 树上问题 | LCA、树上差分、Kruskal 重构树 | yosupo Tree；OI Wiki 并入图论，取独立分类便于赛时检索 |
+| 图论 | 最小生成树、最短路 → DAG → 连通性 → 流与匹配 | 两站同名分类 |
+| 树上问题 | LCA、树上差分、Kruskal 重构树、虚树、DSU on Tree | yosupo Tree；OI Wiki 并入图论，取独立分类便于赛时检索 |
 | 字符串 | 双模字符串哈希、KMP、Z 函数（exKMP） | 两站同名分类 |
 | 多项式与卷积 | FFT、NTT | yosupo Polynomial + Convolution 合并 |
 
@@ -71,6 +71,7 @@ mt-folder/
 
 - Python 3.11+
 - [Typst](https://github.com/typst/typst) 0.15.1+
+- [LXGW WenKai](https://github.com/lxgw/LxgwWenKai)（PDF 正文字体）
 - Git
 - 支持 GNU++20 模式的 `g++`
 
@@ -168,7 +169,7 @@ uv run mtf verify
 ```text
 [unionfind] 官方测试 · passed · AC 18/18 · 最慢 max_random_01 0.0s/5s
 [zalgorithm] 官方测试 · passed · AC 29/29 · 最慢 all_same_02 0.1s/5s
-summary: 2/2 passed, 0 failed, 31 unverified
+summary: 2/2 passed, 0 failed, 36 unverified
 ```
 
 ### 常用选项
@@ -195,7 +196,7 @@ uv run mtf verify --ui plain
 ### 新增验证项
 
 验证映射集中在 [`verify/catalog.json`](verify/catalog.json)，算法正文不
-含任何验证 metadata。当前 50 个模板中 19 个有正式验证，31 个在面板与
+含任何验证 metadata。当前 55 个模板中 19 个有正式验证，36 个在面板与
 manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
 
 1. **确认 `inventory` 条目**：`{id, title, source, export}` 指向 `.typ`

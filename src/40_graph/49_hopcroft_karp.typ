@@ -3,10 +3,10 @@
 == Hopcroft-Karp
 二分图最大匹配。
 
-- 左部点 `1..n`，右部点 `1..m`；
+- 左部点 $1 dots n$，右部点 $1 dots m$；
 - `AddEdge(u, v)` 添加一条左部 `u` 到右部 `v` 的边；
 - `matchL[u]` 是左部点 `u` 匹配到的右部点；
-- 复杂度 `O(E \sqrt V)`。
+- 复杂度 $O(E sqrt(V))$。
 
 #let hopcroft-karp = ```cpp
 struct HopcroftKarp {
