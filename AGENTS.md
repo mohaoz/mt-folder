@@ -1,6 +1,28 @@
 # Agent workflow
 
-- Unless the user explicitly requests it, do not run tests or verification commands.
-- After changing source or documentation, render only the HTML handbook to
-  `preview/index.html` for delivery.
-- Do not render PDF variants unless the user explicitly requests them.
+## 定位与入口
+
+项目包含通用代码文档生成工具（HTML/PDF）和具体竞赛模板库，开发期保持
+高度耦合。不要由此推导出拆包、插件化或重设计工具的任务。
+
+- 使用或维护工具时，查阅 [README.md](README.md) 的对应章节。
+- 修改手册内容或章节组织时，查阅 [内容规范](docs/CONTENT_GUIDE.md)。
+- 需要历史结论或候选方向时，查阅 [项目结论](docs/PROJECT_NOTES.md)；
+  待办不是执行授权，不要求每次通读历史。
+
+## 授权与交付
+
+- 只修改用户授权的对象。整理管理文档不授权修改手册正文、模板、样式或
+  渲染逻辑；不要顺带重命名、迁移章节或重组目录。
+- 对已授权的修改，当且仅当 HTML 渲染结果会变化时渲染 HTML。只改不参与
+  产出的管理文档不渲染。HTML-only 命令见 README。
+- 当且仅当用户明确要求渲染 PDF 时渲染 PDF。不要为 HTML 预览调用会同时
+  生成 PDF 的 `mtf render`。
+- 当且仅当用户明确要求时执行模板正确性测试，包括 Library Checker、
+  随机对拍、自制数据、样例或其他运行算法以验证答案的方式。
+  修改涉及正确性时可以建议测试，不自行启动。
+- 语法和编译检查不属于上述正确性测试，可按需执行；不能借编译检查之名
+  运行算法用例，也不必为纯管理文档变更运行编译。
+- 区分语法通过、登记验证项与当前实现正确性测试通过。明确说明未运行的
+  检查，不把历史结果作为新实现的通过证明。
+- 未经明确要求不提交或推送，不把本地交付扩大为发布。

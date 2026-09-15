@@ -1,40 +1,45 @@
 # MTF
 
-竞赛算法模板手册。一套 Typst 源码，三种产出：
+项目由通用代码文档生成工具（类似 mdBook / Javadoc，面向不同代码内容
+输出 PDF 与 HTML）和具体竞赛算法模板库两部分组成。开发阶段保持高度
+耦合，暂不推进拆分或重新定义通用工具的设计。
+
+当前模板库使用同一套 Typst 源码提供：
 
 - **PDF**（A4 打印速查）与 **HTML**（离线单文件，赛时搜索/复制）；
 - **Library Checker 验证**：把手册里的 C++ 模板原样抽出来，对
   [judge.yosupo.jp](https://judge.yosupo.jp) 官方数据编译、运行、判题，
-  确保"书里印的代码"就是"能 AC 的代码"。
+  让受检代码与书中实现一致；是否通过以对应实现的实际运行结果为准。
 
-项目现状与后续计划见 [`docs/STATUS.md`](docs/STATUS.md) 和
-[`docs/ROADMAP.md`](docs/ROADMAP.md)。
+内容规范见 [CONTENT_GUIDE](docs/CONTENT_GUIDE.md)，历史结论与待办见
+[PROJECT_NOTES](docs/PROJECT_NOTES.md)，Agent 执行规则见 [AGENTS](AGENTS.md)。
 
 ## 仓库结构
 
 ```
 mt-folder/
 ├── book.typ, template.typ      Typst 入口、样式与代码导出机制
-├── src/                        手册正文（7 类分章，55 个代码模板）
+├── src/                        具体算法模板库的手册正文
 ├── mtf/                        Python 工具链：render / verify / TUI
 │   └── verification/           验证子系统（导出、编译、判题、报告）
 ├── verify/catalog.json         模板 ↔ 官方题目的映射表
 ├── verify/library-checker/     每个验证项的 C++ driver
-├── docs/CONTENT_GUIDE.md       正文边界、章节和检查规则
-├── docs/research/              未进入手册的候选资料归档
+├── docs/CONTENT_GUIDE.md       正文边界与章节规范
+├── docs/PROJECT_NOTES.md       决策、历史验证结论、研究结论与待办
+├── docs/research/              机器可读历史快照，不参与渲染
 ├── tests/                      单元测试（unittest）
 └── yosupo/                     `mtf verify` 生成的提交与清单（git 忽略）
 ```
 
 ## 内容边界
 
-本仓库只维护模板手册，不在正文中建设算法知识库或题解库。`src/` 收录稳定
+具体模板库不在正文中建设算法知识库或题解库。`src/` 收录稳定
 可复用的 Template、少量高频 Snippet，以及说明接口的最小 Usage；完整实现
 只保留一份，并由现有验证链直接导出。
 
 `book.typ` 唯一负责一级标题和全书顺序，正文文件从二级标题开始。尚未形成
-模板的外部候选资料统一放在 `docs/research/`，不参与渲染，也不代表后续一定
-收录。完整规则见 [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md)。
+模板的候选研究结论集中在 `docs/PROJECT_NOTES.md`，不参与渲染，也不代表
+后续一定收录。完整规则见 [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md)。
 
 ## 章节分组
 
@@ -89,6 +94,24 @@ python -m pip install -e .
 
 ## 渲染
 
+### 仅 HTML
+
+在仓库根目录执行以下命令，仅生成 HTML，参数与现有渲染器的 HTML 编译
+一致，不执行 PDF 编译：
+
+```console
+mkdir -p preview
+typst compile book.typ preview/index.html --root . --features html --pretty
+```
+
+对已授权修改，当且仅当 HTML 渲染结果会变化时更新 HTML；仅改管理文档不
+渲染。直接编译不具备 `mtf render` 的暂存后替换机制。
+
+### HTML 与四份 PDF
+
+仅在明确要求渲染 PDF 时使用下面的完整渲染命令。当前 CLI 没有 HTML-only
+选项，不要把它作为仅预览 HTML 的快捷方式。
+
 ```console
 uv run mtf render
 ```
@@ -111,6 +134,10 @@ uv run mtf render --root /path/to/mt-folder -o /path/to/preview
 ```
 
 ## Library Checker 验证
+
+以下是操作参考，不是每次修改后的必跑流程。模板正确性测试只有在用户明确
+要求时才执行，包括官方数据、自制样例和随机对拍；可以主动建议测试。
+语法或编译检查可按需执行，但通过编译不证明算法正确。
 
 ### 快速开始
 
@@ -196,8 +223,9 @@ uv run mtf verify --ui plain
 ### 新增验证项
 
 验证映射集中在 [`verify/catalog.json`](verify/catalog.json)，算法正文不
-含任何验证 metadata。当前 55 个模板中 19 个有正式验证，36 个在面板与
-manifest 中明示"未独立验证"。给一个模板补上验证需要三步：
+含任何验证 metadata。catalog 表示验证映射与覆盖，不证明当前源码已通过
+对应测试；最近运行范围以 manifest 为准，历史结果限制见
+[项目结论](docs/PROJECT_NOTES.md)。给一个模板补上验证需要三步：
 
 1. **确认 `inventory` 条目**：`{id, title, source, export}` 指向 `.typ`
    文件及其导出名（模板都已登记，通常无需改动）；
@@ -241,6 +269,9 @@ GitHub Actions 另有三条流水：
 - `verify`：每周对 Library Checker 官方数据全量判题。
 
 ## 开发检查
+
+按改动范围选择检查，不要求每次运行全套。语法编译可按需运行；执行单元
+测试前应确认所选测试是否运行模板正确性用例，包含此类用例时须有明确授权。
 
 ```console
 python -m compileall -q mtf tests
