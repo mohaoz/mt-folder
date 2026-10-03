@@ -1,4 +1,5 @@
 {
+  "description": "模板目录与历史 Library Checker 验证映射，仅供手册展示和搜索；测试套件已移除，不代表当前实现已通过验证。",
   "inventory": [
     {
       "id": "initial",
@@ -448,276 +449,132 @@
       ]
     }
   ],
-  "common": [
-    {
-      "source": "src/10_misc/11_misc.typ",
-      "export": "types"
-    }
-  ],
   "checks": [
     {
       "id": "unionfind",
       "problem": "unionfind",
-      "driver": "verify/library-checker/unionfind.test.cpp",
       "covers": [
         "dsu"
-      ],
-      "snippets": [
-        {
-          "source": "src/30_ds/31_dsu.typ",
-          "export": "dsu"
-        }
       ]
     },
     {
       "id": "point_add_range_sum",
       "problem": "point_add_range_sum",
-      "driver": "verify/library-checker/point_add_range_sum.test.cpp",
       "covers": [
         "fenwick"
-      ],
-      "snippets": [
-        {
-          "source": "src/30_ds/32_fenwick.typ",
-          "export": "fenwick"
-        }
       ]
     },
     {
       "id": "staticrmq",
       "problem": "staticrmq",
-      "driver": "verify/library-checker/staticrmq.test.cpp",
       "covers": [
         "sparse-table"
-      ],
-      "snippets": [
-        {
-          "source": "src/30_ds/37_sparse_table.typ",
-          "export": "sparse-table"
-        }
       ]
     },
     {
       "id": "scc",
       "problem": "scc",
-      "driver": "verify/library-checker/scc.test.cpp",
       "covers": [
         "scc"
-      ],
-      "snippets": [
-        {
-          "source": "src/40_graph/45_scc.typ",
-          "export": "scc"
-        }
       ]
     },
     {
       "id": "lca",
       "problem": "lca",
-      "driver": "verify/library-checker/lca.test.cpp",
       "covers": [
         "lca"
-      ],
-      "snippets": [
-        {
-          "source": "src/50_tree/51_lca.typ",
-          "export": "lca"
-        }
       ]
     },
     {
       "id": "bipartitematching",
       "problem": "bipartitematching",
-      "driver": "verify/library-checker/bipartitematching.test.cpp",
       "covers": [
         "hopcroft-karp"
-      ],
-      "snippets": [
-        {
-          "source": "src/40_graph/49_hopcroft_karp.typ",
-          "export": "hopcroft-karp"
-        }
       ]
     },
     {
       "id": "bipartitematching_dinic",
       "problem": "bipartitematching",
-      "driver": "verify/library-checker/bipartitematching_dinic.test.cpp",
       "covers": [
         "dinic"
-      ],
-      "snippets": [
-        {
-          "source": "src/40_graph/47_dinic.typ",
-          "export": "dinic"
-        }
       ]
     },
     {
       "id": "shortest_path",
       "problem": "shortest_path",
-      "driver": "verify/library-checker/shortest_path.test.cpp",
       "covers": [
         "dijkstra"
-      ],
-      "snippets": [
-        {
-          "source": "src/40_graph/41_dijkstra.typ",
-          "export": "dijkstra"
-        }
       ]
     },
     {
       "id": "point_set_range_composite",
       "problem": "point_set_range_composite",
-      "driver": "verify/library-checker/point_set_range_composite.test.cpp",
       "covers": [
         "segtree",
         "modint"
-      ],
-      "snippets": [
-        {
-          "source": "src/20_math/22_modint.typ",
-          "export": "modint"
-        },
-        {
-          "source": "src/30_ds/33_segtree.typ",
-          "export": "segtree"
-        }
       ]
     },
     {
       "id": "range_affine_range_sum",
       "problem": "range_affine_range_sum",
-      "driver": "verify/library-checker/range_affine_range_sum.test.cpp",
       "covers": [
         "lzseg"
-      ],
-      "snippets": [
-        {
-          "source": "src/20_math/22_modint.typ",
-          "export": "modint"
-        },
-        {
-          "source": "src/30_ds/34_lazysegtree.typ",
-          "export": "lzseg"
-        }
       ]
     },
     {
       "id": "set_xor_min",
       "problem": "set_xor_min",
-      "driver": "verify/library-checker/set_xor_min.test.cpp",
       "covers": [
         "xor-trie"
-      ],
-      "snippets": [
-        {
-          "source": "src/30_ds/35_xortrie.typ",
-          "export": "xor-trie"
-        }
       ]
     },
     {
       "id": "pow_of_matrix",
       "problem": "pow_of_matrix",
-      "driver": "verify/library-checker/pow_of_matrix.test.cpp",
       "covers": [
         "matrix"
-      ],
-      "snippets": [
-        {
-          "source": "src/20_math/25_matrix.typ",
-          "export": "matrix"
-        }
       ]
     },
     {
       "id": "matrix_rank_mod_2",
       "problem": "matrix_rank_mod_2",
-      "driver": "verify/library-checker/matrix_rank_mod_2.test.cpp",
       "covers": [
         "bitset-linear-basis"
-      ],
-      "snippets": [
-        {
-          "source": "src/20_math/24_linear_basis.typ",
-          "export": "bitset-linear-basis"
-        }
       ]
     },
     {
       "id": "range_kth_smallest",
       "problem": "range_kth_smallest",
-      "driver": "verify/library-checker/range_kth_smallest.test.cpp",
       "covers": [
         "persistent-segtree"
-      ],
-      "snippets": [
-        {
-          "source": "src/30_ds/40_persistent_segtree.typ",
-          "export": "persistent-segtree"
-        }
       ]
     },
     {
       "id": "bitwise_and_convolution",
       "problem": "bitwise_and_convolution",
-      "driver": "verify/library-checker/bitwise_and_convolution.test.cpp",
       "covers": [
         "sos-dp"
-      ],
-      "snippets": [
-        {
-          "source": "src/20_math/22_modint.typ",
-          "export": "modint"
-        },
-        {
-          "source": "src/10_misc/12_sos_dp.typ",
-          "export": "sos-dp"
-        }
       ]
     },
     {
       "id": "convolution_mod",
       "problem": "convolution_mod",
-      "driver": "verify/library-checker/convolution_mod.test.cpp",
       "covers": [
         "ntt"
-      ],
-      "snippets": [
-        {
-          "source": "src/70_poly/71_convolution.typ",
-          "export": "ntt"
-        }
       ]
     },
     {
       "id": "eulerian_trail_undirected",
       "problem": "eulerian_trail_undirected",
-      "driver": "verify/library-checker/eulerian_trail_undirected.test.cpp",
       "covers": [
         "euler-circuit"
-      ],
-      "snippets": [
-        {
-          "source": "src/40_graph/50_euler_circuit.typ",
-          "export": "euler-circuit"
-        }
       ]
     },
     {
       "id": "zalgorithm",
       "problem": "zalgorithm",
-      "driver": "verify/library-checker/zalgorithm.test.cpp",
       "covers": [
         "z-function"
-      ],
-      "snippets": [
-        {
-          "source": "src/60_string/63_z_function.typ",
-          "export": "z-function"
-        }
       ]
     }
   ]

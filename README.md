@@ -4,12 +4,9 @@
 输出 PDF 与 HTML）和具体竞赛算法模板库两部分组成。开发阶段保持高度
 耦合，暂不推进拆分或重新定义通用工具的设计。
 
-当前模板库使用同一套 Typst 源码提供：
-
-- **PDF**（A4 打印速查）与 **HTML**（离线单文件，赛时搜索/复制）；
-- **Library Checker 验证**：把手册里的 C++ 模板原样抽出来，对
-  [judge.yosupo.jp](https://judge.yosupo.jp) 官方数据编译、运行、判题，
-  让受检代码与书中实现一致；是否通过以对应实现的实际运行结果为准。
+当前模板库使用同一套 Typst 源码提供 **PDF**（A4 打印速查）与
+**HTML**（离线单文件，赛时搜索/复制）。自动化测试、Library Checker
+判题工具与测试 CI 已移除；保留的历史题目映射仅供查阅，不表示当前实现已通过验证。
 
 内容规范见 [CONTENT_GUIDE](docs/CONTENT_GUIDE.md)，历史结论与待办见
 [PROJECT_NOTES](docs/PROJECT_NOTES.md)，Agent 执行规则见 [AGENTS](AGENTS.md)。
@@ -19,23 +16,22 @@
 ```
 mt-folder/
 ├── book.typ, template.typ      Typst 入口、样式与代码导出机制
+├── assets/mt-folder-logo.svg    HTML 页头与 favicon 共用的 SVG 标志
 ├── src/                        具体算法模板库的手册正文
-├── mtf/                        Python 工具链：render / verify / TUI
-│   └── verification/           验证子系统（导出、编译、判题、报告）
-├── verify/catalog.json         模板 ↔ 官方题目的映射表
-├── verify/library-checker/     每个验证项的 C++ driver
+├── mtf/                        Python 渲染工具链
+├── verify/catalog.json         模板目录、搜索别名与历史官方题目映射
 ├── docs/CONTENT_GUIDE.md       正文边界与章节规范
 ├── docs/PROJECT_NOTES.md       决策、历史验证结论、研究结论与待办
 ├── docs/research/              机器可读历史快照，不参与渲染
-├── tests/                      单元测试（unittest）
-└── yosupo/                     `mtf verify` 生成的提交与清单（git 忽略）
+├── ci/cloudflare_build.py      Cloudflare Pages 构建入口
+└── .github/workflows/release.yml  PDF 与离线 HTML 的滚动发布
 ```
 
 ## 内容边界
 
 具体模板库不在正文中建设算法知识库或题解库。`src/` 收录稳定
 可复用的 Template、少量高频 Snippet，以及说明接口的最小 Usage；完整实现
-只保留一份，并由现有验证链直接导出。
+只保留一份，以 Typst 正文为唯一代码真源。
 
 `book.typ` 唯一负责一级标题和全书顺序，正文文件从二级标题开始。尚未形成
 模板的候选研究结论集中在 `docs/PROJECT_NOTES.md`，不参与渲染，也不代表
@@ -70,15 +66,13 @@ mt-folder/
    正文文件从 81 开始编号；
 6. 计算几何为预留章（两站均设 Geometry），收录时新开
    `90_geometry`；
-7. 新模板入库先对照两站分类定章，再登记 catalog。
+7. 新模板入库先对照两站分类定章，再登记 catalog 的 `inventory`。
 
 ## 环境
 
 - Python 3.11+
 - [Typst](https://github.com/typst/typst) 0.15.1+
 - [LXGW WenKai](https://github.com/lxgw/LxgwWenKai)（PDF 正文字体）
-- Git
-- 支持 GNU++20 模式的 `g++`
 
 安装 Python 环境：
 
@@ -107,6 +101,9 @@ typst compile book.typ preview/index.html --root . --features html --pretty
 对已授权修改，当且仅当 HTML 渲染结果会变化时更新 HTML；仅改管理文档不
 渲染。直接编译不具备 `mtf render` 的暂存后替换机制。
 
+HTML 页头和浏览器标签图标从 `assets/mt-folder-logo.svg` 内嵌同一份标志，
+更新该文件后重新编译即可；分发离线 HTML 时不需要另外复制图片资源。
+
 ### HTML 与四份 PDF
 
 仅在明确要求渲染 PDF 时使用下面的完整渲染命令。当前 CLI 没有 HTML-only
@@ -117,8 +114,8 @@ uv run mtf render
 ```
 
 默认在当前目录的 `preview/` 中生成 `index.html`（离线单文件，代码卡片带
-复制按钮与 Library Checker 验证徽章）和四个打印版本的 PDF——供 ICPC
-线下赛按赛场打印条件选用，PDF 中不含验证徽章：
+复制按钮与历史 Library Checker 来源标签）和四个打印版本的 PDF——供 ICPC
+线下赛按赛场打印条件选用，PDF 中不含历史来源标签：
 
 | 文件 | 版式 | 配色 |
 | --- | --- | --- |
@@ -133,118 +130,19 @@ uv run mtf render
 uv run mtf render --root /path/to/mt-folder -o /path/to/preview
 ```
 
-## Library Checker 验证
+## 模板目录与历史来源
 
-以下是操作参考，不是每次修改后的必跑流程。模板正确性测试只有在用户明确
-要求时才执行，包括官方数据、自制样例和随机对拍；可以主动建议测试。
-语法或编译检查可按需执行，但通过编译不证明算法正确。
+[`verify/catalog.json`](verify/catalog.json) 继续提供渲染所需的模板目录、
+搜索别名与历史 Library Checker 题目映射。路径保留以兼容现有 Typst 模板，
+其中不再包含可执行的测试 driver 配置。
 
-### 快速开始
+- `inventory`：`{id, title, source, export, aliases?}`，描述模板及其代码真源；
+- `checks`：`{id, problem, covers}`，保留过去登记的题目与模板关系，
+  仅用于历史来源链接和数量展示。
 
-三个路径默认值都跟随当前目录，所以**固定一个工作目录跑验证**，缓存和
-产物才不会散落多处：
-
-- `--root`：从 `$PWD` 向上查找 `book.typ`（在仓库外跑需显式指定）；
-- `--library-checker-dir`：官方题库缓存，默认 `$PWD/.mtf/library-checker-problems`；
-- `-o/--output-dir`：生成的提交与清单，默认 `$PWD/yosupo`。
-
-为避免缓存和产物散落，固定在 `mt-folder/` 内运行：
-
-```console
-uv run mtf verify
-```
-
-第一次运行会浅克隆官方
-[`library-checker-problems`](https://github.com/yosupo06/library-checker-problems)，
-再调用官方 `generate.py -p <problem>` 生成输入、答案和 checker。全部数据
-首次生成约需 1–2 分钟和约 0.8 GiB；后续运行复用缓存，全量验证约 2 分钟。
-
-### 每个验证项做什么
-
-1. 用 `typst eval` 从 `.typ` 导出算法代码（与书中内容逐字节一致）；
-2. 生成临时 `mtf_verify.hpp`，编译独立 C++ driver 做接口检查；
-3. 内联头文件，产出可直接提交的单文件 `<check>.cpp`；
-4. 以 GNU++20 `-O2` 编译；
-5. 对每份官方输入运行，再交给官方 checker 判定。
-
-### 计时与可靠性
-
-- 导出、编译与数据生成并行执行（`-j/--jobs` 控制并发，数据生成最多
-  并行两项）；**官方用例始终串行运行**，保证 wall-clock 计时可信。
-- 每个验证项记录**最慢用例**的耗时；超过时限 60% 时在面板和 manifest
-  中以 ⚠ 标记，提示该模板在评测机负载波动下有 TLE 风险。
-- 首次 TLE 自动串行复核一次；复核通过会在结果中写明
-  "`<用例>` 首次 TLE（x.xs），复核通过"，不静默掩盖。
-- 每轮运行开始时清空输出目录的 `.verify/`：磁盘上出现的失败现场一定
-  属于本轮运行。
-- 退出码：全部通过为 0，任一失败为 1，可直接接脚本或 CI。
-
-### 结果去哪看
-
-- **终端 TUI**（交互终端自动启用）：实时表格逐项显示
-  `AC n/n · 最慢 <用例> x.xs/时限`，⚠ 行黄色高亮；面板同时列出未验证
-  模板。重定向输出或 CI 环境自动退化为无 ANSI 的文本日志。
-- **`<output-dir>/README.md`**（manifest）：结果总表含"最慢用例"列、
-  未验证模板清单与临界警告汇总。注意 manifest 记录的是**最后一次运行的
-  范围**——`--check` 子集运行也会重写它。
-- **失败现场**：`<output-dir>/.verify/logs/<check>/failure/` 保存复现
-  输入、`actual.out`、`stderr.log` 与 `checker.log`；完整外部命令日志在
-  `<output-dir>/.verify/logs/` 下按验证项分目录存放。
-
-示例输出（plain 模式）：
-
-```text
-[unionfind] 官方测试 · passed · AC 18/18 · 最慢 max_random_01 0.0s/5s
-[zalgorithm] 官方测试 · passed · AC 29/29 · 最慢 all_same_02 0.1s/5s
-summary: 2/2 passed, 0 failed, 36 unverified
-```
-
-### 常用选项
-
-```console
-# 只检查接口和 GNU++20 语法，不拉数据（约 10 秒）
-uv run mtf verify --syntax-only
-
-# 只验证指定 catalog 项（可重复；注意会重写 manifest）
-uv run mtf verify --check unionfind --check staticrmq
-
-# 并发数（作用于导出/编译/数据生成；判题始终串行）
-uv run mtf verify -j 8
-
-# 更新官方题库 / 清理并重新生成官方数据
-uv run mtf verify --update
-uv run mtf verify --rebuild-data
-
-# 强制动态面板或稳定文本输出
-uv run mtf verify --ui tui
-uv run mtf verify --ui plain
-```
-
-### 新增验证项
-
-验证映射集中在 [`verify/catalog.json`](verify/catalog.json)，算法正文不
-含任何验证 metadata。catalog 表示验证映射与覆盖，不证明当前源码已通过
-对应测试；最近运行范围以 manifest 为准，历史结果限制见
-[项目结论](docs/PROJECT_NOTES.md)。给一个模板补上验证需要三步：
-
-1. **确认 `inventory` 条目**：`{id, title, source, export}` 指向 `.typ`
-   文件及其导出名（模板都已登记，通常无需改动）；
-2. **写 driver** 到 `verify/library-checker/<check>.cpp`，遵守两条硬性
-   合同（缺一不可，工具会拒绝运行）：
-   - 恰好一行 `#include <mtf_verify.hpp>`；
-   - 恰好一条注释
-     `// competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/<problem>`。
-   导出代码会被包进 `namespace mtf { using namespace std; ... }`，driver
-   通过 `mtf::` 使用模板（写法参考现有 driver）；
-3. **在 `checks` 登记**：`{id, problem, driver, snippets, covers}`。
-   `snippets` 列出注入的导出（`common` 中的 `types` 自动注入），`covers`
-   声明该检查覆盖的 inventory id，且其导出必须出现在 `snippets` 中。
-
-尚未验证的模板多数缺少可直接对应的官方题目：KMP 无前缀函数题，浮点 FFT
-做 convolution_mod 需拆系数（那测的是 driver 而非模板），组合数需要运行时
-模数而 ModInt 是编译期模数。NTT 使用 `convolution_mod` 官方数据验证，
-Z 函数使用 `zalgorithm` 官方数据验证。为其他模板补验证前先确认题目与模板
-契约真正一致。
+HTML 将这些链接明确标为“历史来源”，不声明当前实现已通过验证。原有
+`mtf verify` 命令、测试 driver、终端验证面板及定期判题已移除。
+历史验证结果与局限见 [项目结论](docs/PROJECT_NOTES.md)，不能当作当前通过证明。
 
 ## 部署
 
@@ -260,25 +158,17 @@ Z 函数使用 `zalgorithm` 官方数据验证。为其他模板补验证前先�
 齐全，再产出 1 HTML + 4 PDF 到 `site/`。若构建镜像的 Python
 低于 3.11，在面板加环境变量 `PYTHON_VERSION=3.11`。
 
-GitHub Actions 另有三条流水：
-
-- `check`：每次推送跑单元测试、渲染、产物质量门禁与
-  `--syntax-only` 验证；
-- `release`：推 `main` 后把四个打印 PDF 与离线 HTML 挂到滚动
-  Release `latest`；
-- `verify`：每周对 Library Checker 官方数据全量判题。
+GitHub Actions 只保留 `release`：推送 `main` 后渲染四个打印 PDF 与
+离线 HTML，并挂到滚动 Release `latest`。原 `check`、每周 `verify` 及
+release 产物测试门禁已删除；构建命令失败仍会中止发布。
 
 ## 开发检查
 
-按改动范围选择检查，不要求每次运行全套。语法编译可按需运行；执行单元
-测试前应确认所选测试是否运行模板正确性用例，包含此类用例时须有明确授权。
+仓库不再维护或运行自动化测试套件。需要时可做 Python 语法检查：
 
 ```console
-python -m compileall -q mtf tests
-python -m unittest discover -s tests -v
+python -m compileall -q mtf ci
 ```
 
-CI（`.github/workflows/check.yml`）运行单元测试、渲染冒烟与
-`verify --syntax-only`；官方数据判题由每周的 `verify` workflow 与本地
-全量验证承担。除 Cloudflare Pages 的四行 `build.sh` 入口外，构建与
-验证逻辑都在 Python 中。
+这只检查语法，不证明模板正确性。渲染规则仍按 [AGENTS](AGENTS.md) 执行：
+HTML 产出变化时仅渲染 HTML；只有明确要求时才渲染 PDF。

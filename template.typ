@@ -1,14 +1,22 @@
 // 莫号模板库 · 渲染模板
 //
-// 视觉方向：“判题台”。等宽字体做骨架，绿色只表示一件事——Accepted。
-// 代码块渲染为编辑器缓冲区（语言标签 + 验证徽章 + 复制按钮）；
-// 验证徽章的数据直接来自 verify/catalog.json，与 `mtf verify` 同源。
+// 视觉方向沿用“判题台”：等宽字体做骨架，绿色作为既有强调色。
+// 代码块渲染为编辑器缓冲区（语言标签 + 历史来源 + 复制按钮）；
+// 历史来源来自 verify/catalog.json；保留映射不表示当前实现已通过验证。
 
 #let catalog = json("/verify/catalog.json")
 #let cpp-standard = "C++20"
 #let gnu-cpp-standard = "GNU++20"
 
-// inventory id -> Library Checker problem（仅含被 checks.covers 覆盖的模板）
+// 页头与 favicon 共用同一 SVG，编译时内嵌，离线 HTML 不依赖外部资源。
+#let brand-logo-uri = "data:image/svg+xml," + array(
+  read("/assets/mt-folder-logo.svg", encoding: none),
+).map(byte => {
+  let hex = str(byte, base: 16)
+  "%" + (if byte < 16 { "0" } else { "" }) + hex
+}).join()
+
+// inventory id -> 历史 Library Checker problem（来自保留的 checks.covers 映射）
 #let verified-problems = {
   let mapping = (:)
   for check in catalog.checks {
@@ -126,7 +134,7 @@ a { color: var(--ac-ink); }
 
 .brand-title {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0.5rem;
   margin: 0;
   font-size: 15px;
@@ -134,10 +142,11 @@ a { color: var(--ac-ink); }
   line-height: 1.4;
 }
 
-.brand-mark {
-  color: var(--ac);
-  font-weight: 700;
-  letter-spacing: 0.04em;
+.brand-logo {
+  display: block;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
 }
 
 .side-foot {
@@ -818,15 +827,15 @@ document.addEventListener("DOMContentLoaded", () => {
               href: "https://judge.yosupo.jp/problem/" + problem,
               target: "_blank",
               rel: "noopener",
-              title: "已通过 Library Checker 官方数据验证",
+              title: "历史 Library Checker 验证映射，不代表当前实现已通过验证",
             ),
-          )[✓ 已验证 · #problem]
+          )[历史来源 · #problem]
         }
       ]
       #code
     ]
   } else {
-    // PDF 面向线下赛打印：验证徽章只属于屏幕（HTML）版本。
+    // PDF 面向线下赛打印：历史来源标签只属于屏幕（HTML）版本。
     code
   }
 }
@@ -961,9 +970,15 @@ document.addEventListener("DOMContentLoaded", () => {
     ))
     #html.elem("meta", attrs: (
       name: "description",
-      content: "算法竞赛模板、复杂度说明与 C++ 实现，Library Checker 官方数据验证",
+      content: "算法竞赛模板、复杂度说明与 C++ 实现，附历史 Library Checker 来源映射",
     ))
     #html.elem("title")[莫号模板库]
+    #html.elem("link", attrs: (
+      rel: "icon",
+      type: "image/svg+xml",
+      sizes: "any",
+      href: brand-logo-uri,
+    ))
     #html.elem("script")[#theme-boot-js]
     #html.elem("style")[#html-css]
   ]
@@ -971,7 +986,14 @@ document.addEventListener("DOMContentLoaded", () => {
     #html.elem("aside", attrs: (class: "sidebar"))[
       #html.elem("div", attrs: (class: "brand"))[
         #html.elem("h1", attrs: (class: "brand-title"))[
-          #html.elem("span", attrs: (class: "brand-mark"))[MTF]
+          #html.elem("img", attrs: (
+            class: "brand-logo",
+            src: brand-logo-uri,
+            width: "32",
+            height: "32",
+            alt: "",
+            "aria-hidden": "true",
+          ))
           莫号模板库
         ]
         #html.elem("span", attrs: (class: "brand-actions"))[
@@ -1081,8 +1103,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
         #html.elem("p", attrs: (
           class: "side-meta",
-          title: "已通过 Library Checker 官方数据验证的模板数",
-        ))[✓ #verified-count/#template-count]
+          title: "登记历史 Library Checker 验证映射的模板数，不代表当前通过数量",
+        ))[历史映射 #verified-count/#template-count]
       ]
     ]
     #html.elem("main", attrs: (class: "content"))[

@@ -11,7 +11,6 @@ from pathlib import Path
 import colorlog
 
 from .render import run_render
-from .verification.models import CPP_STANDARD
 
 LOGGER = logging.getLogger("mtf")
 
@@ -20,34 +19,10 @@ def _default_typst() -> str:
     return os.environ.get("MTF_TYPST", "typst")
 
 
-def _default_jobs() -> int:
-    try:
-        cpus = len(os.sched_getaffinity(0))
-    except AttributeError:
-        cpus = os.cpu_count() or 1
-    return max(1, min(4, cpus // 2))
-
-
-def _positive_int(value: str) -> int:
-    jobs = int(value)
-    if jobs < 1:
-        raise argparse.ArgumentTypeError("must be at least 1")
-    return jobs
-
-
-def _run_verify(args: argparse.Namespace) -> int:
-    # Verification has heavier dependencies and setup than rendering. Importing
-    # it here keeps `mtf render` and top-level help independent of that setup.
-    from .verify import run_verify
-
-    result = run_verify(args)
-    return 0 if result is None else int(result)
-
-
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="mtf",
-        description="Render and verify the MTF competitive-programming handbook.",
+        description="Render the MTF competitive-programming handbook.",
     )
     parser.add_argument(
         "-v",
@@ -85,89 +60,6 @@ def build_parser() -> argparse.ArgumentParser:
         help="Typst executable (default: $MTF_TYPST or typst)",
     )
     render.set_defaults(handler=run_render)
-
-    verify = commands.add_parser(
-        "verify",
-        help="run official Library Checker tests",
-        description=(
-            f"Generate {CPP_STANDARD.upper()} submissions and verify them "
-            "against official Library Checker data."
-        ),
-    )
-    verify.add_argument(
-        "-o",
-        "--output-dir",
-        type=Path,
-        default=Path.cwd() / "yosupo",
-        metavar="PATH",
-        help="generated submissions directory (default: $PWD/yosupo)",
-    )
-    verify.add_argument(
-        "--root",
-        type=Path,
-        metavar="PATH",
-        help="directory containing book.typ (default: search from $PWD)",
-    )
-    verify.add_argument(
-        "--typst",
-        default=_default_typst(),
-        metavar="COMMAND",
-        help="Typst executable (default: $MTF_TYPST or typst)",
-    )
-    verify.add_argument(
-        "--compiler",
-        default="g++",
-        metavar="CXX",
-        help=f"{CPP_STANDARD.upper()}-compatible compiler (default: g++)",
-    )
-    verify.add_argument(
-        "--library-checker-dir",
-        type=Path,
-        default=Path.cwd() / ".mtf" / "library-checker-problems",
-        metavar="PATH",
-        help="Library Checker checkout (default: $PWD/.mtf/library-checker-problems)",
-    )
-    verify.add_argument(
-        "--update",
-        action="store_true",
-        help="update an existing Library Checker checkout",
-    )
-    verify.add_argument(
-        "--rebuild-data",
-        action="store_true",
-        help="regenerate official test data even when it is cached",
-    )
-    verify.add_argument(
-        "--syntax-only",
-        action="store_true",
-        help="only generate and compile submissions",
-    )
-    verify.add_argument(
-        "--ui",
-        choices=("auto", "tui", "plain"),
-        default="auto",
-        help="verification display mode (default: auto)",
-    )
-    verify.add_argument(
-        "--check",
-        action="append",
-        default=[],
-        metavar="ID",
-        help="only run this catalog check (repeatable)",
-    )
-    verify.add_argument(
-        "-j",
-        "--jobs",
-        type=_positive_int,
-        default=_default_jobs(),
-        metavar="N",
-        help=(
-            "maximum concurrent jobs for exports, compilation and data "
-            "generation (data generation is capped at 2); official cases "
-            "always run serially for reliable timing (default: %(default)s)"
-        ),
-    )
-    verify.set_defaults(handler=_run_verify)
 
     return parser
 

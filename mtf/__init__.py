@@ -1,4 +1,4 @@
-"""MTF handbook renderer and Library Checker verifier."""
+"""MTF handbook renderer."""
 
 __all__ = ["__version__"]
 
